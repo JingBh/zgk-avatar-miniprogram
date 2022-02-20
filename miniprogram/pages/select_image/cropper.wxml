@@ -1,0 +1,19 @@
+<!--pages/select_image/cropper.wxml-->
+<image-cropper
+  id="cropper"
+  imgSrc="{{ imageSrc }}"
+  disable_rotate
+  limit_move
+  width="{{ 325 }}"
+  height="{{ 325 }}"
+  max_width="{{ 350 }}"
+  max_height="{{ 350 }}"
+  min_width="{{ 250 }}"
+  min_height="{{ 250 }}"
+  disable_ratio
+  export_scale="{{ 4 }}"
+  bindimageload="onImageLoad" />
+
+<view class="bottom">
+  <van-button type="primary" custom-style="height: 32px; margin: 12px;" bind:click="saveImage">完成</van-button>
+</view>

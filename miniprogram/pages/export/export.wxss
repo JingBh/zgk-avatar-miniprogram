@@ -1,0 +1,13 @@
+/* pages/export/export.wxss */
+.container {
+  width: 600rpx;
+  margin: 0 auto;
+  padding: 0;
+}
+
+canvas#main {
+  display: block;
+  width: 600rpx;
+  height: 600rpx;
+  margin: 28rpx auto 16px;
+}

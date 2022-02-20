@@ -1,0 +1,22 @@
+<!--components/masonry/masonry.wxml-->
+<view class="masonry">
+  <view class="masonry-col">
+    <template wx:for="{{ images }}" wx:key="url" wx:if="{{ index % 2 === 0 }}" is="item" data="{{ process, image_class, ...item }}" />
+  </view>
+  <view class="masonry-col">
+    <template wx:for="{{ images }}" wx:key="url" wx:if="{{ index % 2 === 1 }}" is="item" data="{{ process, image_class, ...item }}" />
+  </view>
+</view>
+
+<template name="item">
+  <view class="masonry-item" data-url="{{ url }}" bind:tap="onClickImage">
+    <van-image
+      width="100%"
+      fit="widthFix"
+      radius="8rpx"
+      src="{{ url + '?x-oss-process=style/' + process }}"
+      lazy-load
+      custom-class="{{ image_class }}" />
+    <text wx:if="title" class="masonry-item-title">{{ title }}</text>
+  </view>
+</template>

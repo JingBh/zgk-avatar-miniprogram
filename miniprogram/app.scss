@@ -1,0 +1,69 @@
+/* app.wxss */
+@import "miniprogram_npm/@vant/weapp/common/index.wxss";
+
+:host {
+  display: contents;
+}
+
+page {
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica,
+    Segoe UI, Arial, Roboto, 'PingFang SC', 'miui', 'Hiragino Sans GB', 'Microsoft Yahei',
+    sans-serif;
+  background-color: #f7f8fa;
+
+  margin-bottom: 48rpx;
+
+  /* custom theme */
+  --button-border-radius: 8px;
+}
+
+.font-monospace {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier,
+    monospace !important;
+}
+
+.container {
+  height: 100%;
+  width: 100%;
+  padding: 0 40rpx;
+  box-sizing: border-box;
+}
+
+.d-none {
+  display: none !important;
+}
+
+.d-inline-block {
+  display: inline-block !important;
+}
+
+.d-block {
+  display: block !important;
+}
+
+.d-flex {
+  display: flex !important;
+}
+
+.select-text {
+  -moz-user-select: text !important;
+  -webkit-user-select: text !important;
+}
+
+.lead {
+  display: block;
+  margin-bottom: 24rpx;
+  font-size: 120%;
+}
+
+.title {
+  display: block;
+  text-align: center;
+  margin: 48rpx 0;
+  font-size: 130%;
+}
+
+.paragraph {
+  display: block;
+  margin-bottom: 24rpx;
+}

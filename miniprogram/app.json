@@ -1,0 +1,20 @@
+{
+  "entryPagePath": "pages/index/index",
+  "pages": [
+    "pages/index/index",
+    "pages/announcements/about-custom",
+    "pages/select_image/background",
+    "pages/select_image/foreground",
+    "pages/select_image/cropper",
+    "pages/export/export"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fafbfd",
+    "navigationBarTitleText": "清华附中中高考加油头像生成器",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f7f8fa"
+  },
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

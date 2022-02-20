@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "van-button": "@vant/weapp/button/index",
+    "image-cropper": "../../libs/image-cropper/src/image-cropper"
+  },
+  "navigationBarTitleText": "裁剪图片",
+  "navigationBarBackgroundColor": "#151515",
+  "navigationBarTextStyle": "white",
+  "disableScroll": true
+}

@@ -1,0 +1,20 @@
+<!--pages/index/developer.wxml-->
+<text class="title">关于开发者</text>
+
+<view class="container d-flex" style="align-items: center; margin-bottom: 32rpx;">
+  <van-image round lazy-load width="52px" height="52px" src="https://zgk-avatar.oss-cn-beijing.aliyuncs.com/assets/avatar.png?x-oss-process=style/avatar" />
+  <view class="d-flex" style="flex-direction: column; margin: 0 16px;">
+    <text style="font-size: 120%;">JingBh</text>
+    <text style="font-size: 90%; color: #969799;">来自 G1916</text>
+  </view>
+</view>
+
+<view class="container">
+  <text class="paragraph">以下是我的联系方式和个人主页。由于微信的限制，小程序中不能链接到外部网页，烦请大家手动复制输入。</text>
+</view>
+
+<van-cell-group id="developer-info">
+  <van-cell title="个人主页" label="https://www.jingbh.top/" label-class="select-text" />
+  <van-cell title="微信号" label="JingBh_" label-class="select-text" />
+  <van-cell title="Telegram" label="@JingBh" label-class="select-text" />
+</van-cell-group>

@@ -1,0 +1,11 @@
+{
+  "name": "zgk-avatar",
+  "license": "GPL-3.0-or-later",
+  "private": true,
+  "scripts": {
+  },
+  "dependencies": {
+    "@vant/weapp": "^1.10.2",
+    "miniprogram-api-typings": "latest"
+  }
+}

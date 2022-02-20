@@ -1,0 +1,4 @@
+<!--pages/announcements/about-custom.wxml-->
+<view class="container" style="margin: 24rpx 0;">
+  <rich-text nodes="{{ htmlSnip }}" />
+</view>

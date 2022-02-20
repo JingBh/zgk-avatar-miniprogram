@@ -1,0 +1,4 @@
+/* pages/select_image/background.wxss */
+.line-height-none {
+  line-height: 0 !important;
+}

@@ -1,0 +1,32 @@
+<!--pages/index/index.wxml-->
+<view class="container">
+  <text class="title">中高考加油头像生成器</text>
+  <text class="paragraph">本工具为 G19 级某菜鸡高一时所制作，最初是为 C17 级中考加油用，如今已是第三年运行，竟也要成了被加油的对象。</text>
+  <text class="paragraph">今年，此工具上线微信小程序版本，在原先功能基础上增加了自定义文字的服务。</text>
+
+  <view style="text-align: right; padding: 32rpx 0;">
+    <van-button icon="photo-o" type="primary" bind:click="toSelectImage">开始选择图片</van-button>
+  </view>
+</view>
+
+<van-cell-group title="公告栏">
+  <van-cell wx:if="{{ countdownGaokao <= 0 && countdownGaokao >= -2  }}" title="高考倒计时" label="高考就是今天，加油！" />
+  <van-cell wx:elif="{{ countdownZhongkao <= 0 && countdownZhongkao >= -2  }}" title="中考倒计时" label="中考就是今天，加油！" />
+  <van-cell wx:elif="{{ countdownType === 1 && countdownGaokao > 0 }}" title="高考倒计时" label="距离高考还有 {{ countdownGaokao }} 天，加油！" />
+  <van-cell wx:elif="{{ countdownType === 2 && countdownZhongkao > 0 }}" title="中考倒计时" label="距离中考还有 {{ countdownZhongkao }} 天，加油！" />
+  <van-cell title="小调查" label="愿意透露一下你的身份吗？" center is-link />
+  <van-cell title="自定义文字服务" label="对于这项新服务的一点说明" center is-link link-type="navigateTo" url="/pages/announcements/about-custom" />
+</van-cell-group>
+
+<van-cell-group title="关于本小程序">
+  <van-cell title="开发者" label="JingBh" center is-link bind:click="showDeveloperPopup" />
+  <van-cell title="反馈问题" is-link bind:click="showFeedbackPopup" />
+</van-cell-group>
+
+<van-popup show="{{ developerPopupShown }}" round position="bottom" closeable bind:close="hideDeveloperPopup">
+  <include src="developer.wxml" />
+</van-popup>
+
+<van-popup show="{{ feedbackPopupShown }}" round position="bottom" closeable bind:close="hideFeedbackPopup">
+  <include src="feedback.wxml" />
+</van-popup>
