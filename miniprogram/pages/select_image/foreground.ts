@@ -34,7 +34,7 @@ export default Page({
   onClickImage(e: StringEvent) {
     wx.setStorage({
       key: 'foreground',
-      data: e.detail + '?x-oss-process=style/zoom_png',
+      data: e.detail,
       success: () => {
         wx.navigateTo({
           url: '/pages/export/export'
