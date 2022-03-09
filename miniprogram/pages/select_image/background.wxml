@@ -6,7 +6,8 @@
 </van-cell-group>
 
 <van-cell-group title="自定义图片" inset>
-  <van-cell title="选择图片" is-link bind:click="selectImage" />
+  <van-cell title="从相册选择图片" is-link bind:click="selectImage" />
+  <van-cell wx:if="{{ canUseAvatar }}" title="使用当前头像" center is-link custom-class="line-height-none" bind:click="onSelectUserAvatar" />
 </van-cell-group>
 
 <van-cell-group wx:if="{{ presets.length }}" title="预置图片" inset>

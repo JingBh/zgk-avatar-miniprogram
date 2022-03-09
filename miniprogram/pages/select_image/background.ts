@@ -4,6 +4,7 @@ import { getManifest, getPresetsOf } from '../../utils/images'
 export default Page({
   data: {
     lastImage: null as string | null,
+    canUseAvatar: false,
     presets: [] as {
       name: string,
       images: {
@@ -17,6 +18,12 @@ export default Page({
 
   onLoad() {
     this.loadPresets()
+
+    if (wx.canIUse('getUserProfile')) {
+      this.setData({
+        canUseAvatar: true
+      })
+    }
   },
 
   onShow() {
@@ -107,6 +114,24 @@ export default Page({
         wx.hideLoading()
       }
     })
+  },
+
+  onSelectUserAvatar() {
+    if (wx.getUserProfile) {
+      wx.getUserProfile({
+        desc: '用于在当前头像基础上生成新头像',
+        success: ({ userInfo: { avatarUrl }}) => {
+          const urlParts = avatarUrl.split('/')
+          if (Number(urlParts[urlParts.length - 1])) {
+            urlParts[urlParts.length - 1] = '0'
+          }
+          const url = urlParts.join('/')
+
+          this.cropImage(url)
+        },
+        fail: console.error
+      })
+    }
   },
 
   cropImage(src: string) {

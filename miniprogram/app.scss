@@ -67,3 +67,22 @@ page {
   display: block;
   margin-bottom: 24rpx;
 }
+
+.puppet {
+  display: block;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
+  text-align: unset;
+  border-radius: unset;
+  cursor: auto;
+
+  &:before {
+    display: none !important;
+  }
+
+  &:after {
+    display: none !important;
+  }
+}
