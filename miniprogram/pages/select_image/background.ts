@@ -92,7 +92,7 @@ export default Page({
       mask: true
     })
     wx.downloadFile({
-      url: e.detail,
+      url: e.detail + '?x-oss-process=style/zoom',
       success: ({ tempFilePath }) => {
         this.cropImage(tempFilePath)
       },
