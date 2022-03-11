@@ -8,6 +8,7 @@ interface IImage {
 
 interface IImageGroup {
   name: string,
+  by?: string,
   images?: IImage[]
 }
 
@@ -29,7 +30,7 @@ export function getManifest(): Promise<IImageManifest> {
       resolve(manifestCache)
     } else {
       wx.request<IImageManifest>({
-        url: buildUrl('images', 'manifest.json'),
+        url: buildUrl('images', 'manifest.v2.json'),
         responseType: 'text',
         dataType: 'json',
         enableCache: true,
@@ -46,13 +47,14 @@ export function getManifest(): Promise<IImageManifest> {
 export function getPresetsOf(type: IImageManifestSingleType) {
   return type.groups.filter((group) => {
     return group.images && group.images.length > 0
-  }).map(({ images, name }) => {
+  }).map((group) => {
     return {
-      name: name,
-      images: images!.map((image) => {
+      name: group.name,
+      by: group.by,
+      images: group.images!.map((image) => {
         return {
           title: image.title,
-          by: image.by,
+          by: image.by || group.by,
           url: buildUrl(type.pathPrefix || '', image.path)
         }
       })

@@ -1,19 +1,21 @@
 <!--pages/select_image/background.wxml-->
 <van-cell-group wx:if="{{ lastImage }}" title="上次使用" inset>
   <van-cell title="继续使用上次的图片" center is-link custom-class="line-height-none" bind:click="skip">
-    <van-image width="36" height="36" radius="6" src="{{ lastImage }}" />
+    <van-image width="36" height="36" radius="6" src="{{ lastImage }}"/>
   </van-cell>
 </van-cell-group>
 
 <van-cell-group title="自定义图片" inset>
-  <van-cell title="从相册选择图片" is-link bind:click="selectImage" />
-  <van-cell wx:if="{{ canUseAvatar }}" title="使用当前头像" center is-link custom-class="line-height-none" bind:click="onSelectUserAvatar" />
+  <van-cell title="从相册选择图片" is-link bind:click="selectImage"/>
+  <van-cell wx:if="{{ canUseAvatar }}" title="使用当前头像" center is-link custom-class="line-height-none"
+            bind:click="onSelectUserAvatar"/>
 </van-cell-group>
 
 <van-cell-group wx:if="{{ presets.length }}" title="预置图片" inset>
-  <van-collapse wx:for="{{ presets }}" wx:key="name" accordion value="{{ activePreset }}" bind:change="onActivePresetChange">
-    <van-collapse-item title="{{ item.name }}" name="{{ index }}">
-      <masonry wx:if="{{ activePreset === index }}" images="{{ item.images }}" bind:click="onClickImage" />
+  <van-collapse wx:for="{{ presets }}" wx:key="name" accordion value="{{ activePreset }}"
+                bind:change="onActivePresetChange">
+    <van-collapse-item title="{{ item.name }}" value="{{ item.by ? '@' + item.by : '' }}" name="{{ index }}">
+      <masonry wx:if="{{ activePreset === index }}" images="{{ item.images }}" bind:click="onClickImage"/>
     </van-collapse-item>
   </van-collapse>
 </van-cell-group>
