@@ -11,17 +11,30 @@ export default Page({
     countdownGaokao: getDaysToGaokao(),
     countdownZhongkao: getDaysToZhongkao(),
     countdownType: 1, // 1 for gaokao, 2 for zhongkao
+    developerPopupShow: false,
     developerPopupShown: false,
-    feedbackPopupShown: false
+    feedbackPopupShow: false
   },
 
-  showDeveloperPopup() {
+  beforeShowDeveloperPopup() {
     this.setData({
       developerPopupShown: true
     })
   },
 
+  showDeveloperPopup() {
+    this.setData({
+      developerPopupShow: true
+    })
+  },
+
   hideDeveloperPopup() {
+    this.setData({
+      developerPopupShow: false
+    })
+  },
+
+  afterHideDeveloperPopup() {
     this.setData({
       developerPopupShown: false
     })
@@ -29,13 +42,13 @@ export default Page({
 
   showFeedbackPopup() {
     this.setData({
-      feedbackPopupShown: true
+      feedbackPopupShow: true
     })
   },
 
   hideFeedbackPopup() {
     this.setData({
-      feedbackPopupShown: false
+      feedbackPopupShow: false
     })
   },
 
