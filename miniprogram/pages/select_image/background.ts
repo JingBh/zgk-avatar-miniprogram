@@ -1,5 +1,6 @@
 // pages/select_image/background.ts
 import { getManifest, getPresetsOf } from '../../utils/images'
+import { shareMsg, shareTimeline } from '../../utils/share'
 
 export default Page({
   data: {
@@ -145,5 +146,9 @@ export default Page({
     wx.navigateTo({
       url: '/pages/select_image/foreground'
     })
-  }
+  },
+
+  onShareAppMessage: () => shareMsg(),
+
+  onShareTimeline: () => shareTimeline()
 })

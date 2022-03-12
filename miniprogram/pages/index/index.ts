@@ -1,8 +1,6 @@
 // pages/index/index.ts
-import {
-  getDaysToGaokao,
-  getDaysToZhongkao
-} from '../../utils/countdown'
+import { getDaysToGaokao, getDaysToZhongkao } from '../../utils/countdown'
+import { shareMsg, shareTimeline } from '../../utils/share'
 
 let countdownInterval: number | null = null
 
@@ -71,5 +69,9 @@ export default Page({
     wx.navigateTo({
       url: '/pages/select_image/background'
     })
-  }
+  },
+
+  onShareAppMessage: () => shareMsg(),
+
+  onShareTimeline: () => shareTimeline()
 })

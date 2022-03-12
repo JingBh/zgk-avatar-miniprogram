@@ -1,5 +1,6 @@
 // pages/select_image/foreground.ts
 import { getManifest, getPresetsOf } from '../../utils/images'
+import { shareMsg, shareTimeline } from '../../utils/share'
 
 export default Page({
   data: {
@@ -48,5 +49,9 @@ export default Page({
         })
       }
     })
-  }
+  },
+
+  onShareAppMessage: () => shareMsg(),
+
+  onShareTimeline: () => shareTimeline()
 })

@@ -1,4 +1,6 @@
 // pages/select_image/cropper.ts
+import { shareMsg, shareTimeline } from '../../utils/share'
+
 Page({
   data: {
     imageSrc: ''
@@ -67,5 +69,9 @@ Page({
         }
       })
     })
-  }
+  },
+
+  onShareAppMessage: () => shareMsg(),
+
+  onShareTimeline: () => shareTimeline()
 })

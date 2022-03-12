@@ -1,5 +1,6 @@
 // pages/export/export.ts
 import { getImagePath } from '../../utils/images-cache'
+import { shareMsg, shareTimeline } from '../../utils/share'
 
 export default Page({
   data: {
@@ -184,5 +185,9 @@ export default Page({
         })
       }
     })
-  }
+  },
+
+  onShareAppMessage: () => shareMsg(),
+
+  onShareTimeline: () => shareTimeline()
 })
