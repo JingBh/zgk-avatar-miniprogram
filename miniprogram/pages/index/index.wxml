@@ -10,12 +10,14 @@
 </view>
 
 <van-cell-group title="公告栏">
-  <van-cell wx:if="{{ countdownGaokao <= 0 && countdownGaokao >= -2  }}" title="高考倒计时" label="高考就是今天，加油！"/>
-  <van-cell wx:elif="{{ countdownZhongkao <= 0 && countdownZhongkao >= -2  }}" title="中考倒计时" label="中考就是今天，加油！"/>
-  <van-cell wx:elif="{{ countdownType === 1 && countdownGaokao > 0 }}" title="高考倒计时"
-            label="距离高考还有 {{ countdownGaokao }} 天，加油！"/>
-  <van-cell wx:elif="{{ countdownType === 2 && countdownZhongkao > 0 }}" title="中考倒计时"
-            label="距离中考还有 {{ countdownZhongkao }} 天，加油！"/>
+  <van-cell wx:if="{{ countdownGaokao <= 0 && countdownGaokao >= -3  }}"
+            title="高考倒计时" label="高考进行中，加油！" />
+  <van-cell wx:elif="{{ countdownZhongkao <= 0 && countdownZhongkao >= -3  }}"
+            title="中考倒计时" label="中考进行中，加油！" />
+  <van-cell wx:elif="{{ countdownType === 1 && countdownGaokao > 0 }}"
+            title="高考倒计时" label="距离高考还有 {{ countdownGaokao }} 天，加油！" />
+  <van-cell wx:elif="{{ countdownType === 2 && countdownZhongkao > 0 }}"
+            title="中考倒计时" label="距离中考还有 {{ countdownZhongkao }} 天，加油！" />
   <van-cell title="小调查" label="愿意透露一下你的身份吗？" center is-link/>
   <van-cell title="自定义文字服务" label="对于这项新服务的一点说明" center is-link link-type="navigateTo"
             url="/pages/announcements/about-custom"/>
