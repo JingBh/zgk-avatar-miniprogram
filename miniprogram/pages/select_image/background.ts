@@ -41,6 +41,10 @@ export default Page({
   },
 
   loadLastImage() {
+    this.setData({
+      lastImage: null
+    })
+
     wx.getStorage<string>({
       key: 'background',
       success: ({ data }) => {
@@ -92,6 +96,12 @@ export default Page({
         }
       })
     }
+  },
+
+  onLastImageError() {
+    this.setData({
+      lastImage: null
+    })
   },
 
   onClickImage(e: StringEvent) {

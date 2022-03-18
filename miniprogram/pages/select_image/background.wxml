@@ -1,7 +1,7 @@
 <!--pages/select_image/background.wxml-->
 <van-cell-group wx:if="{{ lastImage }}" title="上次使用" inset>
   <van-cell title="继续使用上次的图片" center is-link custom-class="line-height-none" bind:click="skip">
-    <van-image width="36" height="36" radius="6" src="{{ lastImage }}"/>
+    <van-image width="36" height="36" radius="6" src="{{ lastImage }}" bind:error="onLastImageError" />
   </van-cell>
 </van-cell-group>
 
