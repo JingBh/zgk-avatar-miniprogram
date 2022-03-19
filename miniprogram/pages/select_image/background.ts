@@ -1,6 +1,7 @@
 // pages/select_image/background.ts
 import { getManifest, getPresetsOf } from '../../utils/images'
 import { shareMsg, shareTimeline } from '../../utils/share'
+import { getImagePath } from '../../utils/images-cache'
 
 export default Page({
   data: {
@@ -110,21 +111,16 @@ export default Page({
       title: '下载图片中',
       mask: true
     })
-    wx.downloadFile({
-      url: e.detail + '?x-oss-process=style/zoom',
-      success: ({ tempFilePath }) => {
-        this.cropImage(tempFilePath)
-      },
-      fail: () => {
-        wx.showToast({
-          title: '下载图片失败',
-          icon: 'error',
-          duration: 2000
-        })
-      },
-      complete: () => {
-        wx.hideLoading()
-      }
+    getImagePath(e.detail + '?x-oss-process=style/zoom').then((path) => {
+      this.cropImage(path)
+    }).catch(() => {
+      wx.showToast({
+        title: '下载图片失败',
+        icon: 'error',
+        duration: 2000
+      })
+    }).finally(() => {
+      wx.hideLoading()
     })
   },
 

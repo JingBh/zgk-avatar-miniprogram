@@ -2,7 +2,7 @@
 <van-cell-group wx:for="{{ presets }}" wx:key="name" title="{{ item.name }}" inset>
   <view class="cell-content">
     <masonry
-      process="thumbnail_png"
+      process="filename"
       images="{{ item.images }}"
       image_class="bg-dark"
       bind:click="onClickImage" />

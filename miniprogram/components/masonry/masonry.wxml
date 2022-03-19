@@ -1,4 +1,6 @@
 <!--components/masonry/masonry.wxml-->
+<wxs src="./masonry.wxs" module="masonry" />
+
 <view class="masonry">
   <view class="masonry-col">
     <template wx:for="{{ images }}" wx:key="url" wx:if="{{ index % 2 === 0 }}" is="item" data="{{ process, image_class, ...item }}" />
@@ -14,7 +16,7 @@
       width="100%"
       fit="widthFix"
       radius="8rpx"
-      src="{{ url + '?x-oss-process=style/' + process }}"
+      src="{{ masonry.processUrl(url, process) }}"
       lazy-load
       custom-class="{{ image_class }}" />
     <text wx:if="title" class="masonry-item-title">{{ title }}</text>
