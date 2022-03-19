@@ -12,10 +12,13 @@
 </van-cell-group>
 
 <van-cell-group wx:if="{{ presets.length }}" title="预置图片" inset>
-  <van-collapse wx:for="{{ presets }}" wx:key="name" accordion value="{{ activePreset }}"
-                bind:change="onActivePresetChange">
-    <van-collapse-item title="{{ item.name }}" value="{{ item.by ? '@' + item.by : '' }}" name="{{ index }}">
-      <masonry wx:if="{{ activePreset === index }}" images="{{ item.images }}" bind:click="onClickImage"/>
-    </van-collapse-item>
-  </van-collapse>
+  <block wx:for="{{ presets }}" wx:key="name">
+    <van-collapse wx:if="{{ item.images.length }}"
+                  accordion value="{{ activePreset }}" bind:change="onActivePresetChange">
+      <van-collapse-item title="{{ item.name }}" value="{{ item.by ? '@' + item.by : '' }}" name="{{ index }}">
+        <masonry wx:if="{{ activePreset === index }}" images="{{ item.images }}" bind:click="onClickImage"/>
+      </van-collapse-item>
+    </van-collapse>
+    <van-cell wx:else title="{{ item.name }}" value="{{ item.by ? '@' + item.by : '' }}" center />
+  </block>
 </van-cell-group>

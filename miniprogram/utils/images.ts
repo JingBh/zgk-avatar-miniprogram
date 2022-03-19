@@ -30,34 +30,37 @@ export function getManifest(): Promise<IImageManifest> {
       resolve(manifestCache)
     } else {
       wx.request<IImageManifest>({
-        url: buildUrl('images', 'manifest.v2.json'),
+        url: buildUrl('images', 'manifest.v2.json', 'timestamp'),
         responseType: 'text',
         dataType: 'json',
-        enableCache: true,
-        success({ data }) {
-          manifestCache = data
-          resolve(data)
+        enableCache: false,
+        success: ({ statusCode, data }) => {
+          if (statusCode >= 400) {
+            console.error(`status code ${statusCode}`)
+            reject(data)
+          } else {
+            manifestCache = data
+            resolve(data)
+          }
         },
-        fail: ({ errMsg }) => reject(errMsg)
+        fail: (error) => reject(error)
       })
     }
   })
 }
 
 export function getPresetsOf(type: IImageManifestSingleType) {
-  return type.groups.filter((group) => {
-    return group.images && group.images.length > 0
-  }).map((group) => {
+  return type.groups.map((group) => {
     return {
       name: group.name,
       by: group.by,
-      images: group.images!.map((image) => {
+      images: group.images?.map((image) => {
         return {
           title: image.title,
           by: image.by || group.by,
           url: buildUrl(type.pathPrefix || '', image.path)
         }
-      })
+      }) || []
     }
   })
 }

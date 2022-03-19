@@ -5,7 +5,7 @@
   <text class="paragraph">今年，此工具上线微信小程序版本，在原先功能基础上增加了自定义文字的服务。</text>
 
   <view style="text-align: right; padding: 32rpx 0;">
-    <van-button icon="photo-o" type="primary" bind:click="toSelectImage">开始选择图片</van-button>
+    <van-button icon="photo-o" type="primary" bind:click="onClickSelectImage">开始选择图片</van-button>
   </view>
 </view>
 
@@ -18,9 +18,9 @@
             title="高考倒计时" label="距离高考还有 {{ countdownGaokao }} 天，加油！" />
   <van-cell wx:elif="{{ countdownType === 2 && countdownZhongkao > 0 }}"
             title="中考倒计时" label="距离中考还有 {{ countdownZhongkao }} 天，加油！" />
-  <van-cell title="小调查" label="愿意透露一下你的身份吗？" center is-link/>
-  <van-cell title="自定义文字服务" label="对于这项新服务的一点说明" center is-link link-type="navigateTo"
-            url="/pages/announcements/about-custom"/>
+  <van-cell wx:for="{{ announcements }}" wx:for-index="id" wx:key="id" id="{{ id }}"
+            title="{{ item.entry.title }}" label="{{ item.entry.label }}" value="{{ item.entry.value }}"
+            center is-link bind:click="onClickAnnouncement" />
 </van-cell-group>
 
 <van-cell-group title="关于本小程序">
@@ -36,3 +36,5 @@
 <van-popup show="{{ feedbackPopupShow }}" round position="bottom" closeable bind:close="hideFeedbackPopup">
   <include src="feedback.wxml"/>
 </van-popup>
+
+<van-notify id="van-notify" />

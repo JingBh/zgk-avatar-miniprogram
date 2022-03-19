@@ -2,7 +2,7 @@
   "entryPagePath": "pages/index/index",
   "pages": [
     "pages/index/index",
-    "pages/announcements/about-custom",
+    "pages/announcements/announcement",
     "pages/select_image/background",
     "pages/select_image/foreground",
     "pages/select_image/cropper",

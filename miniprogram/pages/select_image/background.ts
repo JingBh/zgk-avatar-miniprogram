@@ -68,7 +68,8 @@ export default Page({
       this.setData({
         presets: getPresetsOf(manifest)
       })
-    }).catch(() => {
+    }).catch((error) => {
+      console.error(error)
       wx.showToast({
         title: '加载数据失败',
         icon: 'error',

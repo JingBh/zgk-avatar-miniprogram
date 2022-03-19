@@ -1,6 +1,9 @@
 // pages/index/index.ts
+import Notify from '../../miniprogram_npm/@vant/weapp/notify/notify'
+
 import { getDaysToGaokao, getDaysToZhongkao } from '../../utils/countdown'
 import { shareMsg, shareTimeline } from '../../utils/share'
+import { getManifest, AnnouncementManifest } from '../../utils/announcements'
 
 let countdownInterval: number | null = null
 
@@ -11,7 +14,25 @@ export default Page({
     countdownType: 1, // 1 for gaokao, 2 for zhongkao
     developerPopupShow: false,
     developerPopupShown: false,
-    feedbackPopupShow: false
+    feedbackPopupShow: false,
+    announcements: {} as AnnouncementManifest
+  },
+
+  onLoad() {
+    countdownInterval = setInterval(() => {
+      this.setData({
+        countdownType: this.data.countdownType === 1 ? 2 : 1
+      })
+    }, 5000)
+
+    this.loadAnnouncements()
+  },
+
+  onUnload() {
+    if (countdownInterval != null) {
+      clearInterval(countdownInterval)
+      countdownInterval = null
+    }
   },
 
   beforeShowDeveloperPopup() {
@@ -50,22 +71,39 @@ export default Page({
     })
   },
 
-  onLoad() {
-    countdownInterval = setInterval(() => {
+  loadAnnouncements() {
+    getManifest().then(announcements => {
       this.setData({
-        countdownType: this.data.countdownType === 1 ? 2 : 1
+        announcements
       })
-    }, 5000)
+    }).catch((error) => {
+      console.error(error)
+      Notify({ type: 'danger', message: '公告栏加载失败' })
+    })
   },
 
-  onUnload() {
-    if (countdownInterval != null) {
-      clearInterval(countdownInterval)
-      countdownInterval = null
+  onClickAnnouncement(e: WechatMiniprogram.BaseEvent) {
+    const content = this.data.announcements[e.target.id].content
+    switch (content.type) {
+      case 'page':
+        wx.navigateTo({
+          url: '/pages/announcements/announcement?data=' + encodeURIComponent(JSON.stringify(content))
+        })
+        break
+
+      case 'navigatePage':
+        wx.navigateTo({
+          url: content.url
+        })
+        break
+
+      case 'navigateMiniProgram':
+        wx.navigateToMiniProgram(Object.assign(content.config, {}))
+        break
     }
   },
 
-  toSelectImage() {
+  onClickSelectImage() {
     wx.navigateTo({
       url: '/pages/select_image/background'
     })
