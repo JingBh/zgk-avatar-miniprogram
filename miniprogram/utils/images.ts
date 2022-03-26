@@ -22,6 +22,18 @@ export interface IImageManifest {
   foreground: IImageManifestSingleType
 }
 
+export interface IImageDisplay {
+  title?: string,
+  by?: string,
+  url: string
+}
+
+export interface IPresetDisplay {
+  name: string,
+  by?: string,
+  images: IImageDisplay[]
+}
+
 let manifestCache: IImageManifest | null = null
 
 export function getManifest(): Promise<IImageManifest> {

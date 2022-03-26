@@ -2,10 +2,10 @@
   "name": "zgk-avatar",
   "license": "GPL-3.0-or-later",
   "private": true,
-  "scripts": {
-  },
-  "dependencies": {
+  "devDependencies": {
+    "@types/md5": "^2.3.2",
     "@vant/weapp": "^1.10.2",
+    "md5": "^2.3.0",
     "miniprogram-api-typings": "latest"
   }
 }

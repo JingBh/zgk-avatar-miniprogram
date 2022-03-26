@@ -1,5 +1,5 @@
 // pages/select_image/background.ts
-import { getManifest, getPresetsOf } from '../../utils/images'
+import { getManifest, getPresetsOf, IPresetDisplay } from '../../utils/images'
 import { shareMsg, shareTimeline } from '../../utils/share'
 import { getImagePath } from '../../utils/images-cache'
 
@@ -7,14 +7,7 @@ export default Page({
   data: {
     lastImage: null as string | null,
     canUseAvatar: false,
-    presets: [] as {
-      name: string,
-      images: {
-        title?: string,
-        by?: string,
-        url: string
-      }[]
-    }[],
+    presets: [] as IPresetDisplay[],
     activePreset: null as unknown | null
   },
 

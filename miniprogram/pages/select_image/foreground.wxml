@@ -10,6 +10,26 @@
 </van-cell-group>
 
 <van-cell-group title="自定义文字" inset>
-  <van-cell title="前往使用" is-link link-type="navigateTo" url="/pages/select_image/foreground-custom" />
-  <van-cell title="关于此服务" is-link link-type="navigateTo" url="/pages/announcements/about-custom" />
+  <van-field model:value="{{ outerText }}"
+             label="外圈文字" placeholder="请输入 3-4 个汉字"
+             error-message="{{ outerTextError }}"
+             bind:change="onOuterTextChange" />
+  <van-field model:value="{{ innerText }}"
+             label="中部文字" placeholder="请输入 4-8 个汉字"
+             error-message="{{ innerTextError }}"
+             bind:change="onInnerTextChange" />
+  <van-cell wx:if="{{ !generated }}" title="生成图片" is-link bind:click="onGenerate" />
+  <view wx:if="{{ generatedImage }}" class="cell-content text-center">
+    <van-image round width="450rpx" height="450rpx" src="{{ generatedImage }}" custom-class="bg-dark" />
+  </view>
+  <van-cell wx:if="{{ generatedImage }}" title="使用生成的图片" is-link bind:click="onUseGenerated" />
+  <van-collapse wx:if="{{ generatedPreset.length }}" value="{{ customActivePreset }}" bind:change="onCustomActivePresetChange">
+    <van-collapse-item title="历史记录" name="generatedList">
+      <masonry
+        process="none"
+        images="{{ generatedPreset }}"
+        image_class="bg-dark"
+        bind:click="onClickImage" />
+    </van-collapse-item>
+  </van-collapse>
 </van-cell-group>

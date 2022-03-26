@@ -1,5 +1,7 @@
 function processUrl(url, process) {
-  if (process === 'filename') {
+  if (process === 'none') {
+    return url;
+  } else if (process === 'filename') {
     var parts = url.split('.');
     parts[parts.length - 2] = parts[parts.length - 2] + '-thumbnail';
     return parts.join('.');
