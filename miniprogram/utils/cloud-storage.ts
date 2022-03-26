@@ -1,4 +1,4 @@
-const baseUrl = "https://zgk-avatar.oss-cn-beijing.aliyuncs.com/"
+const baseUrl = "https://f.zka.cslab.top/"
 
 export const buildUrl = (...parts: string[]) => {
   let addTimestamp = false
