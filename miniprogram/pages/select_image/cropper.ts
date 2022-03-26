@@ -1,6 +1,8 @@
 // pages/select_image/cropper.ts
 import { shareMsg, shareTimeline } from '../../utils/share'
 
+const { saveFile } = wx.getFileSystemManager()
+
 Page({
   data: {
     imageSrc: ''
@@ -39,10 +41,9 @@ Page({
       width: number,
       height: number
     }) => {
-      const fs = wx.getFileSystemManager()
       const path = `${wx.env.USER_DATA_PATH}/background.png`
 
-      fs.saveFile({
+      saveFile({
         tempFilePath: result.url,
         filePath: path,
         success: () => {

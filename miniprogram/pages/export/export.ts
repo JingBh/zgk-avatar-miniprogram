@@ -20,7 +20,7 @@ export default Page({
       canvas.height = 1024
 
       this.setData({
-        _canvas: res[0].node as WechatMiniprogram.Canvas
+        _canvas: canvas
       })
 
       this.startDrawImages()
