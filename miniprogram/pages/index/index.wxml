@@ -21,7 +21,7 @@
   <van-cell wx:for="{{ announcements }}" wx:for-index="id" wx:key="id" id="{{ id }}"
             title="{{ item.entry.title }}" label="{{ item.entry.label }}" value="{{ item.entry.value }}"
             center is-link bind:click="onClickAnnouncement" />
-  <view wx:if="{{ !officialAccountError }}" class="cell-content" style="padding-top: 0; padding-bottom: 0">
+  <view wx:if="{{ !officialAccountError }}" class="cell-content py-0">
     <official-account binderror="onOfficialAccountError" />
   </view>
 </van-cell-group>

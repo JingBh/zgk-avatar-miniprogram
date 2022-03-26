@@ -1,7 +1,7 @@
 import md5 from 'md5'
 import { IImageDisplay } from './images'
 
-const { access, mkdir, readdir, readFile, writeFile } = wx.getFileSystemManager()
+const { access, mkdir, readdir, readFile, unlink, writeFile } = wx.getFileSystemManager()
 
 const baseUrl = 'https://s.zka.cslab.top/v1/'
 
@@ -32,7 +32,7 @@ export function generate(outerText: string, innerText: string, color?: string): 
           data: {
             outerText,
             innerText,
-            color
+            color: (color || '#fff').substring(1)
           },
           dataType: '其他',
           responseType: 'arraybuffer',
@@ -82,13 +82,13 @@ export function listGenerated(): Promise<IImageDisplay[]> {
 
         for (const filename of files.filter(filename => filename.endsWith('.png'))) {
           const metaPath = `${cacheDir}/${filename.replace('.png', '.json')}`
-          const title = await new Promise<string>((resolve, reject) => {
+          const title = await new Promise<string>((resolve1) => {
             readFile({
               filePath: metaPath,
               encoding: 'utf8',
               success: ({ data }) => {
                 const meta = JSON.parse(data as string)
-                resolve(`${meta.outerText}·${meta.innerText}`)
+                resolve1(`${meta.outerText}·${meta.innerText}`)
               },
               fail: (error) => reject(error)
             })
@@ -101,6 +101,30 @@ export function listGenerated(): Promise<IImageDisplay[]> {
         }
 
         resolve(data)
+      },
+      fail: (error) => reject(error)
+    })
+  })
+}
+
+export function clearGenerated(): Promise<void> {
+  const cacheDir = `${wx.env.USER_DATA_PATH}/custom`
+
+  return new Promise((resolve, reject) => {
+    readdir({
+      dirPath: cacheDir,
+      success: async ({ files }) => {
+        for (const filename of files) {
+          await new Promise<void>((resolve1) => {
+            unlink({
+              filePath: `${cacheDir}/${filename}`,
+              success: () => resolve1(),
+              fail: (error) => reject(error)
+            })
+          })
+        }
+
+        resolve()
       },
       fail: (error) => reject(error)
     })

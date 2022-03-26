@@ -1,25 +1,22 @@
 // pages/select_image/foreground.ts
-import {
-  getManifest,
-  getPresetsOf,
-  IImageDisplay,
-  IPresetDisplay,
-} from '../../utils/images'
-import { generate, listGenerated } from '../../utils/service'
+import { getManifest, getPresetsOf, IImageDisplay, IPresetDisplay } from '../../utils/images'
+import { generate, listGenerated, clearGenerated } from '../../utils/service'
 import customSupported from '../../utils/custom-supported'
+import colors from '../../utils/colors'
 import { shareMsg, shareTimeline } from '../../utils/share'
 
 export default Page({
   data: {
     presets: [] as IPresetDisplay[],
-
     outerText: '',
     outerTextError: '',
     innerText: '',
     innerTextError: '',
     generated: false,
     generatedImage: null as string | null,
-
+    color: '#fff',
+    colors,
+    selectColorPopupShow: false,
     customActivePreset: null as unknown | null,
     generatedPreset: [] as IImageDisplay[]
   },
@@ -48,6 +45,25 @@ export default Page({
       this.setData({
         generatedPreset: data
       })
+    })
+  },
+
+  onClickImage(e: StringEvent) {
+    wx.setStorage({
+      key: 'foreground',
+      data: e.detail,
+      success: () => {
+        wx.navigateTo({
+          url: '/pages/export/export'
+        })
+      },
+      fail: () => {
+        wx.showToast({
+          title: '保存图片失败',
+          icon: 'error',
+          duration: 2000
+        })
+      }
     })
   },
 
@@ -103,6 +119,30 @@ export default Page({
     })
   },
 
+  onOpenSelectColor() {
+    this.setData({ selectColorPopupShow: true })
+  },
+
+  onCloseSelectColor() {
+    this.setData({ selectColorPopupShow: false })
+  },
+
+  onSelectColor(e: WechatMiniprogram.CustomEvent) {
+    const newColor = e.target.dataset.color
+    const colorChanged = this.data.color !== newColor
+
+    this.setData({
+      selectColorPopupShow: false
+    })
+
+    if (colorChanged) {
+      this.setData({
+        color: newColor,
+        generated: false
+      })
+    }
+  },
+
   onGenerate() {
     if (!this.data.outerText) {
       this.setData({ outerTextError: '文字内容不能为空' })
@@ -117,7 +157,11 @@ export default Page({
         title: '生成图片中',
         mask: true
       })
-      generate(this.data.outerText, this.data.innerText).then((url) => {
+      generate(
+        this.data.outerText,
+        this.data.innerText,
+        this.data.color
+      ).then((url) => {
         this.setData({
           generated: true,
           generatedImage: url
@@ -155,22 +199,31 @@ export default Page({
     })
   },
 
-  onClickImage(e: StringEvent) {
-    wx.setStorage({
-      key: 'foreground',
-      data: e.detail,
-      success: () => {
-        wx.navigateTo({
-          url: '/pages/export/export'
-        })
-      },
-      fail: () => {
-        wx.showToast({
-          title: '保存图片失败',
-          icon: 'error',
-          duration: 2000
-        })
-      }
+  onClearGenerated() {
+    wx.showLoading({
+      title: '清除记录中',
+      mask: true
+    })
+    this.setData({
+      generated: false,
+      generatedImage: '',
+      customActivePreset: null,
+      generatedPreset: []
+    })
+    clearGenerated().then(() => {
+      wx.showToast({
+        title: '清除记录成功',
+        icon: 'success',
+        duration: 2000
+      })
+    }).catch(() => {
+      wx.showToast({
+        title: '清除记录失败',
+        icon: 'error',
+        duration: 2000
+      })
+    }).then(() => {
+      wx.hideLoading()
     })
   },
 
