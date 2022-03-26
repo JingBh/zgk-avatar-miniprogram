@@ -15,7 +15,8 @@ export default Page({
     developerPopupShow: false,
     developerPopupShown: false,
     feedbackPopupShow: false,
-    announcements: {} as AnnouncementManifest
+    announcements: {} as AnnouncementManifest,
+    officialAccountError: false
   },
 
   onLoad() {
@@ -107,6 +108,10 @@ export default Page({
     wx.navigateTo({
       url: '/pages/select_image/background'
     })
+  },
+
+  onOfficialAccountError() {
+    this.setData({ officialAccountError: true })
   },
 
   onShareAppMessage: () => shareMsg(),

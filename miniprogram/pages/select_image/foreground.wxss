@@ -1,12 +1,4 @@
 /* pages/select_image/foreground.wxss */
-.cell-content {
-  background-color: var(--collapse-item-content-background-color, #fff);
-  color: var(--collapse-item-content-text-color, #969799);
-  font-size: var(--collapse-item-content-font-size, 13px);
-  line-height: var(--collapse-item-content-line-height, 1.5);
-  padding: var(--collapse-item-content-padding, 15px);
-}
-
 .bg-dark {
   background-color: rgba(0, 0, 0, 0.9);
   border-radius: 50% !important;
