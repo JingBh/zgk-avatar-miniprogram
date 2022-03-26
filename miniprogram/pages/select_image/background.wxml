@@ -15,10 +15,10 @@
   <block wx:for="{{ presets }}" wx:key="name">
     <van-collapse wx:if="{{ item.images.length }}"
                   accordion value="{{ activePreset }}" bind:change="onActivePresetChange">
-      <van-collapse-item title="{{ item.name }}" value="{{ item.by ? '@' + item.by : '' }}" name="{{ index }}">
+      <van-collapse-item title="{{ item.name }}" value="{{ item.by ? 'by ' + item.by : '' }}" name="{{ index }}">
         <masonry wx:if="{{ activePreset === index }}" images="{{ item.images }}" bind:click="onClickImage"/>
       </van-collapse-item>
     </van-collapse>
-    <van-cell wx:else title="{{ item.name }}" value="{{ item.by ? '@' + item.by : '' }}" center />
+    <van-cell wx:else title="{{ item.name }}" value="{{ item.by ? 'by ' + item.by : '' }}" center />
   </block>
 </van-cell-group>
