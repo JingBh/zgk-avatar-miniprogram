@@ -11,14 +11,16 @@
 
 <van-cell-group title="自定义文字" inset>
   <van-field model:value="{{ outerText }}"
-             label="外圈文字" placeholder="请输入 3-4 个汉字"
+             label="外圈文字" left-icon="edit"
+             placeholder="请输入 3-4 个汉字"
              error-message="{{ outerTextError }}"
              bind:change="onOuterTextChange" />
   <van-field model:value="{{ innerText }}"
-             label="中部文字" placeholder="请输入 4-8 个汉字"
+             label="中部文字" left-icon="edit"
+             placeholder="请输入 4-8 个汉字"
              error-message="{{ innerTextError }}"
              bind:change="onInnerTextChange" />
-  <van-cell title="文字颜色" is-link bind:click="onOpenSelectColor">
+  <van-cell title="文字颜色" icon="brush-o" is-link bind:click="onOpenSelectColor">
     <text wx:if="{{ color === '#fff' }}">白色</text>
     <view wx:else class="color-display in-cell" style="background-color: {{ color }}" />
   </van-cell>

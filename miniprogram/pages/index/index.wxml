@@ -21,13 +21,13 @@
   <van-cell wx:for="{{ announcements }}" wx:for-index="id" wx:key="id" id="{{ id }}"
             title="{{ item.entry.title }}" label="{{ item.entry.label }}" value="{{ item.entry.value }}"
             center is-link bind:click="onClickAnnouncement" />
-  <view wx:if="{{ !officialAccountError }}" class="cell-content py-0">
-    <official-account binderror="onOfficialAccountError" />
-  </view>
 </van-cell-group>
 
 <van-cell-group title="关于本小程序">
   <van-cell title="开发者" label="JingBh" center is-link bind:click="showDeveloperPopup"/>
+  <view wx:if="{{ !officialAccountError }}" class="cell-content py-0">
+    <official-account binderror="onOfficialAccountError" />
+  </view>
   <van-cell title="反馈问题" is-link bind:click="showFeedbackPopup"/>
 </van-cell-group>
 
