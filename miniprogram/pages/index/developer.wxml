@@ -3,10 +3,11 @@
 
 <view class="container d-flex" style="align-items: center; margin-bottom: 32rpx;">
   <van-image round lazy-load width="52px" height="52px" src="https://zgk-avatar.oss-cn-beijing.aliyuncs.com/assets/avatar.png?x-oss-process=style/avatar" />
-  <view class="d-flex" style="flex-direction: column; margin: 0 16px;">
+  <view class="d-flex" style="flex-direction: column; flex-grow: 1; margin: 0 16px">
     <text style="font-size: 120%;">JingBh</text>
     <text style="font-size: 90%; color: #969799;">来自 G1916</text>
   </view>
+  <van-button color="#e0b743" bind:click="onReward">赞赏</van-button>
 </view>
 
 <view class="container">

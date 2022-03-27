@@ -1,6 +1,7 @@
 {
   "usingComponents": {
     "masonry": "../../components/masonry/masonry",
+    "van-button": "@vant/weapp/button/index",
     "van-cell": "@vant/weapp/cell/index",
     "van-cell-group": "@vant/weapp/cell-group/index",
     "van-collapse": "@vant/weapp/collapse/index",

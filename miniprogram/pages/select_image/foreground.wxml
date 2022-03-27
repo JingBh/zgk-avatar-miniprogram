@@ -60,3 +60,17 @@
     </van-grid>
   </view>
 </van-popup>
+
+<van-popup show="{{ rewardPopupShow }}" round position="bottom" closeable bind:close="onCloseRewardPopup">
+  <text class="title">请等一下...</text>
+
+  <view class="container" style="margin-bottom: 16px">
+    <text class="paragraph">这项服务是免费的，但开发不易，您是否愿意考虑支持一下开发者？</text>
+    <text class="paragraph">您也可以从主页的”开发者”栏进入赞赏页面。</text>
+  </view>
+
+  <view class="container d-flex" style="align-items: center; margin-bottom: 24px">
+    <van-button block style="flex-grow: 1; padding-right: 8px" bind:click="onCloseRewardPopup">不考虑</van-button>
+    <van-button color="#e0b743" block style="flex-grow: 1; padding-left: 8px" bind:click="onReward">好的！</van-button>
+  </view>
+</van-popup>

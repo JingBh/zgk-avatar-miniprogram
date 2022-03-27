@@ -1,6 +1,7 @@
 // pages/select_image/foreground.ts
 import { getManifest, getPresetsOf, IImageDisplay, IPresetDisplay } from '../../utils/images'
-import { generate, listGenerated, clearGenerated } from '../../utils/service'
+import { buildUrl } from '../../utils/cloud-storage'
+import { clearGenerated, generate, listGenerated } from '../../utils/service'
 import customSupported from '../../utils/custom-supported'
 import colors from '../../utils/colors'
 import { shareMsg, shareTimeline } from '../../utils/share'
@@ -16,9 +17,10 @@ export default Page({
     generatedImage: null as string | null,
     color: '#fff',
     colors,
-    selectColorPopupShow: false,
     customActivePreset: null as unknown | null,
-    generatedPreset: [] as IImageDisplay[]
+    generatedPreset: [] as IImageDisplay[],
+    selectColorPopupShow: false,
+    rewardPopupShow: false
   },
 
   onLoad() {
@@ -185,8 +187,24 @@ export default Page({
       key: 'foreground',
       data: this.data.generatedImage,
       success: () => {
-        wx.navigateTo({
-          url: '/pages/export/export'
+        wx.getStorage<boolean>({
+          key: 'rewardShown',
+          success: ({ data }) => {
+            if (data) {
+              wx.navigateTo({
+                url: '/pages/export/export'
+              })
+            } else {
+              this.setData({
+                rewardPopupShow: true
+              })
+            }
+          },
+          fail: () => {
+            this.setData({
+              rewardPopupShow: true
+            })
+          }
         })
       },
       fail: () => {
@@ -227,7 +245,21 @@ export default Page({
     })
   },
 
+  onCloseRewardPopup() {
+    this.setData({
+      rewardPopupShow: false
+    })
+    wx.navigateTo({
+      url: '/pages/export/export'
+    })
+  },
+
   onShareAppMessage: () => shareMsg(),
 
-  onShareTimeline: () => shareTimeline()
+  onShareTimeline: () => shareTimeline(),
+
+  onReward: () => wx.previewImage({
+    urls: [buildUrl('assets', 'reward.png')],
+    showmenu: true
+  })
 })

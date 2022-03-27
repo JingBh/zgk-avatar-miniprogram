@@ -127,5 +127,10 @@ export default Page({
   onShowQrOfficial: () => wx.previewImage({
     urls: [buildUrl('assets', 'qr-official.jpg')],
     showmenu: true
+  }),
+
+  onReward: () => wx.previewImage({
+    urls: [buildUrl('assets', 'reward.png')],
+    showmenu: true
   })
 })
