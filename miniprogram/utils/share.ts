@@ -3,7 +3,7 @@ import { buildUrl } from './cloud-storage'
 export const shareMsg = (options: Partial<WechatMiniprogram.Page.ICustomShareContent> = {}) => {
   return Object.assign({
     path: '/pages/index/index',
-    imageUrl: buildUrl('images', 'poster.jpg')
+    imageUrl: buildUrl('assets', 'poster.jpg')
   }, options)
 }
 

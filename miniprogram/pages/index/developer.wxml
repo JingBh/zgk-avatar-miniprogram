@@ -15,6 +15,13 @@
 
 <van-cell-group id="developer-info">
   <van-cell title="个人主页" label="https://www.jingbh.top/" label-class="select-text" />
-  <van-cell title="微信号" label="JingBh_" label-class="select-text" />
+  <van-cell wx:if="{{ officialAccountError }}" title="微信公众号" label="JingBh" label-class="select-text"
+            is-link center bind:click="onShowQrOfficial">
+    <van-icon name="qr" />
+  </van-cell>
+  <van-cell title="微信号" label="JingBh_" label-class="select-text"
+            is-link center bind:click="onShowQrPersonal">
+    <van-icon name="qr" />
+  </van-cell>
   <van-cell title="Telegram" label="@JingBh" label-class="select-text" />
 </van-cell-group>

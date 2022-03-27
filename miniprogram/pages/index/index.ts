@@ -2,8 +2,9 @@
 import Notify from '../../miniprogram_npm/@vant/weapp/notify/notify'
 
 import { getDaysToGaokao, getDaysToZhongkao } from '../../utils/countdown'
+import { AnnouncementManifest, getManifest } from '../../utils/announcements'
+import { buildUrl } from '../../utils/cloud-storage'
 import { shareMsg, shareTimeline } from '../../utils/share'
-import { getManifest, AnnouncementManifest } from '../../utils/announcements'
 
 let countdownInterval: number | null = null
 
@@ -116,5 +117,15 @@ export default Page({
 
   onShareAppMessage: () => shareMsg(),
 
-  onShareTimeline: () => shareTimeline()
+  onShareTimeline: () => shareTimeline(),
+
+  onShowQrPersonal: () => wx.previewImage({
+    urls: [buildUrl('assets', 'qr-personal.jpg')],
+    showmenu: true
+  }),
+
+  onShowQrOfficial: () => wx.previewImage({
+    urls: [buildUrl('assets', 'qr-official.jpg')],
+    showmenu: true
+  })
 })
