@@ -1,5 +1,5 @@
 export default [
-  '#eccc68',
+  /*'#eccc68',
   '#ffa502',
   '#ff7f50',
   '#ff6348',
@@ -17,6 +17,7 @@ export default [
   '#a4b0be',
   '#ced6e0',
   '#dfe4ea',
-  '#f1f2f6',
-  '#fff'
+  '#f1f2f6',*/
+  '#fff',
+  '#000'
 ]

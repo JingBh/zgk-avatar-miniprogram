@@ -22,6 +22,7 @@
              bind:change="onInnerTextChange" />
   <van-cell title="文字颜色" icon="brush-o" is-link bind:click="onOpenSelectColor">
     <text wx:if="{{ color === '#fff' }}">白色</text>
+    <text wx:elif="{{ color === '#000' }}">黑色</text>
     <view wx:else class="color-display in-cell" style="background-color: {{ color }}" />
   </van-cell>
 </van-cell-group>

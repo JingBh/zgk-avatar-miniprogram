@@ -5,8 +5,8 @@
   },
   "miniprogramRoot": "miniprogram/",
   "compileType": "miniprogram",
-  "libVersion": "2.19.6",
-  "projectname": "zgk-avatar",
+  "libVersion": "2.19.3",
+  "projectname": "zgk-avatar-miniprogram",
   "setting": {
     "urlCheck": true,
     "es6": true,
