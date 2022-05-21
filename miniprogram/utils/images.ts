@@ -25,7 +25,8 @@ export interface IImageManifest {
 export interface IImageDisplay {
   title?: string,
   by?: string,
-  url: string
+  url: string,
+  imageClass?: string
 }
 
 export interface IPresetDisplay {
@@ -61,7 +62,7 @@ export function getManifest(): Promise<IImageManifest> {
   })
 }
 
-export function getPresetsOf(type: IImageManifestSingleType) {
+export function getPresetsOf(type: IImageManifestSingleType): IPresetDisplay[] {
   return type.groups.map((group) => {
     return {
       name: group.name,

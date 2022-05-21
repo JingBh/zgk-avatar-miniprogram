@@ -1,11 +1,12 @@
 {
-  "description": "项目配置文件",
+  "description": "项目配置文件，详见文档：https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html",
   "packOptions": {
-    "ignore": []
+    "ignore": [],
+    "include": []
   },
   "miniprogramRoot": "miniprogram/",
   "compileType": "miniprogram",
-  "libVersion": "2.19.3",
+  "libVersion": "2.24.2",
   "projectname": "zgk-avatar-miniprogram",
   "setting": {
     "urlCheck": true,
@@ -27,16 +28,16 @@
     "compileHotReLoad": true,
     "lazyloadPlaceholderEnable": false,
     "useMultiFrameRuntime": true,
-    "useApiHook": true,
-    "useApiHostProcess": true,
+    "useApiHook": false,
+    "useApiHostProcess": false,
     "babelSetting": {
       "ignore": [],
       "disablePlugins": [],
       "outputPath": ""
     },
-    "useIsolateContext": true,
+    "useIsolateContext": false,
     "userConfirmedBundleSwitch": false,
-    "packNpmManually": true,
+    "packManually": true,
     "packNpmRelationList": [
       {
         "packageJsonPath": "./package.json",
@@ -51,10 +52,17 @@
       "typescript",
       "sass"
     ],
-    "ignoreUploadUnusedFiles": true
+    "ignoreUploadUnusedFiles": true,
+    "useStaticServer": true,
+    "packNpmManually": false
   },
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},
   "appid": "wxd744db2b88faaaf1",
-  "condition": {}
+  "condition": {},
+  "srcMiniprogramRoot": "miniprogram/",
+  "editorSetting": {
+    "tabIndent": "insertSpaces",
+    "tabSize": 2
+  }
 }

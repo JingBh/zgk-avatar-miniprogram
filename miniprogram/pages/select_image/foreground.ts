@@ -1,6 +1,6 @@
 // pages/select_image/foreground.ts
 import { getManifest, getPresetsOf, IImageDisplay, IPresetDisplay } from '../../utils/images'
-import { generate, listGenerated, clearGenerated } from '../../utils/service'
+import { clearGenerated, generate, listGenerated } from '../../utils/service'
 import customSupported from '../../utils/custom-supported'
 import colors from '../../utils/colors'
 import { shareMsg, shareTimeline } from '../../utils/share'
@@ -14,6 +14,7 @@ export default Page({
     innerTextError: '',
     generated: false,
     generatedImage: null as string | null,
+    generatedColor: '#fff',
     color: '#fff',
     colors,
     selectColorPopupShow: false,
@@ -29,7 +30,13 @@ export default Page({
   loadPresets() {
     getManifest().then(({ foreground: manifest }) => {
       this.setData({
-        presets: getPresetsOf(manifest)
+        presets: getPresetsOf(manifest).map((preset) => {
+          preset.images = preset.images.map(image => {
+            image.imageClass = "bg-dark"
+            return image
+          })
+          return preset
+        })
       })
     }).catch(() => {
       wx.showToast({
@@ -153,6 +160,8 @@ export default Page({
     }
 
     if (this.data.outerText && !this.data.outerTextError && this.data.innerText && !this.data.innerTextError) {
+      const color = this.data.color
+
       wx.showLoading({
         title: '生成图片中',
         mask: true
@@ -160,11 +169,12 @@ export default Page({
       generate(
         this.data.outerText,
         this.data.innerText,
-        this.data.color
+        color
       ).then((url) => {
         this.setData({
           generated: true,
-          generatedImage: url
+          generatedImage: url,
+          generatedColor: color
         })
         this.loadGenerated()
       }).catch((error) => {

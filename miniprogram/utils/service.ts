@@ -82,22 +82,23 @@ export function listGenerated(): Promise<IImageDisplay[]> {
 
         for (const filename of files.filter(filename => filename.endsWith('.png'))) {
           const metaPath = `${cacheDir}/${filename.replace('.png', '.json')}`
-          const title = await new Promise<string>((resolve1) => {
+          const image = await new Promise<IImageDisplay>((resolve1) => {
             readFile({
               filePath: metaPath,
               encoding: 'utf8',
               success: ({ data }) => {
                 const meta = JSON.parse(data as string)
-                resolve1(`${meta.outerText}·${meta.innerText}`)
+                resolve1({
+                  title: `${meta.outerText}·${meta.innerText}`,
+                  url: `${cacheDir}/${filename}`,
+                  imageClass: meta.color === '#fff' ? 'bg-dark' : 'bg-light'
+                })
               },
               fail: (error) => reject(error)
             })
           })
 
-          data.push({
-            title,
-            url: `${cacheDir}/${filename}`
-          })
+          data.push(image)
         }
 
         resolve(data)

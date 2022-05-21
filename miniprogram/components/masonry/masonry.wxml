@@ -3,10 +3,10 @@
 
 <view class="masonry">
   <view class="masonry-col">
-    <template wx:for="{{ images }}" wx:key="url" wx:if="{{ index % 2 === 0 }}" is="item" data="{{ process, image_class, ...item }}" />
+    <template wx:for="{{ images }}" wx:key="url" wx:if="{{ index % 2 === 0 }}" is="item" data="{{ process, ...item }}" />
   </view>
   <view class="masonry-col">
-    <template wx:for="{{ images }}" wx:key="url" wx:if="{{ index % 2 === 1 }}" is="item" data="{{ process, image_class, ...item }}" />
+    <template wx:for="{{ images }}" wx:key="url" wx:if="{{ index % 2 === 1 }}" is="item" data="{{ process, ...item }}" />
   </view>
 </view>
 
@@ -18,7 +18,7 @@
       radius="8rpx"
       src="{{ masonry.processUrl(url, process) }}"
       lazy-load
-      custom-class="{{ image_class }}" />
+      custom-class="{{ imageClass }}" />
     <text wx:if="title" class="masonry-item-title">{{ title }}</text>
   </view>
 </template>

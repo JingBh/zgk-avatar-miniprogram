@@ -4,7 +4,6 @@
     <masonry
       process="filename"
       images="{{ item.images }}"
-      image_class="bg-dark"
       bind:click="onClickImage" />
   </view>
 </van-cell-group>
@@ -27,12 +26,16 @@
   </van-cell>
 </van-cell-group>
 
-<van-cell-group custom-class="cell-group-following" inset>
-  <van-cell wx:if="{{ !generated }}" title="生成图片" is-link bind:click="onGenerate" />
-  <view wx:if="{{ generatedImage }}" class="cell-content text-center">
-    <van-image round width="450rpx" height="450rpx" src="{{ generatedImage }}" custom-class="bg-dark" />
+<van-cell-group wx:if="{{ !generated }}" custom-class="cell-group-following" inset>
+  <van-cell title="生成图片" is-link bind:click="onGenerate" />
+</van-cell-group>
+
+<van-cell-group wx:if="{{ generatedImage }}" custom-class="cell-group-following" inset>
+  <view class="cell-content text-center">
+    <van-image round width="450rpx" height="450rpx" src="{{ generatedImage }}"
+               custom-class="{{ generatedColor === '#fff' ? 'bg-dark' : 'bg-light' }}" />
   </view>
-  <van-cell wx:if="{{ generatedImage }}" title="使用生成的图片" is-link bind:click="onUseGenerated" />
+  <van-cell title="使用生成的图片" is-link bind:click="onUseGenerated" />
 </van-cell-group>
 
 <van-cell-group wx:if="{{ generatedPreset.length }}" custom-class="cell-group-following" inset>
