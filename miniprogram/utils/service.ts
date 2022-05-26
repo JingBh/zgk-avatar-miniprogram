@@ -3,10 +3,10 @@ import { IImageDisplay } from './images'
 
 const { access, mkdir, readdir, readFile, unlink, writeFile } = wx.getFileSystemManager()
 
-const baseUrl = 'https://s.zka.cslab.top/v1/'
+const baseUrl = 'https://s.zka.cslab.top/v2/'
 
-export function generate(outerText: string, innerText: string, color?: string): Promise<string> {
-  const cacheKey = md5(`${outerText}-${innerText}-${color || '#fff'}`)
+export function generate(outerText: string, innerText: string, shadow: boolean = false): Promise<string> {
+  const cacheKey = md5(`${outerText}-${innerText}${shadow ? '-shadow' : ''}`)
   const cacheDir = `${wx.env.USER_DATA_PATH}/custom`
   const cachePath = `${cacheDir}/${cacheKey}.png`
   const metaPath = `${cacheDir}/${cacheKey}.json`
@@ -26,14 +26,14 @@ export function generate(outerText: string, innerText: string, color?: string): 
             })
           }
         })
+
+        const postData: Record<string, any> = { outerText, innerText }
+        if (shadow) postData.shadow = true
+
         wx.request<ArrayBuffer>({
           url: baseUrl + 'generate',
           method: 'POST',
-          data: {
-            outerText,
-            innerText,
-            color: (color || '#fff').substring(1)
-          },
+          data: postData,
           dataType: '其他',
           responseType: 'arraybuffer',
           enableHttp2: true,
@@ -47,11 +47,7 @@ export function generate(outerText: string, innerText: string, color?: string): 
                 success: () => {
                   writeFile({
                     filePath: metaPath,
-                    data: JSON.stringify({
-                      outerText,
-                      innerText,
-                      color
-                    }),
+                    data: JSON.stringify(postData),
                     encoding: 'utf8',
                     success: () => resolve(cachePath),
                     fail: (error) => reject(error)
@@ -89,9 +85,9 @@ export function listGenerated(): Promise<IImageDisplay[]> {
               success: ({ data }) => {
                 const meta = JSON.parse(data as string)
                 resolve1({
-                  title: `${meta.outerText}·${meta.innerText}`,
+                  title: `${meta.outerText}·${meta.innerText}${meta.shadow ? '（阴影）' : ''}`,
                   url: `${cacheDir}/${filename}`,
-                  imageClass: meta.color === '#fff' ? 'bg-dark' : 'bg-light'
+                  imageClass: (meta.shadow || meta.color === '#000') ? 'bg-light' : 'bg-dark' // backwards compatibility
                 })
               },
               fail: (error) => reject(error)

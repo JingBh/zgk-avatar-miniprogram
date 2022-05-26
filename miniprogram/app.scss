@@ -80,6 +80,11 @@ page {
 .paragraph {
   display: block;
   margin-bottom: 24rpx;
+
+  &.small {
+    font-size: 80%;
+    color: #969799;
+  }
 }
 
 .puppet {

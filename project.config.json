@@ -37,7 +37,7 @@
     },
     "useIsolateContext": false,
     "userConfirmedBundleSwitch": false,
-    "packManually": true,
+    "packNpmManually": true,
     "packNpmRelationList": [
       {
         "packageJsonPath": "./package.json",
@@ -53,8 +53,7 @@
       "sass"
     ],
     "ignoreUploadUnusedFiles": true,
-    "useStaticServer": true,
-    "packNpmManually": false
+    "useStaticServer": true
   },
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},

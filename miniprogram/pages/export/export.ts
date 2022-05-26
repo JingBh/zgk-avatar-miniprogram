@@ -31,11 +31,11 @@ export default Page({
     this.setData({
       textSize: Number(e.detail)
     })
-    this.startDrawImages()
+    this.startDrawImages(false)
   },
 
-  startDrawImages() {
-    if (this.data.complete === false) {
+  startDrawImages(showLoading: boolean = true) {
+    if (!this.data.complete && showLoading) {
       wx.showLoading({
         title: '处理图片中',
         mask: true,
@@ -56,7 +56,9 @@ export default Page({
         duration: 5000,
       })
     }).then(() => {
-      wx.hideLoading()
+      if (showLoading) {
+        wx.hideLoading()
+      }
     })
   },
 

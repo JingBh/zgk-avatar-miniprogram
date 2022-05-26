@@ -2,8 +2,8 @@
 import { getManifest, getPresetsOf, IImageDisplay, IPresetDisplay } from '../../utils/images'
 import { clearGenerated, generate, listGenerated } from '../../utils/service'
 import customSupported from '../../utils/custom-supported'
-import colors from '../../utils/colors'
 import { shareMsg, shareTimeline } from '../../utils/share'
+import { buildUrl } from '../../utils/cloud-storage'
 
 export default Page({
   data: {
@@ -12,12 +12,12 @@ export default Page({
     outerTextError: '',
     innerText: '',
     innerTextError: '',
+    shadow: false,
     generated: false,
     generatedImage: null as string | null,
-    generatedColor: '#fff',
-    color: '#fff',
-    colors,
-    selectColorPopupShow: false,
+    generatedImageWithShadow: false,
+    showShadowHelp: false,
+    shadowDemoUrl: buildUrl('assets', 'shadow-demo.jpg'),
     customActivePreset: null as unknown | null,
     generatedPreset: [] as IImageDisplay[]
   },
@@ -126,28 +126,23 @@ export default Page({
     })
   },
 
-  onOpenSelectColor() {
-    this.setData({ selectColorPopupShow: true })
-  },
-
-  onCloseSelectColor() {
-    this.setData({ selectColorPopupShow: false })
-  },
-
-  onSelectColor(e: WechatMiniprogram.CustomEvent) {
-    const newColor = e.target.dataset.color
-    const colorChanged = this.data.color !== newColor
-
+  onShowShadowHelp() {
     this.setData({
-      selectColorPopupShow: false
+      showShadowHelp: true
     })
+  },
 
-    if (colorChanged) {
-      this.setData({
-        color: newColor,
-        generated: false
-      })
-    }
+  onCloseShadowHelp() {
+    this.setData({
+      showShadowHelp: false
+    })
+  },
+
+  onShadowChange() {
+    this.setData({
+      shadow: !this.data.shadow,
+      generated: false
+    })
   },
 
   onGenerate() {
@@ -160,7 +155,7 @@ export default Page({
     }
 
     if (this.data.outerText && !this.data.outerTextError && this.data.innerText && !this.data.innerTextError) {
-      const color = this.data.color
+      const useShadow = this.data.shadow
 
       wx.showLoading({
         title: '生成图片中',
@@ -169,12 +164,12 @@ export default Page({
       generate(
         this.data.outerText,
         this.data.innerText,
-        color
+        useShadow
       ).then((url) => {
         this.setData({
           generated: true,
           generatedImage: url,
-          generatedColor: color
+          generatedImageWithShadow: useShadow
         })
         this.loadGenerated()
       }).catch((error) => {

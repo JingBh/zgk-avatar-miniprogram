@@ -19,10 +19,13 @@
              placeholder="请输入 4-8 个汉字"
              error-message="{{ innerTextError }}"
              bind:change="onInnerTextChange" />
-  <van-cell title="文字颜色" icon="brush-o" is-link bind:click="onOpenSelectColor">
-    <text wx:if="{{ color === '#fff' }}">白色</text>
-    <text wx:elif="{{ color === '#000' }}">黑色</text>
-    <view wx:else class="color-display in-cell" style="background-color: {{ color }}" />
+
+  <van-cell center>
+    <view slot="title">
+      阴影效果
+      <van-icon name="question-o" bind:click="onShowShadowHelp" />
+    </view>
+    <van-switch checked="{{ shadow }}" size="24px" bind:change="onShadowChange" />
   </van-cell>
 </van-cell-group>
 
@@ -33,7 +36,7 @@
 <van-cell-group wx:if="{{ generatedImage }}" custom-class="cell-group-following" inset>
   <view class="cell-content text-center">
     <van-image round width="450rpx" height="450rpx" src="{{ generatedImage }}"
-               custom-class="{{ generatedColor === '#fff' ? 'bg-dark' : 'bg-light' }}" />
+               custom-class="{{ generatedImageWithShadow ? 'bg-light' : 'bg-dark' }}" />
   </view>
   <van-cell title="使用生成的图片" is-link bind:click="onUseGenerated" />
 </van-cell-group>
@@ -51,16 +54,20 @@
   <van-cell title="清空历史记录" title-class="text-danger" is-link bind:click="onClearGenerated" />
 </van-cell-group>
 
-<van-popup show="{{ selectColorPopupShow }}" round position="bottom" closeable bind:close="onCloseSelectColor">
-  <text class="title">选择文字颜色</text>
-
-  <view class="container" style="margin-bottom: 24px">
-    <van-grid column-num="4" border="{{ false }}">
-      <van-grid-item wx:for="{{ colors }}" wx:key="*this"
-                     use-slot content-class="px-0 py-0"
-                     data-color="{{ item }}" bind:click="onSelectColor">
-        <view class="color-display large" style="background-color: {{ item }}" />
-      </van-grid-item>
-    </van-grid>
+<van-dialog
+  show="{{ showShadowHelp }}"
+  use-slot
+  confirm-button-text="知道了"
+  close-on-click-overlay
+  bind:close="onCloseShadowHelp"
+>
+  <view style="padding: 16px 24px 8px">
+    <text class="title" style="margin: 8px 0 24px">阴影效果</text>
+    <text class="paragraph">当背景图颜色偏白，可使用阴影效果对文字描边，突出文字显示，效果如图：</text>
+    <view class="text-center" style="width: 100%; margin-bottom: 24rpx">
+      <van-image width="272px" height="272px" src="{{ shadowDemoUrl }}" />
+    </view>
+    <text class="paragraph small">注：此效果是自定义文字功能的一部分，若想对官方的中高考加油文本应用此效果，请使用自定义文字功能重新生成图片。</text>
+    <text class="paragraph small">感谢 @G1910 lzy 对此功能提出的建议</text>
   </view>
-</van-popup>
+</van-dialog>

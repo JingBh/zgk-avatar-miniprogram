@@ -8,22 +8,3 @@
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 50% !important;
 }
-
-.color-display {
-  display: block;
-  height: 24px;
-  border-radius: 8rpx;
-  border: solid 0.5px #a4b0be;
-}
-
-.color-display.in-cell {
-  width: 64px;
-  margin-right: 8px;
-  float: right;
-}
-
-.color-display.large {
-  width: calc(100% - 16px);
-  height: 48px;
-  margin: 8px 16px;
-}
