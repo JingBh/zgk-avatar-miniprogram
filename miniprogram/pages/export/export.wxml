@@ -2,11 +2,44 @@
 <view class="container">
   <canvas type="2d" id="main"></canvas>
 
-  <van-cell-group title="文字大小">
-    <view style="padding: 16px 16px 32px;">
-      <van-slider value="0.7" min="0.5" max="0.9" step="0.01" bind:change="onTextSizeChange" />
+  <van-cell-group title="自定义效果">
+    <view class="arguments-card">
+      <view class="field bl">
+        <text class="label">文字大小</text>
+        <view class="control">
+          <van-slider value="0.7" min="0.5" max="0.9" step="0.01" bind:change="onTextSizeChange" />
+        </view>
+      </view>
+
+      <view class="field ol">
+        <view class="label">
+          <text style="margin-right: 2px">阴影效果</text>
+          <van-icon name="question-o" bind:click="onShowShadowHelp" />
+        </view>
+        <view class="control">
+          <van-switch checked="{{ shadow }}" size="24px" bind:change="onShadowChange" />
+        </view>
+      </view>
     </view>
   </van-cell-group>
 
-  <van-button wx:if="{{ complete }}" type="primary" block bind:click="onSaveImage">保存图片</van-button>
+  <van-button wx:if="{{ complete }}" type="primary" block
+              custom-class="save-button" bind:click="onSaveImage">保存图片</van-button>
 </view>
+
+<van-dialog
+  show="{{ showShadowHelp }}"
+  use-slot
+  confirm-button-text="知道了"
+  close-on-click-overlay
+  bind:close="onCloseShadowHelp"
+>
+  <view style="padding: 16px 24px 8px">
+    <text class="title" style="margin: 8px 0 24px">阴影效果</text>
+    <text class="paragraph">当背景图颜色偏白，可使用阴影效果对文字描边，突出文字显示，效果如图：</text>
+    <view class="text-center" style="width: 100%; margin-bottom: 24rpx">
+      <van-image width="272px" height="272px" src="{{ shadowDemoUrl }}" />
+    </view>
+    <text class="paragraph small">感谢 @G1910 lzy 对此功能提出的建议</text>
+  </view>
+</van-dialog>

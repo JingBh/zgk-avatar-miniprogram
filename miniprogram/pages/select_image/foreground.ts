@@ -3,7 +3,6 @@ import { getManifest, getPresetsOf, IImageDisplay, IPresetDisplay } from '../../
 import { clearGenerated, generate, listGenerated } from '../../utils/service'
 import customSupported from '../../utils/custom-supported'
 import { shareMsg, shareTimeline } from '../../utils/share'
-import { buildUrl } from '../../utils/cloud-storage'
 
 export default Page({
   data: {
@@ -12,12 +11,8 @@ export default Page({
     outerTextError: '',
     innerText: '',
     innerTextError: '',
-    shadow: false,
     generated: false,
     generatedImage: null as string | null,
-    generatedImageWithShadow: false,
-    showShadowHelp: false,
-    shadowDemoUrl: buildUrl('assets', 'shadow-demo.jpg'),
     customActivePreset: null as unknown | null,
     generatedPreset: [] as IImageDisplay[]
   },
@@ -126,25 +121,6 @@ export default Page({
     })
   },
 
-  onShowShadowHelp() {
-    this.setData({
-      showShadowHelp: true
-    })
-  },
-
-  onCloseShadowHelp() {
-    this.setData({
-      showShadowHelp: false
-    })
-  },
-
-  onShadowChange() {
-    this.setData({
-      shadow: !this.data.shadow,
-      generated: false
-    })
-  },
-
   onGenerate() {
     if (!this.data.outerText) {
       this.setData({ outerTextError: '文字内容不能为空' })
@@ -155,21 +131,17 @@ export default Page({
     }
 
     if (this.data.outerText && !this.data.outerTextError && this.data.innerText && !this.data.innerTextError) {
-      const useShadow = this.data.shadow
-
       wx.showLoading({
         title: '生成图片中',
         mask: true
       })
       generate(
         this.data.outerText,
-        this.data.innerText,
-        useShadow
+        this.data.innerText
       ).then((url) => {
         this.setData({
           generated: true,
-          generatedImage: url,
-          generatedImageWithShadow: useShadow
+          generatedImage: url
         })
         this.loadGenerated()
       }).catch((error) => {

@@ -1,0 +1,49 @@
+/* pages/export/export.wxss */
+.container {
+  width: 600rpx;
+  margin: 0 auto;
+  padding: 0;
+}
+
+canvas#main {
+  display: block;
+  width: 600rpx;
+  height: 600rpx;
+  margin: 28rpx auto 16px;
+}
+
+.arguments-card {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 16px;
+
+  .field {
+    &:not(:first-child) {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: solid 0.5px rgb(235, 237, 240);
+    }
+
+    &.ol {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &.bl {
+      .control {
+        display: block;
+        width: 100%;
+        padding: 16px 0;
+      }
+    }
+  }
+
+  .label {
+    font-size: 90%;
+  }
+}
+
+.save-button {
+  margin-top: 24px;
+}

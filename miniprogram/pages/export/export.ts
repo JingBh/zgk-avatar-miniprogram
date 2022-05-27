@@ -1,11 +1,15 @@
 // pages/export/export.ts
 import { getImagePath } from '../../utils/images-cache'
 import { shareMsg, shareTimeline } from '../../utils/share'
+import { buildUrl } from '../../utils/cloud-storage'
 
 export default Page({
   data: {
     complete: false,
     textSize: 0.75,
+    shadow: false,
+    showShadowHelp: false,
+    shadowDemoUrl: buildUrl('assets', 'shadow-demo.jpg'),
     _canvas: null as WechatMiniprogram.Canvas | null
   },
 
@@ -30,6 +34,25 @@ export default Page({
   onTextSizeChange(e: StringEvent) {
     this.setData({
       textSize: Number(e.detail)
+    })
+    this.startDrawImages(false)
+  },
+
+  onShowShadowHelp() {
+    this.setData({
+      showShadowHelp: true
+    })
+  },
+
+  onCloseShadowHelp() {
+    this.setData({
+      showShadowHelp: false
+    })
+  },
+
+  onShadowChange() {
+    this.setData({
+      shadow: !this.data.shadow
     })
     this.startDrawImages(false)
   },
@@ -83,14 +106,14 @@ export default Page({
           const url = data === 'fs'
             ? `${wx.env.USER_DATA_PATH}/foreground.png`
             : data
-          this.drawImage(url, this.data.textSize).then(resolve).catch(reject)
+          this.drawImage(url, this.data.textSize, this.data.shadow).then(resolve).catch(reject)
         },
         fail: reject,
       })
     })
   },
 
-  drawImage(url: string, scale: number = 1.0): Promise<void> {
+  drawImage(url: string, scale: number = 1.0, shadow: boolean = false): Promise<void> {
     const canvas = this.data._canvas!
     const ctx = canvas.getContext('2d')
 
@@ -100,6 +123,16 @@ export default Page({
         image.onload = () => {
           const size = 1024 * scale
           const padding = (1024 - size) / 2
+
+          if (shadow) {
+            ctx.shadowColor = '#000'
+            ctx.shadowOffsetX = 0
+            ctx.shadowOffsetY = 0
+            ctx.shadowBlur = 10 // not working
+          } else {
+            ctx.shadowColor = '#0000'
+          }
+
           ctx.drawImage(image, padding, padding, size, size)
           resolve()
         }
