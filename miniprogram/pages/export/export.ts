@@ -160,6 +160,7 @@ export default Page({
         wx.saveImageToPhotosAlbum({
           filePath: tempFilePath,
           success: () => {
+            wx.reportEvent('export')
             wx.showToast({
               title: '保存图片成功',
               icon: 'success',

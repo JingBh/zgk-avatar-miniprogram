@@ -79,6 +79,7 @@ export default Page({
         mediaType: ['image'],
         sizeType: ['original'],
         success: ({ tempFiles }) => {
+          wx.reportEvent('bg_custom')
           this.cropImage(tempFiles[0].tempFilePath)
         }
       })
@@ -87,6 +88,7 @@ export default Page({
         count: 1,
         sizeType: ['original'],
         success: ({ tempFilePaths }) => {
+          wx.reportEvent('bg_custom')
           this.cropImage(tempFilePaths[0])
         }
       })
@@ -104,6 +106,11 @@ export default Page({
       title: '下载图片中',
       mask: true
     })
+
+    wx.reportEvent('bg_preset', {
+      image_url: e.detail
+    })
+    
     getImagePath(e.detail + '?x-oss-process=style/zoom').then((path) => {
       this.cropImage(path)
     }).catch(() => {
@@ -128,6 +135,7 @@ export default Page({
           }
           const url = urlParts.join('/')
 
+          wx.reportEvent('bg_avatar')
           this.cropImage(url)
         },
         fail: console.error

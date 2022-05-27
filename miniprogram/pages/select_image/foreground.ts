@@ -56,6 +56,10 @@ export default Page({
   },
 
   onClickImage(e: StringEvent) {
+    wx.reportEvent('fg_preset', {
+      image_url: e.detail
+    })
+
     wx.setStorage({
       key: 'foreground',
       data: e.detail,
@@ -155,6 +159,8 @@ export default Page({
     }
 
     if (this.data.outerText && !this.data.outerTextError && this.data.innerText && !this.data.innerTextError) {
+      const outerText = this.data.outerText
+      const innerText = this.data.innerText
       const useShadow = this.data.shadow
 
       wx.showLoading({
@@ -162,15 +168,23 @@ export default Page({
         mask: true
       })
       generate(
-        this.data.outerText,
-        this.data.innerText,
+        outerText,
+        innerText,
         useShadow
       ).then((url) => {
+        wx.reportEvent('fg_custom', {
+          outer_text: outerText,
+          inner_text: innerText,
+          color: '#fff',
+          shadow: useShadow ? 1 : 0
+        })
+
         this.setData({
           generated: true,
           generatedImage: url,
           generatedImageWithShadow: useShadow
         })
+
         this.loadGenerated()
       }).catch((error) => {
         console.error(error)
