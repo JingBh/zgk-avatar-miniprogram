@@ -1,13 +1,7 @@
-const gaokaoDate = 1654531200000
-const zhongkaoDate = 1656000000000
+const gaokaoDate = 1654531200000 // 2022-06-07
+const zhongkaoDate = 1656000000000 // 2022-06-24
 const day = 1000 * 60 * 60 * 24
 
-export function getDaysToGaokao(): number {
-  const now = new Date().getTime()
-  return Math.ceil((gaokaoDate - now) / day)
-}
+export const getDaysToGaokao = (time: number = new Date().getTime()) => Math.ceil((gaokaoDate - time) / day)
 
-export function getDaysToZhongkao(): number {
-  const now = new Date().getTime()
-  return Math.ceil((zhongkaoDate - now) / day)
-}
+export const getDaysToZhongkao = (time: number = new Date().getTime()) => Math.ceil((zhongkaoDate - time) / day)

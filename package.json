@@ -7,7 +7,10 @@
     "md5": "^2.3.0"
   },
   "devDependencies": {
+    "@types/jest": "^27.5.1",
     "@types/md5": "^2.3.2",
-    "miniprogram-api-typings": "latest"
+    "jest": "^28.1.0",
+    "miniprogram-api-typings": "latest",
+    "ts-jest": "^28.0.3"
   }
 }

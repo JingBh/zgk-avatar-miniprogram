@@ -6,7 +6,7 @@ import { AnnouncementManifest, getManifest } from '../../utils/announcements'
 import { buildUrl } from '../../utils/cloud-storage'
 import { shareMsg, shareTimeline } from '../../utils/share'
 
-let countdownInterval: number | null = null
+let countdownInterval: NodeJS.Timer | number | null = null
 
 export default Page({
   data: {
