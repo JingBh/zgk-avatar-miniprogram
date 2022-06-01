@@ -8,7 +8,7 @@ import { buildUrl } from '../../utils/cloud-storage'
 export default Page({
   data: {
     presets: [] as IPresetDisplay[],
-    outerText: '',
+    outerText: '清华附中',
     outerTextError: '',
     innerText: '',
     innerTextError: '',

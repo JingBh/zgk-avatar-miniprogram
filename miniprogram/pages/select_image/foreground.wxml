@@ -9,11 +9,14 @@
 </van-cell-group>
 
 <van-cell-group title="自定义文字" inset>
-  <van-field model:value="{{ outerText }}"
-             label="外圈文字" left-icon="edit"
+  <van-field value="清华附中（暂禁止修改）"
+             label="外圈文字"
+             left-icon="edit"
              placeholder="请输入 3-4 个汉字"
+             disabled
              error-message="{{ outerTextError }}"
              bind:change="onOuterTextChange" />
+
   <van-field model:value="{{ innerText }}"
              label="中部文字" left-icon="edit"
              placeholder="请输入 4-8 个汉字"
