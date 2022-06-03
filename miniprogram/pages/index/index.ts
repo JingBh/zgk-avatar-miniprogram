@@ -17,7 +17,8 @@ export default Page({
     developerPopupShown: false,
     feedbackPopupShow: false,
     announcements: {} as AnnouncementManifest,
-    officialAccountError: false
+    officialAccountError: false,
+    adClosed: false
   },
 
   onLoad() {
@@ -113,6 +114,10 @@ export default Page({
 
   onOfficialAccountError() {
     this.setData({ officialAccountError: true })
+  },
+
+  onAdClose() {
+    this.setData({ adClosed: true })
   },
 
   onShareAppMessage: () => shareMsg(),

@@ -29,6 +29,10 @@ page {
   box-sizing: border-box;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 .d-none {
   display: none !important;
 }

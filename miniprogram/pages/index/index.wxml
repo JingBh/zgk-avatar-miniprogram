@@ -23,6 +23,13 @@
             center is-link bind:click="onClickAnnouncement" />
 </van-cell-group>
 
+<view hidden="{{ adClosed }}" style="display: block">
+  <van-cell-group title="恰饭">
+    <ad unit-id="adunit-d9f3fe9d1869221d" bind:error="onAdClose" bind:close="onAdClose" />
+    <van-cell title="这是唯一的一处广告！本小程序的所有功能会保持永久免费~" title-class="small" />
+  </van-cell-group>
+</view>
+
 <van-cell-group title="关于本小程序">
   <van-cell title="开发者" label="JingBh" center is-link bind:click="showDeveloperPopup"/>
   <view wx:if="{{ !officialAccountError }}" class="cell-content py-0">
