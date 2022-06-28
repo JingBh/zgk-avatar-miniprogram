@@ -2,8 +2,8 @@ publiccodeYmlVersion: 0.3.0
 name: 中高考加油头像生成器
 url: https://github.com/JingBh/zgk-avatar-miniprogram.git
 isBasedOn: https://github.com/JingBh/zgk-avatar.git
-softwareVersion: 1.1.2
-releaseDate: 2022-06-03
+softwareVersion: 1.1.3
+releaseDate: 2022-06-28
 logo: assets/icon.png
 platforms: miniprogram
 categories:

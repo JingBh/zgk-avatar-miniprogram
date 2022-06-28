@@ -17,6 +17,7 @@ export default Page({
     developerPopupShown: false,
     feedbackPopupShow: false,
     announcements: {} as AnnouncementManifest,
+    announcementsError: false,
     officialAccountError: false,
     adClosed: false
   },
@@ -82,6 +83,7 @@ export default Page({
     }).catch((error) => {
       console.error(error)
       Notify({ type: 'danger', message: '公告栏加载失败' })
+      this.setData({ announcementsError: true })
     })
   },
 

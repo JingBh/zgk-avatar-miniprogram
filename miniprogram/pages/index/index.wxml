@@ -1,34 +1,29 @@
 <!--pages/index/index.wxml-->
 <view class="container">
   <text class="title">中高考加油头像生成器</text>
-  <text class="paragraph">本工具为 G19 级某菜鸡高一时所制作，最初是为 C17 级中考加油用，如今已是第三年运行，竟也要成了被加油的对象。</text>
-  <text class="paragraph">今年，此工具上线微信小程序版本，在原先功能基础上增加了自定义文字的服务。</text>
 
-  <view style="text-align: right; padding: 32rpx 0;">
+  <text class="paragraph">本工具为 G19 级某菜鸡高一时所制作，最初是为 C17 级中考加油用。如今，又一个学年也告一段落了。</text>
+  <text class="paragraph">G20 和 C20 级的学弟学妹们，加油！我们一年后见~</text>
+  <text class="paragraph small" style="text-align: right">—— 更新于 2022 年 6 月 28 日</text>
+
+  <view style="text-align: right; padding: 32rpx 0">
     <van-button icon="photo-o" type="primary" bind:click="onClickSelectImage">开始选择图片</van-button>
   </view>
 </view>
 
-<van-cell-group title="公告栏">
+<van-cell-group hidden="{{ announcementsError }}" title="公告栏">
   <van-cell wx:if="{{ countdownGaokao <= 0 && countdownGaokao >= -3  }}"
             title="高考倒计时" label="高考进行中，加油！" />
   <van-cell wx:elif="{{ countdownZhongkao <= 0 && countdownZhongkao >= -3  }}"
             title="中考倒计时" label="中考进行中，加油！" />
   <van-cell wx:elif="{{ countdownType === 1 && countdownGaokao > 0 }}"
-            title="高考倒计时" label="距离高考还有 {{ countdownGaokao }} 天，加油！" />
+            title="高考倒计时" label="距离 2023 年高考还有 {{ countdownGaokao }} 天，加油！" />
   <van-cell wx:elif="{{ countdownZhongkao > 0 }}"
-            title="中考倒计时" label="距离中考还有 {{ countdownZhongkao }} 天，加油！" />
+            title="中考倒计时" label="距离 2023 年中考还有 {{ countdownZhongkao }} 天，加油！" />
   <van-cell wx:for="{{ announcements }}" wx:for-index="id" wx:key="id" id="{{ id }}"
             title="{{ item.entry.title }}" label="{{ item.entry.label }}" value="{{ item.entry.value }}"
             center is-link bind:click="onClickAnnouncement" />
 </van-cell-group>
-
-<view hidden="{{ adClosed }}" style="display: block">
-  <van-cell-group title="恰饭">
-    <ad unit-id="adunit-d9f3fe9d1869221d" bind:error="onAdClose" bind:close="onAdClose" />
-    <van-cell title="这是唯一的一处广告！本小程序的所有功能会保持永久免费~" title-class="small" />
-  </van-cell-group>
-</view>
 
 <van-cell-group title="关于本小程序">
   <van-cell title="开发者" label="JingBh" center is-link bind:click="showDeveloperPopup"/>
@@ -37,6 +32,13 @@
   </view>
   <van-cell title="反馈问题" is-link bind:click="showFeedbackPopup"/>
 </van-cell-group>
+
+<view hidden="{{ adClosed }}" style="display: block">
+  <van-cell-group title="恰饭">
+    <ad unit-id="adunit-d9f3fe9d1869221d" bind:error="onAdClose" bind:close="onAdClose" />
+    <van-cell title="这是唯一的一处广告！本小程序的所有功能会保持永久免费~" title-class="small" />
+  </van-cell-group>
+</view>
 
 <van-popup show="{{ developerPopupShow }}" round position="bottom" closeable bind:close="hideDeveloperPopup"
            bind:before-enter="beforeShowDeveloperPopup" bind:after-leave="afterHideDeveloperPopup">
