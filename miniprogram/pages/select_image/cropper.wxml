@@ -1,5 +1,6 @@
 <!--pages/select_image/cropper.wxml-->
 <image-cropper
+  wx:if="{{ !hasNative }}"
   id="cropper"
   imgSrc="{{ imageSrc }}"
   disable_rotate
@@ -14,6 +15,6 @@
   export_scale="{{ 4 }}"
   bindimageload="onImageLoad" />
 
-<view class="bottom">
-  <van-button type="primary" custom-style="height: 32px; margin: 12px;" bind:click="saveImage">完成</van-button>
+<view wx:if="{{ !hasNative }}" class="bottom">
+  <van-button type="primary" custom-style="height: 32px; margin: 12px;" bind:click="onCropFinish">完成</van-button>
 </view>

@@ -1,4 +1,8 @@
 /* pages/select_image/cropper.wxss */
+page {
+  background-color: #151515;
+}
+
 .bottom {
   display: block;
   position: absolute;
