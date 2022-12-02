@@ -24,3 +24,7 @@
     <van-icon name="qr" />
   </van-cell>
 </van-cell-group>
+
+<van-cell-group>
+  <van-cell label="学弟学妹们加油！" />
+</van-cell-group>

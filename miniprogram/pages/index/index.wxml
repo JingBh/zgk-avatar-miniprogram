@@ -2,9 +2,8 @@
 <view class="container">
   <text class="title">中高考加油头像生成器</text>
 
-  <text class="paragraph">本工具为 G19 级某菜鸡高一时所制作，最初是为 C17 级中考加油用。如今，又一个学年也告一段落了。</text>
-  <text class="paragraph">G20 和 C20 级的学弟学妹们，加油！我们一年后见~</text>
-  <text class="paragraph small" style="text-align: right">—— 更新于 2022 年 6 月 28 日</text>
+  <text class="paragraph">选择一张图片，即可制作你的专属清华附中加油头像！快点击按钮试试吧~</text>
+  <!--<text class="paragraph small" style="text-align: right">—— 更新于 年 月 日</text>-->
 
   <view style="text-align: right; padding: 32rpx 0">
     <van-button icon="photo-o" type="primary" bind:click="onClickSelectImage">开始选择图片</van-button>
