@@ -14,7 +14,7 @@
 </view>
 
 <van-cell-group id="developer-info">
-  <van-cell title="GitHub 个人主页" label="https://github.com/JingBh" label-class="select-text" />
+  <van-cell title="个人主页" label="jingbh.top" label-class="select-text" />
   <van-cell wx:if="{{ officialAccountError }}" title="微信公众号" label="JingBh" label-class="select-text"
             is-link center bind:click="onShowQrOfficial">
     <van-icon name="qr" />
