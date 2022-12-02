@@ -110,7 +110,7 @@ export default Page({
     wx.reportEvent('bg_preset', {
       image_url: e.detail
     })
-    
+
     getImagePath(e.detail + '?x-oss-process=style/zoom').then((path) => {
       this.cropImage(path)
     }).catch(() => {

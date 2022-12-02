@@ -16,5 +16,13 @@
     "backgroundColor": "#f7f8fa"
   },
   "sitemapLocation": "sitemap.json",
-  "lazyCodeLoading": "requiredComponents"
+  "lazyCodeLoading": "requiredComponents",
+  "supportedMaterials": [
+    {
+      "materialType": "image/*",
+      "name": "用${nickname}打开",
+      "desc": "基于此图片制作头像",
+      "path": "pages/index/index"
+    }
+  ]
 }
