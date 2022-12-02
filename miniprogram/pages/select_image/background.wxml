@@ -8,6 +8,8 @@
 
 <van-cell-group title="自定义图片" inset>
   <van-cell title="从相册选择图片" icon="photo-o" is-link bind:click="selectImage" />
+  <van-cell wx:if="{{ canSelectImageFromChat }}" title="从聊天中选择图片"
+            icon="chat-o" is-link bind:click="selectImageChat" />
   <van-cell wx:if="{{ canUseAvatar }}" title="使用当前头像" center is-link icon="user-circle-o"
             custom-class="line-height-none" bind:click="onSelectUserAvatar" />
 </van-cell-group>

@@ -1,4 +1,5 @@
 // pages/select_image/background.ts
+import compareVersion from '../../utils/compare-version'
 import { getManifest, getPresetsOf, IPresetDisplay } from '../../utils/images'
 import { shareMsg, shareTimeline } from '../../utils/share'
 import { getImagePath } from '../../utils/images-cache'
@@ -7,6 +8,7 @@ export default Page({
   data: {
     lastImage: null as string | null,
     canUseAvatar: false,
+    canSelectImageFromChat: false,
     presets: [] as IPresetDisplay[],
     activePreset: null as unknown | null
   },
@@ -14,9 +16,17 @@ export default Page({
   onLoad() {
     this.loadPresets()
 
-    if (wx.canIUse('getUserProfile')) {
+    const version = wx.getSystemInfoSync().SDKVersion
+    // the avatar api is only usable between 2.9.5 and 2.27.1 (exclusive)
+    if (compareVersion(version, '2.9.5') * compareVersion(version, '2.27.1') === -1) {
       this.setData({
         canUseAvatar: true
+      })
+    }
+
+    if (wx.canIUse('chooseMessageFile')) {
+      this.setData({
+        canSelectImageFromChat: true
       })
     }
   },
@@ -93,6 +103,17 @@ export default Page({
         }
       })
     }
+  },
+
+  selectImageChat() {
+    wx.chooseMessageFile({
+      count: 1,
+      type: 'image',
+      success: ({ tempFiles }) => {
+        wx.reportEvent('bg_custom')
+        this.cropImage(tempFiles[0].path)
+      }
+    })
   },
 
   onLastImageError() {
