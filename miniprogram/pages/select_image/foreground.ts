@@ -30,13 +30,7 @@ export default Page({
   loadPresets() {
     getManifest().then(({ foreground: manifest }) => {
       this.setData({
-        presets: getPresetsOf(manifest).map((preset) => {
-          preset.images = preset.images.map(image => {
-            image.imageClass = "bg-dark"
-            return image
-          })
-          return preset
-        })
+        presets: getPresetsOf(manifest)
       })
     }).catch(() => {
       wx.showToast({

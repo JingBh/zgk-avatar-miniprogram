@@ -3,7 +3,8 @@ import { buildUrl } from './cloud-storage'
 interface IImage {
   path: string,
   by?: string,
-  title?: string
+  title?: string,
+  bg?: string
 }
 
 interface IImageGroup {
@@ -43,7 +44,7 @@ export function getManifest(): Promise<IImageManifest> {
       resolve(manifestCache)
     } else {
       wx.request<IImageManifest>({
-        url: buildUrl('images', 'manifest.v2.json', 'timestamp'),
+        url: buildUrl('images', 'manifest.v3.json', 'timestamp'),
         responseType: 'text',
         dataType: 'json',
         enableCache: false,
@@ -71,7 +72,8 @@ export function getPresetsOf(type: IImageManifestSingleType): IPresetDisplay[] {
         return {
           title: image.title,
           by: image.by || group.by,
-          url: buildUrl(type.pathPrefix || '', image.path)
+          url: buildUrl(type.pathPrefix || '', image.path),
+          imageClass: image.bg ? 'bg-' + image.bg : undefined
         }
       }) || []
     }
