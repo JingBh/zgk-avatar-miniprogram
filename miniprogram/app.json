@@ -6,6 +6,7 @@
     "pages/select_image/background",
     "pages/select_image/foreground",
     "pages/select_image/cropper",
+    "pages/select_image/foreground_custom",
     "pages/export/export"
   ],
   "window": {

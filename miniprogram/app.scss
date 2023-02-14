@@ -125,3 +125,14 @@ page {
   line-height: var(--collapse-item-content-line-height, 1.5);
   padding: var(--collapse-item-content-padding, 15px);
 }
+
+.bg-dark {
+  background-color: rgba(0, 0, 0, 0.9);
+  border-radius: 50% !important;
+}
+
+.bg-light {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 50% !important;
+}
+
