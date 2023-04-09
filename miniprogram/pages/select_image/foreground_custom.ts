@@ -33,6 +33,25 @@ export default Page({
     })
   },
 
+  onClickImage(e: StringEvent) {
+    wx.setStorage({
+      key: 'foreground',
+      data: e.detail,
+      success: () => {
+        wx.navigateTo({
+          url: '/pages/export/export'
+        })
+      },
+      fail: () => {
+        wx.showToast({
+          title: '使用图片失败',
+          icon: 'error',
+          duration: 2000
+        })
+      }
+    })
+  },
+
   onCustomActivePresetChange(e: WechatMiniprogram.CustomEvent) {
     this.setData({
       customActivePreset: e.detail
@@ -162,30 +181,38 @@ export default Page({
   },
 
   onClearGenerated() {
-    wx.showLoading({
-      title: '清除记录中',
-      mask: true
-    })
-    this.setData({
-      generated: false,
-      generatedImage: '',
-      customActivePreset: null,
-      generatedPreset: []
-    })
-    clearGenerated().then(() => {
-      wx.showToast({
-        title: '清除记录成功',
-        icon: 'success',
-        duration: 2000
-      })
-    }).catch(() => {
-      wx.showToast({
-        title: '清除记录失败',
-        icon: 'error',
-        duration: 2000
-      })
-    }).then(() => {
-      wx.hideLoading()
+    wx.showModal({
+      title: '清空历史记录',
+      content: '确定要清空历史记录吗？',
+      success: ({ confirm }) => {
+        if (confirm) {
+          wx.showLoading({
+            title: '清除记录中',
+            mask: true
+          })
+          this.setData({
+            generated: false,
+            generatedImage: '',
+            customActivePreset: null,
+            generatedPreset: []
+          })
+          clearGenerated().then(() => {
+            wx.showToast({
+              title: '清除记录成功',
+              icon: 'success',
+              duration: 2000
+            })
+          }).catch(() => {
+            wx.showToast({
+              title: '清除记录失败',
+              icon: 'error',
+              duration: 2000
+            })
+          }).then(() => {
+            wx.hideLoading()
+          })
+        }
+      }
     })
   },
 
