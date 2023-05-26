@@ -88,6 +88,10 @@ export default Page({
   },
 
   onClickAnnouncement(e: WechatMiniprogram.BaseEvent) {
+    wx.reportEvent('view_announcement', {
+      'announcement_id': e.target.id
+    })
+
     const content = this.data.announcements[e.target.id].content
     switch (content.type) {
       case 'page':
