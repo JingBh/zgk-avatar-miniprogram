@@ -1,5 +1,4 @@
 // pages/export/export.ts
-import { getImagePath } from '../../utils/images-cache'
 import { shareMsg, shareTimeline } from '../../utils/share'
 
 export default Page({
@@ -67,8 +66,8 @@ export default Page({
       wx.getStorage<string>({
         key: 'background',
         success: ({ data }) => {
-          const url = data === 'fs'
-            ? `${wx.env.USER_DATA_PATH}/background.png`
+          const url = data.startsWith('fs:')
+            ? `${wx.env.USER_DATA_PATH}/${data.substring(3)}`
             : data
           this.drawImage(url).then(resolve).catch(reject)
         },
@@ -80,8 +79,8 @@ export default Page({
       wx.getStorage<string>({
         key: 'foreground',
         success: ({ data }) => {
-          const url = data === 'fs'
-            ? `${wx.env.USER_DATA_PATH}/foreground.png`
+          const url = data.startsWith('fs:')
+            ? `${wx.env.USER_DATA_PATH}/${data.substring(3)}`
             : data
           this.drawImage(url, this.data.textSize).then(resolve).catch(reject)
         },
@@ -95,16 +94,20 @@ export default Page({
     const ctx = canvas.getContext('2d')
 
     return new Promise<void>((resolve, reject) => {
-      getImagePath(url).then((path) => {
-        const image = canvas.createImage()
-        image.onload = () => {
-          const size = 1024 * scale
-          const padding = (1024 - size) / 2
-          ctx.drawImage(image, padding, padding, size, size)
-          resolve()
-        }
-        image.onerror = reject
-        image.src = path
+      wx.getImageInfo({
+        src: url,
+        success: ({ path }) => {
+          const image = canvas.createImage()
+          image.onload = () => {
+            const size = 1024 * scale
+            const padding = (1024 - size) / 2
+            ctx.drawImage(image, padding, padding, size, size)
+            resolve()
+          }
+          image.onerror = reject
+          image.src = path
+        },
+        fail: (e) => reject(e)
       })
     })
   },

@@ -1,7 +1,7 @@
 // pages/select_image/cropper.ts
 import { shareMsg, shareTimeline } from '../../utils/share'
 
-const { saveFile } = wx.getFileSystemManager()
+const { saveFile, unlink } = wx.getFileSystemManager()
 
 Page({
   data: {
@@ -41,15 +41,27 @@ Page({
       width: number,
       height: number
     }) => {
-      const path = `${wx.env.USER_DATA_PATH}/background.png`
+      // delete old image
+      wx.getStorage({
+        key: 'background',
+        success: ({ data }) => {
+          if (data.startsWith('fs:')) {
+            unlink({
+              filePath: `${wx.env.USER_DATA_PATH}/${data.substring(3)}`
+            })
+          }
+        }
+      })
 
+      // save new image
+      const filename = `background${Date.now()}.png`
       saveFile({
         tempFilePath: result.url,
-        filePath: path,
+        filePath: `${wx.env.USER_DATA_PATH}/${filename}`,
         success: () => {
           wx.setStorage({
             key: 'background',
-            data: 'fs',
+            data: `fs:${filename}`,
             success: () => {
               wx.redirectTo({
                 url: '/pages/select_image/foreground'
@@ -67,6 +79,11 @@ Page({
         },
         fail: () => {
           wx.hideLoading()
+          wx.showToast({
+            title: '保存图片失败',
+            icon: 'error',
+            duration: 2000
+          })
         }
       })
     })

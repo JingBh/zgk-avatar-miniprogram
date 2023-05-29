@@ -2,7 +2,6 @@
 import compareVersion from '../../utils/compare-version'
 import { getManifest, getPresetsOf, IPresetDisplay } from '../../utils/images'
 import { shareMsg, shareTimeline } from '../../utils/share'
-import { getImagePath } from '../../utils/images-cache'
 
 export default Page({
   data: {
@@ -53,9 +52,9 @@ export default Page({
       key: 'background',
       success: ({ data }) => {
         if (data) {
-          if (data === 'fs') {
+          if (data.startsWith('fs:')) {
             this.setData({
-              lastImage: `${wx.env.USER_DATA_PATH}/background.png`
+              lastImage: `${wx.env.USER_DATA_PATH}/${data.substring(3)}`
             })
           } else {
             this.setData({
@@ -132,16 +131,19 @@ export default Page({
       image_url: e.detail
     })
 
-    getImagePath(e.detail + '?x-oss-process=style/zoom').then((path) => {
-      this.cropImage(path)
-    }).catch(() => {
-      wx.showToast({
-        title: '下载图片失败',
-        icon: 'error',
-        duration: 2000
-      })
-    }).finally(() => {
-      wx.hideLoading()
+    wx.getImageInfo({
+      src: e.detail + '?x-oss-process=style/zoom',
+      complete: () => wx.hideLoading(),
+      success: ({ path }) => {
+        this.cropImage(path)
+      },
+      fail: () => {
+        wx.showToast({
+          title: '下载图片失败',
+          icon: 'error',
+          duration: 2000
+        })
+      },
     })
   },
 
