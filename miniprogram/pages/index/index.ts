@@ -18,7 +18,6 @@ export default Page({
     feedbackPopupShow: false,
     announcements: {} as AnnouncementManifest,
     announcementsError: false,
-    officialAccountError: false,
     adClosed: false
   },
 
@@ -116,10 +115,6 @@ export default Page({
     wx.navigateTo({
       url: '/pages/select_image/background'
     })
-  },
-
-  onOfficialAccountError() {
-    this.setData({ officialAccountError: true })
   },
 
   onAdClose() {
