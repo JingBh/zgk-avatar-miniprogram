@@ -1,6 +1,5 @@
 <!--pages/select_image/cropper.wxml-->
 <image-cropper
-  wx:if="{{ !hasNative }}"
   id="cropper"
   imgSrc="{{ imageSrc }}"
   disable_rotate

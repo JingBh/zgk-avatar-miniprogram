@@ -23,7 +23,8 @@ Page({
     })
 
     // check for native cropping
-    if (wx.cropImage && compareVersion(wx.getSystemInfoSync().SDKVersion, '2.28.1') >= 0) {
+    const systemInfo = wx.getSystemInfoSync()
+    if (systemInfo.platform === 'android' && compareVersion(systemInfo.SDKVersion, '2.28.1') >= 0) {
       wx.cropImage({
         src: imageSrc,
         cropScale: '1:1',
@@ -36,13 +37,10 @@ Page({
       })
     } else {
       this.setData({
-        hasNative: false
+        hasNative: false,
+        imageSrc
       })
     }
-
-    this.setData({
-      imageSrc
-    })
   },
 
   onImageLoad() {
