@@ -1,33 +1,27 @@
 // pages/index/index.ts
 import Notify from '../../miniprogram_npm/@vant/weapp/notify/notify'
 
-import { getDaysToGaokao, getDaysToZhongkao } from '../../utils/countdown'
-import { AnnouncementManifest, getManifest } from '../../utils/announcements'
+import { AnnouncementManifest, getAnnouncements } from '../../utils/announcements'
 import { buildUrl } from '../../utils/cloud-storage'
+import { CountdownManifest, getCountdowns } from '../../utils/countdown'
 import { shareMsg, shareTimeline } from '../../utils/share'
 
-let countdownInterval: NodeJS.Timer | number | null = null
+let countdownInterval: number | null = null
 
 export default Page({
   data: {
-    countdownGaokao: getDaysToGaokao(),
-    countdownZhongkao: getDaysToZhongkao(),
-    countdownType: 1, // 1 for gaokao, 2 for zhongkao
+    countdownIndex: 0,
     developerPopupShow: false,
     developerPopupShown: false,
     feedbackPopupShow: false,
+    countdowns: [] as CountdownManifest,
     announcements: {} as AnnouncementManifest,
-    announcementsError: false,
+    noAnnouncements: true,
     adClosed: false
   },
 
   onLoad() {
-    countdownInterval = setInterval(() => {
-      this.setData({
-        countdownType: this.data.countdownType === 1 ? 2 : 1
-      })
-    }, 5000)
-
+    this.loadCountdowns()
     this.loadAnnouncements()
   },
 
@@ -74,15 +68,35 @@ export default Page({
     })
   },
 
-  loadAnnouncements() {
-    getManifest().then(announcements => {
+  loadCountdowns() {
+    getCountdowns().then((countdowns) => {
       this.setData({
-        announcements
+        countdowns,
+        noAnnouncements: this.data.noAnnouncements && !countdowns.length
+      })
+
+      if (this.data.countdowns.length) {
+        countdownInterval = setInterval(() => {
+          this.setData({
+            countdownIndex: (this.data.countdownIndex + 1) % this.data.countdowns.length,
+          })
+        }, 5000)
+      }
+    }).catch((error) => {
+      console.error(error)
+      Notify({ type: 'danger', message: '倒计时加载失败' })
+    })
+  },
+
+  loadAnnouncements() {
+    getAnnouncements().then((announcements) => {
+      this.setData({
+        announcements,
+        noAnnouncements: this.data.noAnnouncements && !Object.keys(announcements).length
       })
     }).catch((error) => {
       console.error(error)
       Notify({ type: 'danger', message: '公告栏加载失败' })
-      this.setData({ announcementsError: true })
     })
   },
 

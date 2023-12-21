@@ -35,7 +35,7 @@ export type AnnouncementManifest = Record<string, IAnnouncement>
 
 let manifestCache: AnnouncementManifest | null = null
 
-export function getManifest(): Promise<AnnouncementManifest> {
+export function getAnnouncements(): Promise<AnnouncementManifest> {
   return new Promise<AnnouncementManifest>((resolve, reject) => {
     if (manifestCache != null) {
       resolve(manifestCache)

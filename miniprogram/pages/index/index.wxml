@@ -10,15 +10,9 @@
   </view>
 </view>
 
-<van-cell-group hidden="{{ announcementsError }}" title="公告栏">
-  <van-cell wx:if="{{ countdownGaokao <= 0 && countdownGaokao >= -3  }}"
-            title="高考倒计时" label="高考进行中，加油！" />
-  <van-cell wx:elif="{{ countdownZhongkao <= 0 && countdownZhongkao >= -3  }}"
-            title="中考倒计时" label="中考进行中，加油！" />
-  <van-cell wx:elif="{{ countdownType === 1 && countdownGaokao > 0 }}"
-            title="高考倒计时" label="距离 2023 年高考还有 {{ countdownGaokao }} 天，加油！" />
-  <van-cell wx:elif="{{ countdownZhongkao > 0 }}"
-            title="中考倒计时" label="距离 2023 年中考还有 {{ countdownZhongkao }} 天，加油！" />
+<van-cell-group hidden="{{ noAnnouncements }}" title="公告栏">
+  <van-cell title="{{ countdowns[countdownIndex].title }}"
+            label="{{ countdowns[countdownIndex].label }}" />
   <van-cell wx:for="{{ announcements }}" wx:for-index="id" wx:key="id" id="{{ id }}"
             title="{{ item.entry.title }}" label="{{ item.entry.label }}" value="{{ item.entry.value }}"
             center is-link bind:click="onClickAnnouncement" />
