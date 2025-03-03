@@ -1,0 +1,72 @@
+@use "sass:color";
+
+@use "../../styles/variables";
+
+.grid {
+  .grid-item {
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    .grid-image {
+      width: 100%;
+      border-radius: variables.$round-radius-medium;
+      background-color: color.adjust(black, $alpha: -0.9);
+    }
+  }
+
+  .grid-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 16rpx;
+
+    .grid-title {
+      color: variables.$text-color-body;
+      font-size: 28rpx;
+      font-weight: 500;
+    }
+
+    .grid-description {
+      color: variables.$text-color-description;
+      font-size: 28rpx;
+      font-weight: 400;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .grid-item .grid-album-image {
+      background-color: color.adjust(white, $alpha: -0.9);
+    }
+
+    .grid-text {
+      .grid-title {
+        color: variables.$text-color-body-white;
+      }
+
+      .grid-description {
+        color: variables.$text-color-description-white;
+      }
+    }
+  }
+}
+
+.masonry {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .masonry-col {
+    width: 311rpx;
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    .grid-item {
+      padding-bottom: 32rpx;
+    }
+  }
+}

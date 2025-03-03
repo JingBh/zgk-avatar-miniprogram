@@ -1,4 +1,12 @@
 <!--pages/announcements/announcement.wxml-->
-<view class="container" style="margin: 24rpx 0;">
+<web-view
+  wx:if="{{ url }}"
+  src="{{ url }}"
+  bind:load="handleWebviewLoad"
+/>
+<view
+  wx:else
+  class="container"
+>
   <rich-text nodes="{{ htmlSnip }}" />
 </view>

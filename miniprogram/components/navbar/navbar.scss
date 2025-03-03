@@ -1,0 +1,27 @@
+@use "../../styles/variables";
+
+.navbar {
+  display: flex;
+  flex: none;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 16px;
+  background: linear-gradient(
+    129deg,
+    variables.$color-brand,
+    variables.$color-gradient-1);
+  color: white;
+
+  .nav {
+    font-size: 22px;
+    flex: none;
+    margin-right: 16px;
+  }
+
+  .title {
+    font-size: 17px;
+    font-weight: variables.$font-weight-title;
+    flex: auto;
+  }
+}

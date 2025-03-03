@@ -6,7 +6,7 @@
   },
   "miniprogramRoot": "miniprogram/",
   "compileType": "miniprogram",
-  "libVersion": "2.24.2",
+  "libVersion": "latest",
   "projectname": "zgk-avatar-miniprogram",
   "setting": {
     "urlCheck": true,
@@ -27,6 +27,7 @@
     "uploadWithSourceMap": true,
     "compileHotReLoad": true,
     "lazyloadPlaceholderEnable": false,
+    "skylineRenderEnable": true,
     "useMultiFrameRuntime": true,
     "useApiHook": false,
     "useApiHostProcess": false,

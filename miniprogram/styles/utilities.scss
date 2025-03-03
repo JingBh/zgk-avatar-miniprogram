@@ -1,0 +1,54 @@
+@use "./variables";
+
+.text-brand {
+  color: variables.$color-brand !important;
+
+  @media (prefers-color-scheme: dark) {
+    color: variables.$color-shade-3 !important;
+  }
+}
+
+@each $name, $weight in  (
+  'normal': 400,
+  'medium': 500,
+  'semibold': 600,
+  'bold': 700,
+) {
+  .font-#{$name} {
+    font-weight: $weight !important;
+  }
+}
+
+.mb-page {
+  margin-bottom: variables.$padding-page;
+}
+
+.p-page {
+  padding: variables.$padding-page;
+}
+
+.px-page {
+  padding-left: variables.$padding-page;
+  padding-right: variables.$padding-page;
+}
+
+.py-page {
+  padding-top: variables.$padding-page;
+  padding-bottom: variables.$padding-page;
+}
+
+.pt-0 {
+  padding-top: 0 !important;
+}
+
+.pt-inset {
+  padding-top: env(safe-area-inset-top);
+}
+
+.pb-inset {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.select-text {
+  user-select: text !important;
+}

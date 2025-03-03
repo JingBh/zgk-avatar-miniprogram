@@ -1,23 +1,21 @@
-// pages/select_image/background.ts
 import compareVersion from '../../utils/compare-version'
-import { getManifest, getPresetsOf, IPresetDisplay } from '../../utils/images'
+import { getManifest, getPresetsOf, type IPresetDisplay } from '../../utils/images'
+import { keyBackground } from '../../utils/local-storage'
 import { shareMsg, shareTimeline } from '../../utils/share'
 
-export default Page({
+Page({
   data: {
     lastImage: null as string | null,
     canUseAvatar: false,
     canSelectImageFromChat: false,
-    presets: [] as IPresetDisplay[],
-    activePreset: null as unknown | null
+    presets: [] as IPresetDisplay[]
   },
 
   onLoad() {
     this.loadPresets()
 
-    const version = wx.getSystemInfoSync().SDKVersion
     // the avatar api is only usable between 2.9.5 and 2.27.1 (exclusive)
-    if (compareVersion(version, '2.9.5') * compareVersion(version, '2.27.1') === -1) {
+    if (compareVersion('2.9.5') * compareVersion('2.27.1') === -1) {
       this.setData({
         canUseAvatar: true
       })
@@ -32,15 +30,6 @@ export default Page({
 
   onShow() {
     this.loadLastImage()
-    this.setData({
-      activePreset: null
-    })
-  },
-
-  onActivePresetChange(event: WechatMiniprogram.CustomEvent) {
-    this.setData({
-      activePreset: event.detail
-    })
   },
 
   loadLastImage() {
@@ -49,7 +38,7 @@ export default Page({
     })
 
     wx.getStorage<string>({
-      key: 'background',
+      key: keyBackground,
       success: ({ data }) => {
         if (data) {
           if (data.startsWith('fs:')) {
@@ -74,14 +63,14 @@ export default Page({
     }).catch((error) => {
       console.error(error)
       wx.showToast({
-        title: '加载数据失败',
+        title: '加载相册失败',
         icon: 'error',
         duration: 2000
       })
     })
   },
 
-  selectImage() {
+  handleSelectImage() {
     if (wx.chooseMedia) {
       wx.chooseMedia({
         count: 1,
@@ -104,7 +93,7 @@ export default Page({
     }
   },
 
-  selectImageChat() {
+  handleSelectImageChat() {
     wx.chooseMessageFile({
       count: 1,
       type: 'image',
@@ -115,39 +104,13 @@ export default Page({
     })
   },
 
-  onLastImageError() {
+  handleLastImageError() {
     this.setData({
       lastImage: null
     })
   },
 
-  onClickImage(e: StringEvent) {
-    wx.showLoading({
-      title: '下载图片中',
-      mask: true
-    })
-
-    wx.reportEvent('bg_preset', {
-      image_url: e.detail
-    })
-
-    wx.getImageInfo({
-      src: e.detail + '?x-oss-process=style/zoom',
-      complete: () => wx.hideLoading(),
-      success: ({ path }) => {
-        this.cropImage(path)
-      },
-      fail: () => {
-        wx.showToast({
-          title: '下载图片失败',
-          icon: 'error',
-          duration: 2000
-        })
-      },
-    })
-  },
-
-  onSelectUserAvatar() {
+  handleSelectUserAvatar() {
     if (wx.getUserProfile) {
       wx.getUserProfile({
         desc: '用于在当前头像基础上生成新头像',
@@ -166,16 +129,24 @@ export default Page({
     }
   },
 
+  handleSkip() {
+    wx.navigateTo({
+      url: '/pages/select_image/foreground'
+    })
+  },
+
+  handleOpenAlbum(e: WechatMiniprogram.TouchEvent) {
+    const presetName = e.currentTarget.dataset.preset
+    console.log(e.currentTarget.dataset)
+    wx.navigateTo({
+      url: '/pages/select_image/album?name=' + encodeURIComponent(presetName)
+    })
+  },
+
   cropImage(src: string) {
     console.log(`selected image src: ${src}`)
     wx.navigateTo({
       url: `/pages/select_image/cropper?src=${encodeURIComponent(src)}`
-    })
-  },
-
-  skip() {
-    wx.navigateTo({
-      url: '/pages/select_image/foreground'
     })
   },
 

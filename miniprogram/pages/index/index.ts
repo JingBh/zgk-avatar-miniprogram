@@ -1,70 +1,41 @@
 // pages/index/index.ts
 import Notify from '../../miniprogram_npm/@vant/weapp/notify/notify'
 
-import { AnnouncementManifest, getAnnouncements } from '../../utils/announcements'
+import { type AnnouncementManifest, getAnnouncements } from '../../utils/announcements'
 import { buildUrl } from '../../utils/cloud-storage'
-import { CountdownManifest, getCountdowns } from '../../utils/countdown'
+import { type CountdownManifest, getCountdowns } from '../../utils/countdown'
 import { shareMsg, shareTimeline } from '../../utils/share'
 
-let countdownInterval: number | null = null
+let countdownTimeout: number | null = null
 
-export default Page({
+Page({
   data: {
     countdownIndex: 0,
     developerPopupShow: false,
-    developerPopupShown: false,
     feedbackPopupShow: false,
     countdowns: [] as CountdownManifest,
     announcements: {} as AnnouncementManifest,
     noAnnouncements: true,
-    adClosed: false
+    version: ''
   },
 
   onLoad() {
+    this.loadVersion()
     this.loadCountdowns()
     this.loadAnnouncements()
   },
 
   onUnload() {
-    if (countdownInterval != null) {
-      clearInterval(countdownInterval)
-      countdownInterval = null
+    if (countdownTimeout != null) {
+      clearInterval(countdownTimeout)
+      countdownTimeout = null
     }
   },
 
-  beforeShowDeveloperPopup() {
+  loadVersion() {
+    const info = wx.getAccountInfoSync()
     this.setData({
-      developerPopupShown: true
-    })
-  },
-
-  showDeveloperPopup() {
-    this.setData({
-      developerPopupShow: true
-    })
-  },
-
-  hideDeveloperPopup() {
-    this.setData({
-      developerPopupShow: false
-    })
-  },
-
-  afterHideDeveloperPopup() {
-    this.setData({
-      developerPopupShown: false
-    })
-  },
-
-  showFeedbackPopup() {
-    this.setData({
-      feedbackPopupShow: true
-    })
-  },
-
-  hideFeedbackPopup() {
-    this.setData({
-      feedbackPopupShow: false
+      version: info.miniProgram.version || info.miniProgram.envVersion
     })
   },
 
@@ -76,10 +47,8 @@ export default Page({
       })
 
       if (this.data.countdowns.length) {
-        countdownInterval = setInterval(() => {
-          this.setData({
-            countdownIndex: (this.data.countdownIndex + 1) % this.data.countdowns.length,
-          })
+        countdownTimeout = setTimeout(() => {
+          this.handleSwitchCountdown()
         }, 5000)
       }
     }).catch((error) => {
@@ -100,19 +69,32 @@ export default Page({
     })
   },
 
-  onClickAnnouncement(e: WechatMiniprogram.BaseEvent) {
+  handleClickSelectImage() {
+    wx.navigateTo({
+      url: '/pages/select_image/select_image'
+    })
+  },
+
+  handleSwitchCountdown() {
+    this.setData({
+      countdownIndex: (this.data.countdownIndex + 1) % this.data.countdowns.length,
+    })
+
+    if (countdownTimeout !== null) {
+      clearTimeout(countdownTimeout)
+    }
+    countdownTimeout = setTimeout(() => {
+      this.handleSwitchCountdown()
+    }, 5000)
+  },
+
+  handleClickAnnouncement(e: WechatMiniprogram.BaseEvent) {
     wx.reportEvent('view_announcement', {
       'announcement_id': e.target.id
     })
 
     const content = this.data.announcements[e.target.id].content
     switch (content.type) {
-      case 'page':
-        wx.navigateTo({
-          url: '/pages/announcements/announcement?data=' + encodeURIComponent(JSON.stringify(content))
-        })
-        break
-
       case 'navigatePage':
         wx.navigateTo({
           url: content.url
@@ -122,30 +104,41 @@ export default Page({
       case 'navigateMiniProgram':
         wx.navigateToMiniProgram(Object.assign(content.config, {}))
         break
+
+      default:
+        wx.navigateTo({
+          url: '/pages/announcements/announcement?data=' + encodeURIComponent(JSON.stringify(content))
+        })
     }
   },
 
-  onClickSelectImage() {
-    wx.navigateTo({
-      url: '/pages/select_image/background'
+  handleShowDeveloperPopup() {
+    this.setData({
+      developerPopupShow: true
     })
   },
 
-  onAdClose() {
-    this.setData({ adClosed: true })
+  handleShowFeedbackPopup() {
+    this.setData({
+      feedbackPopupShow: true
+    })
+  },
+
+  handleHidePopup() {
+    this.setData({
+      developerPopupShow: false,
+      feedbackPopupShow: false
+    })
+  },
+
+  handleShowQrPersonal() {
+    wx.previewImage({
+      urls: [buildUrl('assets', 'qr-personal.jpg')],
+      showmenu: true
+    })
   },
 
   onShareAppMessage: () => shareMsg(),
 
-  onShareTimeline: () => shareTimeline(),
-
-  onShowQrPersonal: () => wx.previewImage({
-    urls: [buildUrl('assets', 'qr-personal.jpg')],
-    showmenu: true
-  }),
-
-  onShowQrOfficial: () => wx.previewImage({
-    urls: [buildUrl('assets', 'qr-official.jpg')],
-    showmenu: true
-  })
+  onShareTimeline: () => shareTimeline()
 })

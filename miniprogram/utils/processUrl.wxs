@@ -1,0 +1,13 @@
+function processUrl(url, process) {
+  if (process === 'none') {
+    return url;
+  } else if (process === 'filename') {
+    var parts = url.split('.');
+    parts[parts.length - 2] = parts[parts.length - 2] + '-thumbnail';
+    return parts.join('.');
+  } else {
+    return url + '?x-oss-process=style/' + process;
+  }
+}
+
+module.exports = processUrl;

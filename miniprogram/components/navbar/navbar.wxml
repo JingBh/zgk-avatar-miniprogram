@@ -1,0 +1,16 @@
+<view
+  class="navbar"
+  style="height: {{ height }}px; padding-top: {{ paddingTop }}px"
+>
+  <text
+    wx:if="{{ hasPrevious }}"
+    class="nav bi bi-chevron-left"
+    bind:tap="handleBack"
+  />
+  <text
+    wx:elif="{{ !isHome }}"
+    class="nav bi bi-house"
+    bind:tap="handleHome"
+  />
+  <text class="title">{{ title }}</text>
+</view>

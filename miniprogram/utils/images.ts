@@ -77,5 +77,21 @@ export function getPresetsOf(type: IImageManifestSingleType): IPresetDisplay[] {
         }
       }) || []
     }
+  }).filter((group) => {
+    return group.images.length > 0
+  })
+}
+
+export function getPreset(type: keyof IImageManifest, name: string): Promise<IPresetDisplay> {
+  return new Promise<IPresetDisplay>((resolve, reject) => {
+    getManifest().then((manifest) => {
+      const preset = getPresetsOf(manifest[type])
+        .find((preset) => preset.name === name)
+      if (preset) {
+        resolve(preset)
+      } else {
+        reject('preset not found')
+      }
+    }).catch(reject)
   })
 }

@@ -1,51 +1,55 @@
 // pages/announcements/announcement.ts
+import type { AnnouncementContent } from '../../utils/announcements'
 import { buildUrl } from '../../utils/cloud-storage'
 
-export default Page({
+Page({
   data: {
     title: '',
     author: '',
     htmlSnip: '',
+    url: '',
     loading: false
   },
 
   onLoad(query) {
     try {
-      this.setLoading()
+      this.setLoading(true)
 
       const rawData = query.data || 'null'
-      const data = JSON.parse(decodeURIComponent(rawData))
+      const data = JSON.parse(decodeURIComponent(rawData)) as AnnouncementContent | null
 
-      this.setData({
-        title: data.title || '',
-        author: data.author || ''
-      })
-
-      if (data.path) {
-        wx.request({
-          url: buildUrl('announcements', data.path),
-          responseType: 'text',
-          dataType: '其他',
-          enableCache: true,
-          success: ({ statusCode, data }) => {
-            if (statusCode >= 400) {
-              console.error(`status code ${statusCode}`)
+      if (data) {
+        if (data.type === 'page' && data.path) {
+          wx.request({
+            url: buildUrl('announcements', data.path),
+            responseType: 'text',
+            dataType: '其他',
+            enableCache: true,
+            success: ({ statusCode, data }) => {
+              if (statusCode >= 400) {
+                console.error(`status code ${statusCode}`)
+                this.onLoadFail()
+              } else {
+                this.setData({
+                  htmlSnip: data as string
+                })
+              }
+            },
+            fail: (error) => {
+              console.error(error)
               this.onLoadFail()
-            } else {
-              this.setData({
-                htmlSnip: data as string
-              })
+            },
+            complete: () => {
+              this.setLoading(false)
             }
-          },
-          fail: (error) => {
-            console.error(error)
-            this.onLoadFail()
-          },
-          complete: () => {
-            this.unsetLoading()
-          }
-        })
+          })
+        } else if (data.type === 'webview' && data.url) {
+          this.setData({
+            url: data.url
+          })
+        }
       }
+
     } catch (e) {
       console.error(e)
       return this.onLoadFail()
@@ -53,31 +57,36 @@ export default Page({
   },
 
   onReady() {
+    this.setNavigationBarState()
+  },
+
+  setLoading(isLoading: boolean) {
+    this.setData({
+      loading: isLoading
+    })
+    this.setNavigationBarState()
+  },
+
+  setNavigationBarState() {
     if (this.data.loading) {
       wx.showNavigationBarLoading()
+    } else {
+      wx.hideNavigationBarLoading()
     }
 
-    wx.setNavigationBarTitle({
-      title: this.data.title
-    })
+    if (this.data.title) {
+      wx.setNavigationBarTitle({
+        title: this.data.title
+      })
+    }
   },
 
-  setLoading() {
-    this.setData({
-      loading: true
-    })
-    wx.showNavigationBarLoading()
+  handleWebviewLoad() {
+    this.setLoading(false)
   },
 
-  unsetLoading() {
-    this.setData({
-      loading: false
-    })
-    wx.hideNavigationBarLoading()
-  },
-
-  onLoadFail() {
-    this.unsetLoading()
+  handleLoadFail() {
+    this.setLoading(false)
     wx.navigateBack()
   }
 })

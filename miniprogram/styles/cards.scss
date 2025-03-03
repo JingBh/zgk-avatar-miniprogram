@@ -1,0 +1,40 @@
+@use "./variables";
+
+.cards {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: stretch;
+  flex: 1 0 0;
+
+  .card-with-title {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin-bottom: variables.$padding-page;
+
+    .card-title {
+      color: variables.$text-color-description;
+      font-size: variables.$font-size-card-title;
+      font-weight: variables.$font-weight-card-title;
+      margin-bottom: variables.$padding-card-title;
+
+      @media (prefers-color-scheme: dark) {
+        color: variables.$text-color-description-white;
+      }
+    }
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    border-radius: variables.$round-radius-medium;
+    background-color: white;
+    box-shadow: 0 2rpx 8rpx 0 variables.$color-shadow;
+
+    @media (prefers-color-scheme: dark) {
+      background-color: black;
+    }
+  }
+}

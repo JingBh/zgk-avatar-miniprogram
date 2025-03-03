@@ -3,11 +3,12 @@
   "license": "GPL-3.0-or-later",
   "private": true,
   "dependencies": {
-    "@vant/weapp": "^1.10.8",
+    "@vant/weapp": "^1.11.7",
     "md5": "^2.3.0"
   },
   "devDependencies": {
     "@types/md5": "^2.3.2",
-    "miniprogram-api-typings": "latest"
-  }
+    "miniprogram-api-typings": "^4.0.5"
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

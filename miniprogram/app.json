@@ -1,21 +1,24 @@
 {
   "entryPagePath": "pages/index/index",
   "pages": [
-    "pages/index/index",
     "pages/announcements/announcement",
-    "pages/select_image/background",
-    "pages/select_image/foreground",
-    "pages/select_image/cropper",
-    "pages/select_image/foreground_custom",
-    "pages/export/export"
+    "pages/index/index",
+    "pages/select_image/album",
+    "pages/select_image/select_image"
   ],
   "window": {
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fafbfd",
-    "navigationBarTitleText": "中高考加油头像生成器",
-    "navigationBarTextStyle": "black",
-    "backgroundColor": "#f7f8fa"
+    "navigationBarBackgroundColor": "#660874",
+    "navigationBarTitleText": "清华附中加油头像生成器",
+    "navigationBarTextStyle": "white",
+    "navigationStyle": "custom",
+    "backgroundColor": "@backgroundColor",
+    "backgroundColorContent": "@backgroundColor",
+    "backgroundTextStyle": "@backgroundTextStyle",
+    "backgroundColorTop": "@backgroundColor",
+    "backgroundColorBottom": "@backgroundColor"
   },
+  "darkmode": true,
+  "themeLocation": "theme.json",
   "sitemapLocation": "sitemap.json",
   "lazyCodeLoading": "requiredComponents",
   "supportedMaterials": [
@@ -25,5 +28,18 @@
       "desc": "基于此图片制作头像",
       "path": "pages/index/index"
     }
-  ]
+  ],
+  "renderer": "skyline",
+  "rendererOptions": {
+    "skyline": {
+      "disableABTest": false,
+      "defaultDisplayBlock": true,
+      "defaultContentBox": false,
+      "tagNameStyleIsolation": "legacy",
+      "enableScrollViewAutoSize": true,
+      "sdkVersionBegin": "3.7.7",
+      "sdkVersionEnd": "15.255.255"
+    }
+  },
+  "componentFramework": "glass-easel"
 }

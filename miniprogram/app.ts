@@ -3,8 +3,7 @@
 App({
   globalData: {},
 
-  // the type definition doesn't support this yet.
-  onShow(options: Record<string, any>) {
+  onShow(options) {
     switch (options.scene) {
       case 1173:
         if (options.forwardMaterials) {

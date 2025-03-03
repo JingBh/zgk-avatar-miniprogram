@@ -1,0 +1,83 @@
+@use "sass:color";
+@use "sass:math";
+
+@use "../../styles/variables";
+
+.cell-image {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: variables.$round-radius-small;
+}
+
+.gallery-container {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  .gallery-item {
+    width: 303rpx;
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding-bottom: variables.$padding-page;
+  }
+
+  .gallery-album {
+    width: 303rpx;
+    height: 303rpx;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 16rpx;
+
+    .gallery-album-image {
+      width: 127.5rpx;
+      height: 127.5rpx;
+      flex: none;
+      border-radius: variables.$round-radius-small;
+      background-color: color.adjust(black, $alpha: -0.9);
+    }
+
+    .gallery-album-image-1, .gallery-album-image-2 {
+      margin-bottom: 16rpx;
+    }
+  }
+
+  .gallery-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 16rpx;
+
+    .gallery-title {
+      color: variables.$text-color-body;
+      font-size: 28rpx;
+      font-weight: 500;
+    }
+
+    .gallery-description {
+      color: variables.$text-color-description;
+      font-size: 28rpx;
+      font-weight: 400;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .gallery-album .gallery-album-image {
+      background-color: color.adjust(white, $alpha: -0.9);
+    }
+
+    .gallery-text {
+      .gallery-title {
+        color: variables.$text-color-body-white;
+      }
+
+      .gallery-description {
+        color: variables.$text-color-description-white;
+      }
+    }
+  }
+}

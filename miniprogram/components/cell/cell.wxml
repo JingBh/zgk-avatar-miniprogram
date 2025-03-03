@@ -1,0 +1,55 @@
+<view
+  class="cell-container {{ isLarge ? 'cell-large' : '' }} {{ hasDivider ? 'has-divider' : '' }} {{ customClass }} theme-{{ theme }}"
+  hover-class="{{ isAction ? 'cell-hover' : 'none' }}"
+>
+  <view
+    wx:if="{{ iconSlot }}"
+    class="cell-icon-custom {{ iconClass }}"
+  >
+    <slot name="icon" />
+  </view>
+  <text
+    wx:elif="{{ iconClass }}"
+    class="cell-icon {{ iconClass }}"
+  />
+  <view class="cell-content">
+    <view
+      wx:if="{{ title || titleSlot }}"
+      class="cell-title {{ titleClass }}"
+    >
+      <slot
+        wx:if="{{ titleSlot }}"
+        name="title"
+      />
+      <block wx:else>{{ title }}</block>
+    </view>
+    <view
+      wx:if="{{ description || descriptionSlot }}"
+      class="cell-description {{ descriptionClass }}"
+    >
+      <slot
+        wx:if="{{ descriptionSlot }}"
+        name="description"
+      />
+      <block wx:else>{{ description }}</block>
+    </view>
+  </view>
+  <view
+    wx:if="{{ value || valueSlot }}"
+    class="cell-value {{ valueClass }}"
+  >
+    <slot
+      wx:if="{{ valueSlot }}"
+      name="value"
+    />
+    <block wx:else>{{ value }}</block>
+  </view>
+  <text
+    wx:if="{{ valueIconClass }}"
+    class="cell-value-icon {{ valueIconClass }}"
+  />
+  <text
+    wx:if="{{ isAction }}"
+    class="cell-action-icon bi bi-chevron-right"
+  />
+</view>

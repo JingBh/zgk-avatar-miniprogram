@@ -1,42 +1,161 @@
 <!--pages/index/index.wxml-->
-<view class="container">
-  <text class="title">中高考加油头像生成器</text>
 
-  <text class="paragraph">选择一张图片，即可制作你的专属清华附中加油头像！快点击按钮试试吧~</text>
-  <!--<text class="paragraph small" style="text-align: right">—— 更新于 年 月 日</text>-->
+<image
+  class="bg"
+  src="/assets/landing-bg.jpg"
+  mode="aspectFill"
+  fade-in
+/>
 
-  <view style="text-align: right; padding: 32rpx 0">
-    <van-button icon="photo-o" type="primary" bind:click="onClickSelectImage">开始选择图片</van-button>
+<view class="page pt-inset pb-inset">
+  <view class="heading">
+    <image
+      class="app-icon"
+      src="/assets/app-icon.png"
+      mode="aspectFit"
+    />
+    <view class="heading-text">
+      <text class="title">清华附中</text>
+      <text class="subtitle">加油头像生成器</text>
+    </view>
+  </view>
+
+  <scroll-view
+    type="list"
+    class="cards px-page"
+    scroll-y
+    bounces="{{ false }}"
+  >
+    <view class="card mb-page">
+      <cell
+        iconClass="bi bi-image text-brand"
+        title="选择图片"
+        titleClass="text-brand"
+        isLarge="{{ true }}"
+        isAction="{{ true }}"
+        bind:tap="handleClickSelectImage"
+      />
+    </view>
+
+    <view
+      wx:if="{{ countdowns.length || !noAnnouncements }}"
+      class="card"
+    >
+      <cell
+        wx:if="{{ countdowns.length }}"
+        title="{{ countdowns[countdownIndex].title }}"
+        descriptionSlot="{{ true }}"
+        bind:tap="handleSwitchCountdown"
+      >
+        <rich-text
+          slot="description"
+          nodes="<span>{{ countdowns[countdownIndex].label }}</span>"
+          mode="compat"
+        />
+      </cell>
+      <cell
+        wx:for="{{ announcements }}"
+        wx:for-index="id"
+        wx:key="id"
+        id="{{ id }}"
+        title="{{ item.entry.title }}"
+        description="{{ item.entry.label }}"
+        value="{{ item.entry.value }}"
+        isAction="{{ item.content }}"
+        bind:tap="handleClickAnnouncement"
+      />
+    </view>
+  </scroll-view>
+
+  <view class="footer">
+    <block wx:if="{{ version }}">
+      <text id="version">{{ version }}</text>
+      <text class="divider">·</text>
+    </block>
+    <text class="link" bind:tap="handleShowDeveloperPopup">开发者信息</text>
+    <text class="divider">·</text>
+    <text class="link" bind:tap="handleShowFeedbackPopup">反馈问题</text>
   </view>
 </view>
 
-<van-cell-group hidden="{{ noAnnouncements }}" title="公告栏">
-  <van-cell title="{{ countdowns[countdownIndex].title }}"
-            label="{{ countdowns[countdownIndex].label }}" />
-  <van-cell wx:for="{{ announcements }}" wx:for-index="id" wx:key="id" id="{{ id }}"
-            title="{{ item.entry.title }}" label="{{ item.entry.label }}" value="{{ item.entry.value }}"
-            center is-link bind:click="onClickAnnouncement" />
-</van-cell-group>
+<page-container
+  show="{{ developerPopupShow || feedbackPopupShow }}"
+  bind:afterleave="handleHidePopup"
+  custom-style="background: none"
+>
+  <view
+    wx:if="{{ developerPopupShow }}"
+    class="frame pb-inset"
+  >
+    <view class="frame-title">
+      <text>关于开发者</text>
+    </view>
+    <view class="frame-cells">
+      <cell
+        iconSlot="{{ true }}"
+        title="JingBh"
+        description="来自 G19"
+        isLarge="{{ true }}"
+        customClass="pt-0"
+      >
+        <image
+          slot="icon"
+          class="avatar"
+          src="https://f.zka.cslab.top/assets/avatar.png?x-oss-process=style/avatar"
+          mode="scaleToFill"
+        />
+      </cell>
+      <cell
+        title="个人主页"
+        description="jingbh.top"
+        descriptionClass="select-text"
+        hasDivider="{{ true }}"
+      />
+      <cell
+        title="微信号"
+        description="JingBh_"
+        descriptionClass="select-text"
+        valueIconClass="bi bi-qr-code"
+        isAction="{{ true }}"
+        bind:tap="handleShowQrPersonal"
+      />
+      <cell description="学弟学妹们加油！" />
+    </view>
+  </view>
 
-<van-cell-group title="关于本小程序">
-  <van-cell title="开发者" label="JingBh" center is-link bind:click="showDeveloperPopup"/>
-  <van-cell title="反馈问题" is-link bind:click="showFeedbackPopup"/>
-</van-cell-group>
-
-<view hidden="{{ adClosed }}" style="display: block">
-  <van-cell-group title="恰饭">
-    <ad unit-id="adunit-d9f3fe9d1869221d" bind:error="onAdClose" bind:close="onAdClose" />
-    <van-cell title="这是唯一的一处广告！本小程序的所有功能会保持永久免费~" title-class="small" />
-  </van-cell-group>
-</view>
-
-<van-popup show="{{ developerPopupShow }}" round position="bottom" closeable bind:close="hideDeveloperPopup"
-           bind:before-enter="beforeShowDeveloperPopup" bind:after-leave="afterHideDeveloperPopup">
-  <include wx:if="{{ developerPopupShown }}" src="developer.wxml"/>
-</van-popup>
-
-<van-popup show="{{ feedbackPopupShow }}" round position="bottom" closeable bind:close="hideFeedbackPopup">
-  <include src="feedback.wxml"/>
-</van-popup>
+  <view
+    wx:if="{{ feedbackPopupShow }}"
+    class="frame pb-inset"
+  >
+    <view class="frame-title">
+      <text>反馈问题</text>
+    </view>
+    <view class="frame-cells">
+      <cell
+        iconSlot="{{ true }}"
+        title="本项目在 GitHub 开源"
+        description="JingBh/zgk-avatar-miniprogram"
+        descriptionClass="select-text"
+        hasDivider="{{ true }}"
+        isLarge="{{ true }}"
+        customClass="pt-0"
+      >
+        <view slot="icon">
+          <image
+            class="github-icon github-icon-light"
+            src="/assets/github-mark.svg"
+            mode="aspectFit"
+          />
+          <image
+            class="github-icon github-icon-dark"
+            src="/assets/github-mark-white.svg"
+            mode="aspectFit"
+          />
+        </view>
+      </cell>
+      <cell description="若遇到问题，可以联系开发者或在 GitHub Issues 中反馈。" />
+    </view>
+  </view>
+</page-container>
 
 <van-notify id="van-notify" />

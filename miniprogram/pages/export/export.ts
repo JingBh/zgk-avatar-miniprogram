@@ -1,7 +1,7 @@
 // pages/export/export.ts
 import { shareMsg, shareTimeline } from '../../utils/share'
 
-export default Page({
+Page({
   data: {
     complete: false,
     textSize: 0.75,

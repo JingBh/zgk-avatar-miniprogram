@@ -1,11 +1,11 @@
 // pages/select_image/foreground_custom.ts
-import { IImageDisplay } from '../../utils/images'
+import type { IImageDisplay } from '../../utils/images'
 import { clearGenerated, generate, listGenerated } from '../../utils/service'
 import customSupported from '../../utils/custom-supported'
 import { shareMsg, shareTimeline } from '../../utils/share'
 import { buildUrl } from '../../utils/cloud-storage'
 
-export default Page({
+Page({
   data: {
     outerText: '清华附中',
     outerTextError: '',

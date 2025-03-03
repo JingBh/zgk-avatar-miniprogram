@@ -1,0 +1,116 @@
+// pages/index/index.scss
+
+@use "sass:color";
+@use "sass:math";
+
+@use "../../styles/variables";
+
+.bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.page {
+  color: variables.$text-color-body-white;
+  background: linear-gradient(
+    158deg,
+    color.adjust(variables.$color-brand, $alpha: -0.1),
+    color.adjust(variables.$color-gradient-1, $alpha: -0.1));
+}
+
+.heading {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  padding:
+    variables.$padding-heading + 48rpx
+    variables.$padding-heading
+    variables.$padding-heading
+    variables.$padding-heading;
+  align-items: center;
+
+  .app-icon {
+    width: 152rpx;
+    height: 152rpx;
+    flex-shrink: 0;
+    border-radius: 50%;
+    margin-right: variables.$gap-heading;
+  }
+
+  .heading-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 1 0 0;
+
+    text {
+      color: white;
+      font-size: variables.$font-size-heading;
+      font-weight: variables.$font-weight-heading;
+      filter: drop-shadow(0 8rpx 8rpx rgba(0, 0, 0, 0.25));
+    }
+
+    .title {
+      font-size: variables.$font-size-heading-title;
+    }
+  }
+}
+
+.footer {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  padding: variables.$padding-footer 0;
+  justify-content: center;
+  align-items: center;
+
+  text {
+    color: variables.$text-color-description-white;
+    font-size: variables.$font-size-footer;
+    font-weight: variables.$font-weight-footer;
+  }
+
+  .divider {
+    margin: 0 math.div(variables.$gap-footer, 2);
+    color: variables.$text-color-decoration-white;
+    font-weight: bold;
+  }
+
+  .link {
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-color: variables.$text-color-decoration-white;
+  }
+}
+
+.frame {
+  .avatar {
+    width: 128rpx;
+    height: 128rpx;
+    border-radius: 50%;
+  }
+
+  .github-icon {
+    width: 96rpx;
+    height: 96rpx;
+  }
+
+  @media (prefers-color-scheme: light) {
+    .github-icon-dark {
+      display: none;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    background-color: black;
+    color: variables.$text-color-body-white;
+
+    .github-icon-light {
+      display: none;
+    }
+  }
+}

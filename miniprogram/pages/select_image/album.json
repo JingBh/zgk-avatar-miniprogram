@@ -1,0 +1,7 @@
+{
+  "disableScroll": true,
+  "usingComponents": {
+    "navbar": "/components/navbar/navbar"
+  },
+  "navigationBarTitleText": "选择图片"
+}

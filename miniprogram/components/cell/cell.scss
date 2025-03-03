@@ -1,0 +1,123 @@
+@use "../../styles/variables";
+
+.cell-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: variables.$padding-cell;
+
+  .cell-icon, .cell-icon-custom {
+    margin-right: variables.$gap-cell-x;
+  }
+
+  .cell-value, .cell-value-icon, .cell-action-icon {
+    margin-left: variables.$gap-cell-x;
+  }
+
+  .cell-icon, .cell-value-icon, .cell-action-icon {
+    font-size: variables.$font-size-cell-title;
+  }
+
+  .cell-content {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    flex: auto;
+  }
+
+  .cell-title {
+    font-size: variables.$font-size-cell-title;
+    font-weight: variables.$font-weight-cell-title;
+  }
+
+  .cell-description {
+    margin-top: variables.$gap-cell-y;
+    font-size: variables.$font-size-cell-description;
+    font-weight: variables.$font-weight-cell-description;
+  }
+
+  .cell-value {
+    font-size: variables.$font-size-cell-title;
+    font-weight: variables.$font-weight-cell-title;
+    flex: none;
+  }
+
+  &.cell-large {
+    padding: variables.$padding-cell-large;
+
+    .cell-icon-custom {
+      margin-right: variables.$gap-heading;
+    }
+
+    .cell-icon {
+      font-size: variables.$font-size-cell-large-title;
+    }
+
+    .cell-title, .cell-value {
+      font-size: variables.$font-size-cell-large-title;
+      font-weight: variables.$font-weight-cell-large-title;
+    }
+  }
+
+  &:first-child {
+    border-top-left-radius: variables.$round-radius-medium;
+    border-top-right-radius: variables.$round-radius-medium;
+  }
+
+  &:last-child {
+    border-bottom-left-radius: variables.$round-radius-medium;
+    border-bottom-right-radius: variables.$round-radius-medium;
+  }
+
+  &.has-divider, &:not(:last-child) {
+    border-bottom: 1rpx solid;
+  }
+}
+
+@mixin theme-light {
+  color: variables.$text-color-body;
+  border-color: variables.$divider-color;
+
+  &.cell-hover {
+    background-color: variables.$cell-hover-color;
+  }
+
+  .cell-description, .cell-value {
+    color: variables.$text-color-description;
+  }
+
+  .cell-value-icon, .cell-action-icon {
+    color: variables.$text-color-hint;
+  }
+}
+
+@mixin theme-dark {
+  color: variables.$text-color-body-white;
+  border-color: variables.$divider-color-white;
+
+  &.cell-hover {
+    background-color: variables.$cell-hover-color-white;
+  }
+
+  .cell-description, .cell-value {
+    color: variables.$text-color-description-white;
+  }
+
+  .cell-value-icon, .cell-action-icon {
+    color: variables.$text-color-hint-white;
+  }
+}
+
+.cell-container.theme-light, .cell-container.theme-auto {
+  @include theme-light;
+}
+
+.cell-container.theme-dark {
+  @include theme-dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  .cell-container.theme-auto {
+    @include theme-dark;
+  }
+}

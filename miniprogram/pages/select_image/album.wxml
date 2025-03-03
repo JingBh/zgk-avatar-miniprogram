@@ -1,0 +1,73 @@
+<wxs src="../../utils/processUrl.wxs" module="processUrl" />
+
+<navbar title="{{ (album && album.name) ? album.name : '选择图片' }}" />
+
+<view class="page bg pb-inset">
+  <scroll-view
+    wx:if="{{ album }}"
+    type="{{ nativeMasonry ? 'custom' : 'list' }}"
+    class="p-page"
+    scroll-y
+  >
+    <grid-view
+      wx:if="{{ nativeMasonry }}"
+      type="masonry"
+      class="grid"
+      cross-axis-count="{{ 2 }}"
+      main-axis-gap="{{ 16 }}"
+      cross-axis-gap="{{ 16 }}"
+    >
+      <template
+        wx:for="{{ album.images }}"
+        wx:key="url"
+        is="item"
+        data="{{ item }}"
+      />
+    </grid-view>
+    <view
+      wx:else
+      class="grid masonry"
+    >
+      <view class="masonry-col">
+        <template
+          wx:for="{{ album.images }}"
+          wx:key="url"
+          wx:if="{{ index % 2 === 0 }}"
+          is="item"
+          data="{{ item }}"
+        />
+      </view>
+      <view class="masonry-col">
+        <template
+          wx:for="{{ album.images }}"
+          wx:key="url"
+          wx:if="{{ index % 2 === 1 }}"
+          is="item"
+          data="{{ item }}"
+        />
+      </view>
+    </view>
+  </scroll-view>
+</view>
+
+<template name="item">
+  <view
+    class="grid-item"
+    list-item
+    bindtap="handleSelectImage"
+    data-url="{{ item.url }}"
+  >
+    <image
+      class="grid-image {{ item.imageClass }}"
+      src="{{ processUrl(item.url, 'thumbnail') }}"
+      mode="widthFix"
+      lazy-load
+    />
+    <view
+      wx:if="{{ item.title }}"
+      class="grid-text"
+    >
+      <text class="grid-title">{{ item.title }}</text>
+    </view>
+  </view>
+</template>

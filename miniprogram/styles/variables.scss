@@ -1,0 +1,66 @@
+@use "sass:color";
+
+$color-brand: #660874;
+$color-gradient-1: #3d47a9;
+$color-shade-1: #8f389b;
+$color-shade-2: #b960c5;
+$color-shade-3: #e488f0;
+$color-shade-4: #ffb2ff;
+
+$color-background: #eff2f5;
+$color-background-combined: color.mix($color-brand, $color-background, 10%);
+$color-background-dark: #202124;
+$color-background-dark-combined: color.mix($color-brand, $color-background-dark, 10%);
+
+$color-shadow: color.adjust(black, $alpha: -0.75);
+
+$text-color-body: color.adjust(black, $alpha: -0.1);
+$text-color-body-white: color.adjust(white, $alpha: -0.1);
+$text-color-description: color.adjust(black, $alpha: -0.5);
+$text-color-description-white: color.adjust(white, $alpha: -0.5);
+$text-color-hint: color.adjust(black, $alpha: -0.7);
+$text-color-hint-white: color.adjust(white, $alpha: -0.7);
+$text-color-decoration: color.adjust(black, $alpha: -0.85);
+$text-color-decoration-white: color.adjust(white, $alpha: -0.85);
+$cell-hover-color: color.adjust(black, $alpha: -0.9);
+$cell-hover-color-white: color.adjust(white, $alpha: -0.9);
+
+$divider-color: color.adjust(black, $alpha: -0.9);
+$divider-color-white: color.adjust(white, $alpha: -0.9);
+
+$font-size-heading-title: 64rpx;
+$font-size-heading: 44rpx;
+$font-size-title: 44rpx;
+$font-size-body: 34rpx;
+$font-size-description: 28rpx;
+$font-size-footer: 28rpx;
+$font-size-cell-large-title: 40rpx;
+$font-size-cell-title: 34rpx;
+$font-size-cell-description: 28rpx;
+$font-size-card-title: 28rpx;
+
+$font-weight-heading: 700;
+$font-weight-title: 600;
+$font-weight-body: 400;
+$font-weight-description: 400;
+$font-weight-footer: 400;
+$font-weight-cell-title: 500;
+$font-weight-cell-large-title: 500;
+$font-weight-cell-description: 400;
+$font-weight-card-title: 500;
+
+$padding-page: 48rpx;
+$padding-heading: 80rpx;
+$padding-footer: 32rpx;
+$padding-cell: 32rpx 48rpx;
+$padding-cell-large: 48rpx 48rpx;
+$padding-card-title: 16rpx;
+
+$gap-heading: 24rpx;
+$gap-footer: 20rpx;
+$gap-cell-x: 16rpx;
+$gap-cell-y: 8rpx;
+
+$round-radius-small: 8rpx;
+$round-radius-medium: 24rpx;
+$round-radius-large: 40rpx;

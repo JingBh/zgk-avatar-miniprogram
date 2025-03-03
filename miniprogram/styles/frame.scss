@@ -1,0 +1,26 @@
+@use "./variables";
+
+.frame {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  background-color: white;
+  color: variables.$text-color-body;
+  font-size: variables.$font-size-body;
+  font-weight: variables.$font-weight-body;
+  border-radius:
+    variables.$round-radius-large
+    variables.$round-radius-large
+    0 0;
+  box-shadow: 0 -8rpx 8rpx 0 variables.$color-shadow;
+
+  .frame-title {
+    display: flex;
+    padding: variables.$padding-page;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: variables.$font-size-title;
+    font-weight: variables.$font-weight-title;
+  }
+}

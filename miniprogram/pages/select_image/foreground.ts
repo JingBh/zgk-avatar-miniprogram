@@ -1,9 +1,9 @@
 // pages/select_image/foreground.ts
-import { getManifest, getPresetsOf, IPresetDisplay } from '../../utils/images'
+import { getManifest, getPresetsOf, type IPresetDisplay } from '../../utils/images'
 import { shareMsg, shareTimeline } from '../../utils/share'
 import { buildUrl } from '../../utils/cloud-storage'
 
-export default Page({
+Page({
   data: {
     presets: [] as IPresetDisplay[],
     showShadowHelp: false,

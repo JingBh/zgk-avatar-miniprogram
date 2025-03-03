@@ -1,0 +1,13 @@
+{
+  "disableScroll": true,
+  "usingComponents": {
+  },
+  "navigationBarTitleText": "裁剪图片",
+  "navigationBarBackgroundColor": "#000000",
+  "navigationBarTextStyle": "white",
+  "backgroundColor": "#000000",
+  "backgroundColorContent": "#000000",
+  "backgroundTextStyle": "light",
+  "backgroundColorTop": "#000000",
+  "backgroundColorBottom": "#000000"
+}

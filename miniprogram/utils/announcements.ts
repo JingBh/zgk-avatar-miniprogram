@@ -9,10 +9,11 @@ interface IAnnouncement {
   content: AnnouncementContent
 }
 
-type AnnouncementContent =
+export type AnnouncementContent =
   IAnnouncementContentPage |
   IAnnouncementContentNavigatePage |
-  IAnnouncementContentNavigateMiniProgram
+  IAnnouncementContentNavigateMiniProgram |
+  IAnnouncementContentWebview
 
 interface IAnnouncementContentPage {
   type: 'page'
@@ -31,6 +32,11 @@ interface IAnnouncementContentNavigateMiniProgram {
   config: WechatMiniprogram.NavigateToMiniProgramOption
 }
 
+interface IAnnouncementContentWebview {
+  type: 'webview'
+  url: string
+}
+
 export type AnnouncementManifest = Record<string, IAnnouncement>
 
 let manifestCache: AnnouncementManifest | null = null
@@ -41,7 +47,7 @@ export function getAnnouncements(): Promise<AnnouncementManifest> {
       resolve(manifestCache)
     } else {
       wx.request<AnnouncementManifest>({
-        url: buildUrl('announcements', 'manifest.json', 'timestamp'),
+        url: buildUrl('announcements', 'manifest.v3.json', 'timestamp'),
         responseType: 'text',
         dataType: 'json',
         enableCache: false,

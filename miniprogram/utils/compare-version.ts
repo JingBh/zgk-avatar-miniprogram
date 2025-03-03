@@ -1,4 +1,13 @@
-export default (v1: string, v2: string): number => {
+export default (v1: string, v2?: string): number => {
+  if (!v2) {
+    v2 = v1
+    if (wx.canIUse('getAppBaseInfo')) {
+      v1 = wx.getAppBaseInfo().SDKVersion
+    } else {
+      v1 = wx.getSystemInfoSync().SDKVersion
+    }
+  }
+
   const v1s = v1.split('.')
   const v2s = v2.split('.')
   const len = Math.max(v1s.length, v2s.length)

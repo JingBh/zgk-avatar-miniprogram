@@ -1,8 +1,0 @@
-<!--pages/index/feedback.wxml-->
-<text class="title">反馈问题</text>
-
-<van-cell-group title="反馈方式">
-  <van-cell title="联系开发者" label="请点击上面“开发者”查看" />
-  <van-cell title="在 GitHub 提出 Issue" label="JingBh/zgk-avatar-miniprogram" label-class="font-monospace select-text" />
-  <van-cell title="微信官方通道" label="请打开右上角菜单，选择“反馈与投诉”，并选择“向开发者反馈”" />
-</van-cell-group>

@@ -2,7 +2,7 @@
   "disableScroll": true,
   "usingComponents": {
     "cell": "/components/cell/cell",
-    "van-notify": "@vant/weapp/notify/index"
+    "navbar": "/components/navbar/navbar"
   },
-  "navigationBarTitleText": "欢迎使用"
+  "navigationBarTitleText": "选择图片"
 }
