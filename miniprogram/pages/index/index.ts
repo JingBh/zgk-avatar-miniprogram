@@ -4,6 +4,7 @@ import Notify from '../../miniprogram_npm/@vant/weapp/notify/notify'
 import { type AnnouncementManifest, getAnnouncements } from '../../utils/announcements'
 import { buildUrl } from '../../utils/cloud-storage'
 import { type CountdownManifest, getCountdowns } from '../../utils/countdown'
+import log from '../../utils/log'
 import { shareMsg, shareTimeline } from '../../utils/share'
 
 let countdownTimeout: number | null = null
@@ -52,7 +53,7 @@ Page({
         }, 5000)
       }
     }).catch((error) => {
-      console.error(error)
+      log.error(error)
       Notify({ type: 'danger', message: '倒计时加载失败' })
     })
   },
@@ -64,7 +65,7 @@ Page({
         noAnnouncements: this.data.noAnnouncements && !Object.keys(announcements).length
       })
     }).catch((error) => {
-      console.error(error)
+      log.error(error)
       Notify({ type: 'danger', message: '公告栏加载失败' })
     })
   },

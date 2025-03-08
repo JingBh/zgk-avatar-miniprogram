@@ -1,4 +1,5 @@
 import { buildUrl } from './cloud-storage'
+import log from './log'
 
 interface ICountdown {
   title: string
@@ -40,7 +41,7 @@ export function getCountdowns(): Promise<CountdownManifest> {
         enableCache: false,
         success: ({ statusCode, data }) => {
           if (statusCode >= 400) {
-            console.error(`status code ${statusCode}`)
+            log.error(`status code ${statusCode}`)
             reject(data)
           } else {
             const manifest: CountdownManifest = []

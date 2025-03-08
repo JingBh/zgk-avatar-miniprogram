@@ -8,6 +8,7 @@
     type="{{ nativeMasonry ? 'custom' : 'list' }}"
     class="p-page"
     scroll-y
+    enable-passive
   >
     <grid-view
       wx:if="{{ nativeMasonry }}"
@@ -54,8 +55,8 @@
   <view
     class="grid-item"
     list-item
-    bindtap="handleSelectImage"
-    data-url="{{ item.url }}"
+    bind:tap="handleSelectImage"
+    data-url="{{ processUrl(item.url, 'zoom') }}"
   >
     <image
       class="grid-image {{ item.imageClass }}"

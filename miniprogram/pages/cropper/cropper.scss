@@ -1,0 +1,34 @@
+@use "sass:color";
+
+@use "../../styles/variables";
+
+page {
+  background-color: #000000;
+}
+
+canvas {
+  width: 100%;
+  flex: auto;
+}
+
+.bottom {
+  width: 100%;
+  flex: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  background-color: #151515;
+  padding: 24rpx 24rpx calc(24rpx + env(safe-area-inset-bottom));
+  border-top: 1rpx solid variables.$divider-color-white;
+
+  .button {
+    margin: 0;
+    background-color: variables.$color-brand;
+    color: white;
+
+    &.button-hover {
+      background-color: color.adjust(variables.$color-brand, $lightness: 5%);
+    }
+  }
+}

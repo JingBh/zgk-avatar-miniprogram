@@ -1,13 +1,17 @@
 // pages/announcements/announcement.ts
 import type { AnnouncementContent } from '../../utils/announcements'
 import { buildUrl } from '../../utils/cloud-storage'
+import log from '../../utils/log'
 
 Page({
   data: {
     title: '',
     author: '',
     htmlSnip: '',
-    url: '',
+    url: ''
+  },
+
+  userData: {
     loading: false
   },
 
@@ -27,7 +31,7 @@ Page({
             enableCache: true,
             success: ({ statusCode, data }) => {
               if (statusCode >= 400) {
-                console.error(`status code ${statusCode}`)
+                log.error(`status code ${statusCode}`)
                 this.onLoadFail()
               } else {
                 this.setData({
@@ -36,7 +40,7 @@ Page({
               }
             },
             fail: (error) => {
-              console.error(error)
+              log.error(error)
               this.onLoadFail()
             },
             complete: () => {
@@ -51,7 +55,7 @@ Page({
       }
 
     } catch (e) {
-      console.error(e)
+      log.error(e)
       return this.onLoadFail()
     }
   },
@@ -61,14 +65,12 @@ Page({
   },
 
   setLoading(isLoading: boolean) {
-    this.setData({
-      loading: isLoading
-    })
+    this.userData.loading = isLoading
     this.setNavigationBarState()
   },
 
   setNavigationBarState() {
-    if (this.data.loading) {
+    if (this.userData.loading) {
       wx.showNavigationBarLoading()
     } else {
       wx.hideNavigationBarLoading()

@@ -1,4 +1,5 @@
 import { buildUrl } from './cloud-storage'
+import log from './log'
 
 interface IImage {
   path: string,
@@ -50,7 +51,7 @@ export function getManifest(): Promise<IImageManifest> {
         enableCache: false,
         success: ({ statusCode, data }) => {
           if (statusCode >= 400) {
-            console.error(`status code ${statusCode}`)
+            log.error(`status code ${statusCode}`)
             reject(data)
           } else {
             manifestCache = data

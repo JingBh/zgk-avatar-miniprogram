@@ -1,0 +1,22 @@
+<!--pages/select_image/cropper.wxml-->
+<canvas
+  id="cropper"
+  type="2d"
+  canvas-id="cropper"
+  disable-scroll
+  bind:touchstart="handleTouchStart"
+  bind:touchmove="handleTouchMove"
+  bind:touchend="handleTouchEnd"
+  bind:touchcancel="handleTouchCancel"
+/>
+
+<view class="bottom">
+  <button
+    size="mini"
+    class="button"
+    hover-class="button-hover"
+    bind:tap="handleFinish"
+  >
+    完成
+  </button>
+</view>

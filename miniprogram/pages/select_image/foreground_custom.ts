@@ -2,6 +2,7 @@
 import type { IImageDisplay } from '../../utils/images'
 import { clearGenerated, generate, listGenerated } from '../../utils/service'
 import customSupported from '../../utils/custom-supported'
+import log from '../../utils/log'
 import { shareMsg, shareTimeline } from '../../utils/share'
 import { buildUrl } from '../../utils/cloud-storage'
 
@@ -149,7 +150,7 @@ Page({
 
         this.loadGenerated()
       }).catch((error) => {
-        console.error(error)
+        log.error(error)
         wx.showToast({
           title: '生成图片失败',
           icon: 'error',

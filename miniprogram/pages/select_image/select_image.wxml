@@ -7,6 +7,7 @@
     type="list"
     class="cards p-page"
     scroll-y
+    enable-passive
   >
     <view
       wx:if="{{ lastImage }}"

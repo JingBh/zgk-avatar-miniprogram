@@ -1,5 +1,6 @@
 import md5 from 'md5'
 import { IImageDisplay } from './images'
+import log from './log'
 
 const { access, mkdir, readdir, readFile, unlink, writeFile } = wx.getFileSystemManager()
 
@@ -56,7 +57,7 @@ export function generate(outerText: string, innerText: string, shadow: boolean =
                 fail: (error) => reject(error)
               })
             } else {
-              console.error(data)
+              log.error(data)
               reject(new Error('server returned error'))
             }
           },

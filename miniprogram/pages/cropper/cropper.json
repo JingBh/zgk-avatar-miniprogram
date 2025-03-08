@@ -3,11 +3,13 @@
   "usingComponents": {
   },
   "navigationBarTitleText": "裁剪图片",
-  "navigationBarBackgroundColor": "#000000",
+  "navigationBarBackgroundColor": "#151515",
   "navigationBarTextStyle": "white",
+  "navigationStyle": "default",
   "backgroundColor": "#000000",
   "backgroundColorContent": "#000000",
   "backgroundTextStyle": "light",
   "backgroundColorTop": "#000000",
-  "backgroundColorBottom": "#000000"
+  "backgroundColorBottom": "#151515",
+  "renderer": "webview"
 }

@@ -24,6 +24,7 @@
     type="list"
     class="cards px-page"
     scroll-y
+    enable-passive
     bounces="{{ false }}"
   >
     <view class="card mb-page">

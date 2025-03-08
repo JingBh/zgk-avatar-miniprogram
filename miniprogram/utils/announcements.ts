@@ -1,4 +1,5 @@
 import { buildUrl } from './cloud-storage'
+import log from './log'
 
 interface IAnnouncement {
   entry: {
@@ -53,7 +54,7 @@ export function getAnnouncements(): Promise<AnnouncementManifest> {
         enableCache: false,
         success: ({ statusCode, data }) => {
           if (statusCode >= 400) {
-            console.error(`status code ${statusCode}`)
+            log.error(`status code ${statusCode}`)
             reject(data)
           } else {
             manifestCache = data

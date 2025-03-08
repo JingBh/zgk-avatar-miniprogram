@@ -1,7 +1,6 @@
 // pages/index/index.scss
 
 @use "sass:color";
-@use "sass:math";
 
 @use "../../styles/variables";
 
@@ -75,7 +74,7 @@
   }
 
   .divider {
-    margin: 0 math.div(variables.$gap-footer, 2);
+    margin: 0 variables.$gap-footer;
     color: variables.$text-color-decoration-white;
     font-weight: bold;
   }

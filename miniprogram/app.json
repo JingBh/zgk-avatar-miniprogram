@@ -2,6 +2,7 @@
   "entryPagePath": "pages/index/index",
   "pages": [
     "pages/announcements/announcement",
+    "pages/cropper/cropper",
     "pages/index/index",
     "pages/select_image/album",
     "pages/select_image/select_image"
@@ -32,12 +33,12 @@
   "renderer": "skyline",
   "rendererOptions": {
     "skyline": {
-      "disableABTest": false,
+      "disableABTest": true,
       "defaultDisplayBlock": true,
       "defaultContentBox": false,
       "tagNameStyleIsolation": "legacy",
       "enableScrollViewAutoSize": true,
-      "sdkVersionBegin": "3.7.7",
+      "sdkVersionBegin": "3.4.10",
       "sdkVersionEnd": "15.255.255"
     }
   },

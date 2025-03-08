@@ -1,5 +1,6 @@
 import compareVersion from '../../utils/compare-version'
 import { getManifest, getPresetsOf, type IPresetDisplay } from '../../utils/images'
+import log from '../../utils/log'
 import { keyBackground } from '../../utils/local-storage'
 import { shareMsg, shareTimeline } from '../../utils/share'
 
@@ -61,7 +62,7 @@ Page({
         presets: getPresetsOf(manifest)
       })
     }).catch((error) => {
-      console.error(error)
+      log.error(error)
       wx.showToast({
         title: '加载相册失败',
         icon: 'error',
@@ -124,29 +125,28 @@ Page({
           wx.reportEvent('bg_avatar')
           this.cropImage(url)
         },
-        fail: console.error
+        fail: log.error
       })
     }
   },
 
   handleSkip() {
     wx.navigateTo({
-      url: '/pages/select_image/foreground'
+      url: '/pages/export/export'
     })
   },
 
   handleOpenAlbum(e: WechatMiniprogram.TouchEvent) {
     const presetName = e.currentTarget.dataset.preset
-    console.log(e.currentTarget.dataset)
     wx.navigateTo({
-      url: '/pages/select_image/album?name=' + encodeURIComponent(presetName)
+      url: `/pages/select_image/album?name=${encodeURIComponent(presetName)}`
     })
   },
 
   cropImage(src: string) {
-    console.log(`selected image src: ${src}`)
+    log.log(`selected image src: ${src}`)
     wx.navigateTo({
-      url: `/pages/select_image/cropper?src=${encodeURIComponent(src)}`
+      url: `/pages/cropper/cropper?src=${encodeURIComponent(src)}`
     })
   },
 

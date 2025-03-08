@@ -1,4 +1,5 @@
 import compareVersion from '../../utils/compare-version'
+import log from '../../utils/log'
 
 const homeRoute = 'pages/index/index'
 
@@ -63,19 +64,19 @@ Component({
           } else {
             status = wx.getWindowInfo().statusBarHeight
           }
-          console.debug('status bar height: ', status)
+          log.debug('status bar height: ', status)
         } catch (error) {
-          console.error(error)
+          log.error(error)
         }
 
         try {
           const menu = wx.getMenuButtonBoundingClientRect()
-          console.debug('menu height: ', menu.height)
-          console.debug('menu top: ', menu.top)
+          log.debug('menu height: ', menu.height)
+          log.debug('menu top: ', menu.top)
           menuHeight = Math.max(menu.height, menuHeight)
           menuMargin = Math.max(menu.top - status, menuMargin)
         } catch (error) {
-          console.error(error)
+          log.error(error)
         }
 
         this.setData({

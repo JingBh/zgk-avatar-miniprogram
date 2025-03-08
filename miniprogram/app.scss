@@ -9,7 +9,7 @@
 @use "./styles/utilities";
 @use "./styles/variables";
 
-page, view, scroll-view, text, rich-text, span, image, open-container, grid-view {
+page, view, scroll-view, text, rich-text, span, image, button, canvas, open-container, grid-view {
   position: relative;
   box-sizing: border-box;
   background-origin: border-box;
