@@ -1,17 +1,39 @@
 @use "../../styles/variables";
 
+$padding-horizontal: 48rpx;
+$padding-vertical: 32rpx;
+$padding-vertical-large: 48rpx;
+$gap-x: 16rpx;
+$gap-y: 8rpx;
+
 .cell-container {
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: variables.$padding-cell;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 0;
+  margin-right: 0;
+  padding-top: $padding-vertical;
+  padding-bottom: $padding-vertical;
+  padding-left: $padding-horizontal;
+  padding-right: $padding-horizontal;
+  border: none;
+  background-color: transparent;
+  background-image: none;
+  border-radius: 0;
+  font-size: inherit;
+  text-align: inherit;
+  line-height: inherit;
+  justify-content: unset;
+  overflow: unset;
 
   .cell-icon, .cell-icon-custom {
-    margin-right: variables.$gap-cell-x;
+    margin-right: $gap-x;
   }
 
   .cell-value, .cell-value-icon, .cell-action-icon {
-    margin-left: variables.$gap-cell-x;
+    margin-left: $gap-x;
   }
 
   .cell-icon, .cell-value-icon, .cell-action-icon {
@@ -31,7 +53,7 @@
   }
 
   .cell-description {
-    margin-top: variables.$gap-cell-y;
+    margin-top: $gap-y;
     font-size: variables.$font-size-cell-description;
     font-weight: variables.$font-weight-cell-description;
   }
@@ -43,7 +65,8 @@
   }
 
   &.cell-large {
-    padding: variables.$padding-cell-large;
+    padding-top: $padding-vertical-large;
+    padding-bottom: $padding-vertical-large;
 
     .cell-icon-custom {
       margin-right: variables.$gap-heading;

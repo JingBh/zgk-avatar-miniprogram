@@ -1,12 +1,12 @@
 <!--pages/export/export.wxml-->
-<view class="container">
-  <canvas type="2d" id="main"></canvas>
+<navbar title="生成头像" />
 
-  <van-cell-group title="文字大小">
-    <view style="padding: 16px 16px 32px;">
-      <van-slider value="0.7" min="0.5" max="0.9" step="0.01" bind:change="onTextSizeChange" />
-    </view>
-  </van-cell-group>
-
-  <van-button wx:if="{{ complete }}" type="primary" block bind:click="onSaveImage">保存图片</van-button>
+<view class="page bg pb-inset">
+  <scroll-view
+    type="list"
+    class="cards p-page"
+    scroll-y
+    enable-passive
+  >
+  </scroll-view>
 </view>

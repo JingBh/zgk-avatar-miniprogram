@@ -4,3 +4,5 @@ const verifyVersion = 'v2'
 
 export const keyBackground = `${background}_${verifyVersion}`
 export const keyForeground = `${foreground}_${verifyVersion}`
+
+export const keyToken = 'token'

@@ -1,8 +1,0 @@
-<view style="padding: 16px 24px 8px">
-  <text class="title" style="margin: 8px 0 24px">阴影效果</text>
-  <text class="paragraph">当背景图颜色偏白，可使用阴影效果对文字描边，突出文字显示，效果如图：</text>
-  <view class="text-center" style="width: 100%; margin-bottom: 24rpx">
-    <van-image width="272px" height="272px" src="{{ shadowDemoUrl }}" />
-  </view>
-  <text class="paragraph small">感谢 @G1910 lzy 对此功能提出的建议</text>
-</view>

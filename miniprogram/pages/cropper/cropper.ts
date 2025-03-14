@@ -150,7 +150,7 @@ Page({
       this.userData.canvasCropAreaSize)
     ctx.closePath()
     ctx.clip('evenodd')
-    ctx.fillStyle = `rgba(0, 0, 0, ${this.userData.touching ? 0.3 : 0.6})`
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.5)'
     ctx.fillRect(0, 0, this.userData.canvasWidth, this.userData.canvasHeight)
     ctx.restore()
   },
@@ -300,7 +300,7 @@ Page({
       return log.debug('transition ended')
     } else {
       // use ease-out function
-      const progress = 1 - Math.pow(1 - timeElapsed / transitionTime, 2)
+      const progress = 1 - Math.pow(1 - timeElapsed / transitionTime, 3)
       this.userData.imageScale = this.userData.transitionStartScale +
         (this.userData.transitionTargetScale - this.userData.transitionStartScale) * progress
       this.userData.imageOffsetX = this.userData.transitionStartOffsetX +
@@ -415,7 +415,10 @@ Page({
       this.userData.touching = true
       this.userData.touchId1 = -1
       this.userData.touchId2 = -1
-      this.userData.transitionStartTime = 0
+      if (this.userData.transitionStartTime) {
+        this.userData.transitionStartTime = 0
+        log.debug('transition interrupted')
+      }
       log.debug('touch started')
     }
 
@@ -539,7 +542,7 @@ Page({
   },
 
   handleTouchCancel(_: WechatMiniprogram.TouchEvent) {
-    log.log('touch canceled')
+    log.debug('touch canceled')
     this.userData.touching = false
     this.userData.touchId1 = -1
     this.userData.touchId2 = -1

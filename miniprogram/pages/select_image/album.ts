@@ -1,11 +1,11 @@
 import compareVersion from '../../utils/compare-version'
-import { getPreset, type IPresetDisplay } from '../../utils/images'
+import { getBackgroundAlbum, type IImageAlbumBackground } from '../../utils/images'
 import log from '../../utils/log'
 import { shareMsg, shareTimeline } from '../../utils/share'
 
 Page({
   data: {
-    album: null as IPresetDisplay | null,
+    album: null as IImageAlbumBackground | null,
     nativeMasonry: true
   },
 
@@ -19,13 +19,13 @@ Page({
       return
     }
 
-    getPreset('background', decodeURIComponent(query.name))
+    getBackgroundAlbum(decodeURIComponent(query.name))
       .then((value) => {
         this.setData({
           album: value
         })
         wx.setNavigationBarTitle({
-          title: value.name
+          title: value.title
         })
       })
       .catch(() => {
@@ -42,9 +42,9 @@ Page({
   },
 
   setNavigationBarState() {
-    if (this.data.album?.name) {
+    if (this.data.album?.title) {
       wx.setNavigationBarTitle({
-        title: this.data.album.name
+        title: this.data.album.title
       })
     }
   },

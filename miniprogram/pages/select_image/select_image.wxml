@@ -20,6 +20,7 @@
           iconClass="bi bi-arrow-clockwise"
           valueSlot="{{ true }}"
           isAction="{{ true }}"
+          bind:tap="handleSkip"
         >
           <image
             slot="value"
@@ -55,25 +56,33 @@
           iconClass="bi bi-person-square"
           bind:tap="handleSelectUserAvatar"
         />
+        <cell
+          wx:elif="{{ canUseOpenData }}"
+          title="使用当前头像"
+          iconClass="bi bi-person-square"
+          isAction="{{ true }}"
+          openType="chooseAvatar"
+          bind:chooseAvatar="handleSelectOpenDataAvatar"
+        />
       </view>
     </view>
 
     <view
-      wx:if="{{ presets.length }}"
+      wx:if="{{ albums.length }}"
       class="card-with-title"
     >
       <text class="card-title">附中相册</text>
       <view class="gallery-container">
         <open-container
-          wx:for="{{ presets }}"
-          wx:for-item="group"
+          wx:for="{{ albums }}"
+          wx:for-item="album"
           wx:key="name"
           class="gallery-item"
           closed-color="transparent"
           open-color="transparent"
           open-border-radius="{{ 48 }}"
           bind:tap="handleOpenAlbum"
-          data-preset="{{ group.name }}"
+          data-album="{{ album.name }}"
         >
           <view class="card gallery-album">
             <block
@@ -81,9 +90,9 @@
               wx:key="index"
             >
               <image
-                wx:if="{{ group.images.length > index }}"
+                wx:if="{{ album.images.length > index }}"
                 class="gallery-album-image gallery-album-image-{{ index + 1 }}"
-                src="{{ processUrl(group.images[index].url, 'thumbnail') }}"
+                src="{{ processUrl(album.images[index].path, 'thumbnail') }}"
                 mode="aspectFill"
                 lazy-load
               />
@@ -94,11 +103,11 @@
             </block>
           </view>
           <view class="gallery-text">
-            <text class="gallery-title">{{ group.name }}</text>
+            <text class="gallery-title">{{ album.title }}</text>
             <text
-              wx:if="{{ group.by }}"
+              wx:if="{{ album.by }}"
               class="gallery-description"
-            >by {{ group.by }}</text>
+            >by {{ album.by }}</text>
           </view>
         </open-container>
       </view>

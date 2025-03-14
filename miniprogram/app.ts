@@ -2,9 +2,21 @@
 
 import compareVersion from './utils/compare-version'
 import log from './utils/log'
+import { login } from './utils/service'
 
 App({
   globalData: {},
+
+  onLaunch() {
+    login().catch((e) => {
+      log.error(e)
+      wx.showToast({
+        icon: 'error',
+        title: '登录失败',
+        duration: 2000
+      })
+    })
+  },
 
   onShow(options) {
     switch (options.scene) {

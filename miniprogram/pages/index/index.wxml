@@ -4,7 +4,6 @@
   class="bg"
   src="/assets/landing-bg.jpg"
   mode="aspectFill"
-  fade-in
 />
 
 <view class="page pt-inset pb-inset">
@@ -158,5 +157,3 @@
     </view>
   </view>
 </page-container>
-
-<van-notify id="van-notify" />

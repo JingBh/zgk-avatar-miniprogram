@@ -72,6 +72,15 @@ Component({
     isAction: {
       type: Boolean,
       value: false
+    },
+    openType: {
+      type: String,
+      value: ''
+    }
+  },
+  methods: {
+    handleChooseAvatar(e: ChooseAvatarEvent) {
+      this.triggerEvent('chooseAvatar', e.detail)
     }
   }
 })

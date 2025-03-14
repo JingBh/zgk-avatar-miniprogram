@@ -1,6 +1,4 @@
 // pages/index/index.ts
-import Notify from '../../miniprogram_npm/@vant/weapp/notify/notify'
-
 import { type AnnouncementManifest, getAnnouncements } from '../../utils/announcements'
 import { buildUrl } from '../../utils/cloud-storage'
 import { type CountdownManifest, getCountdowns } from '../../utils/countdown'
@@ -54,7 +52,12 @@ Page({
       }
     }).catch((error) => {
       log.error(error)
-      Notify({ type: 'danger', message: '倒计时加载失败' })
+      // TODO: replace with custom notify
+      wx.showToast({
+        icon: 'error',
+        title: '倒计时加载失败',
+        duration: 2000
+      })
     })
   },
 
@@ -66,7 +69,12 @@ Page({
       })
     }).catch((error) => {
       log.error(error)
-      Notify({ type: 'danger', message: '公告栏加载失败' })
+      // TODO: replace with custom notify
+      wx.showToast({
+        icon: 'error',
+        title: '公告栏加载失败',
+        duration: 2000
+      })
     })
   },
 

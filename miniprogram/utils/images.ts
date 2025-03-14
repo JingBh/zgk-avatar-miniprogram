@@ -1,40 +1,35 @@
 import { buildUrl } from './cloud-storage'
 import log from './log'
 
-interface IImage {
-  path: string,
-  by?: string,
-  title?: string,
-  bg?: string
+export interface IImageBackground {
+  path: string
+  by?: string
+  title?: string
 }
 
-interface IImageGroup {
-  name: string,
-  by?: string,
-  images?: IImage[]
+export interface IImageAlbumBackground {
+  name: string
+  title: string
+  by?: string
+  images: IImageBackground[]
 }
 
-interface IImageManifestSingleType {
-  pathPrefix?: string,
-  groups: IImageGroup[],
+export interface IImageForeground {
+  outerText: string
+  innerText: string
+  shadowPath: string
+  noShadowPath: string
 }
 
 export interface IImageManifest {
-  background: IImageManifestSingleType,
-  foreground: IImageManifestSingleType
-}
-
-export interface IImageDisplay {
-  title?: string,
-  by?: string,
-  url: string,
-  imageClass?: string
-}
-
-export interface IPresetDisplay {
-  name: string,
-  by?: string,
-  images: IImageDisplay[]
+  background: {
+    pathPrefix?: string
+    albums: IImageAlbumBackground[]
+  }
+  foreground: {
+    pathPrefix?: string
+    images: IImageForeground[]
+  }
 }
 
 let manifestCache: IImageManifest | null = null
@@ -45,15 +40,28 @@ export function getManifest(): Promise<IImageManifest> {
       resolve(manifestCache)
     } else {
       wx.request<IImageManifest>({
-        url: buildUrl('images', 'manifest.v3.json', 'timestamp'),
+        url: buildUrl('images', 'manifest.v4.json', 'timestamp'),
         responseType: 'text',
         dataType: 'json',
+        enableHttp2: true,
+        enableQuic: true,
         enableCache: false,
         success: ({ statusCode, data }) => {
           if (statusCode >= 400) {
             log.error(`status code ${statusCode}`)
             reject(data)
           } else {
+            data.background.albums.forEach((album) => {
+              album.images.forEach((image) => {
+                image.path = buildUrl('images', data.background.pathPrefix || 'bg', image.path)
+              })
+            })
+
+            data.foreground.images.forEach((image) => {
+              image.shadowPath = buildUrl('images', data.background.pathPrefix || 'fg', image.shadowPath)
+              image.noShadowPath = buildUrl('images', data.background.pathPrefix || 'fg', image.noShadowPath)
+            })
+
             manifestCache = data
             resolve(data)
           }
@@ -64,34 +72,15 @@ export function getManifest(): Promise<IImageManifest> {
   })
 }
 
-export function getPresetsOf(type: IImageManifestSingleType): IPresetDisplay[] {
-  return type.groups.map((group) => {
-    return {
-      name: group.name,
-      by: group.by,
-      images: group.images?.map((image) => {
-        return {
-          title: image.title,
-          by: image.by || group.by,
-          url: buildUrl(type.pathPrefix || '', image.path),
-          imageClass: image.bg ? 'bg-' + image.bg : undefined
-        }
-      }) || []
-    }
-  }).filter((group) => {
-    return group.images.length > 0
-  })
-}
-
-export function getPreset(type: keyof IImageManifest, name: string): Promise<IPresetDisplay> {
-  return new Promise<IPresetDisplay>((resolve, reject) => {
+export function getBackgroundAlbum(name: string): Promise<IImageAlbumBackground> {
+  return new Promise<IImageAlbumBackground>((resolve, reject) => {
     getManifest().then((manifest) => {
-      const preset = getPresetsOf(manifest[type])
-        .find((preset) => preset.name === name)
-      if (preset) {
-        resolve(preset)
+      const album = manifest.background.albums
+        .find((album) => album.name === name)
+      if (album) {
+        resolve(album)
       } else {
-        reject('preset not found')
+        reject('album not found')
       }
     }).catch(reject)
   })

@@ -3,6 +3,7 @@
   "pages": [
     "pages/announcements/announcement",
     "pages/cropper/cropper",
+    "pages/export/export",
     "pages/index/index",
     "pages/select_image/album",
     "pages/select_image/select_image"

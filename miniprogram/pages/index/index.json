@@ -1,8 +1,7 @@
 {
   "disableScroll": true,
   "usingComponents": {
-    "cell": "/components/cell/cell",
-    "van-notify": "@vant/weapp/notify/index"
+    "cell": "/components/cell/cell"
   },
   "navigationBarTitleText": "欢迎使用"
 }

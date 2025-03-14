@@ -1,6 +1,6 @@
 <wxs src="../../utils/processUrl.wxs" module="processUrl" />
 
-<navbar title="{{ (album && album.name) ? album.name : '选择图片' }}" />
+<navbar title="{{ (album && album.title) ? album.title : '选择图片' }}" />
 
 <view class="page bg pb-inset">
   <scroll-view
@@ -20,7 +20,7 @@
     >
       <template
         wx:for="{{ album.images }}"
-        wx:key="url"
+        wx:key="path"
         is="item"
         data="{{ item }}"
       />
@@ -32,7 +32,7 @@
       <view class="masonry-col">
         <template
           wx:for="{{ album.images }}"
-          wx:key="url"
+          wx:key="path"
           wx:if="{{ index % 2 === 0 }}"
           is="item"
           data="{{ item }}"
@@ -41,7 +41,7 @@
       <view class="masonry-col">
         <template
           wx:for="{{ album.images }}"
-          wx:key="url"
+          wx:key="path"
           wx:if="{{ index % 2 === 1 }}"
           is="item"
           data="{{ item }}"
@@ -56,11 +56,11 @@
     class="grid-item"
     list-item
     bind:tap="handleSelectImage"
-    data-url="{{ processUrl(item.url, 'zoom') }}"
+    data-url="{{ processUrl(item.path, 'zoom') }}"
   >
     <image
-      class="grid-image {{ item.imageClass }}"
-      src="{{ processUrl(item.url, 'thumbnail') }}"
+      class="grid-image"
+      src="{{ processUrl(item.path, 'thumbnail') }}"
       mode="widthFix"
       lazy-load
     />

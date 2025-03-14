@@ -38,6 +38,8 @@ export function getCountdowns(): Promise<CountdownManifest> {
         url: buildUrl('countdown', 'manifest.json', 'timestamp'),
         responseType: 'text',
         dataType: 'json',
+        enableHttp2: true,
+        enableQuic: true,
         enableCache: false,
         success: ({ statusCode, data }) => {
           if (statusCode >= 400) {

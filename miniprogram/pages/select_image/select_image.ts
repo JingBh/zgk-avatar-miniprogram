@@ -1,19 +1,27 @@
 import compareVersion from '../../utils/compare-version'
-import { getManifest, getPresetsOf, type IPresetDisplay } from '../../utils/images'
+import { getManifest, type IImageAlbumBackground } from '../../utils/images'
 import log from '../../utils/log'
 import { keyBackground } from '../../utils/local-storage'
+import { auditImage } from '../../utils/service'
 import { shareMsg, shareTimeline } from '../../utils/share'
 
 Page({
   data: {
     lastImage: null as string | null,
+    canUseOpenData: false,
     canUseAvatar: false,
     canSelectImageFromChat: false,
-    presets: [] as IPresetDisplay[]
+    albums: [] as IImageAlbumBackground[]
   },
 
   onLoad() {
-    this.loadPresets()
+    this.loadAlbums()
+
+    if (compareVersion('2.21.2') === 1) {
+      this.setData({
+        canUseOpenData: true
+      })
+    }
 
     // the avatar api is only usable between 2.9.5 and 2.27.1 (exclusive)
     if (compareVersion('2.9.5') * compareVersion('2.27.1') === -1) {
@@ -56,13 +64,14 @@ Page({
     })
   },
 
-  loadPresets() {
-    getManifest().then(({ background: manifest }) => {
+  loadAlbums() {
+    getManifest().then((manifest) => {
       this.setData({
-        presets: getPresetsOf(manifest)
+        albums: manifest.background.albums
       })
     }).catch((error) => {
       log.error(error)
+      // TODO: replace with custom notify
       wx.showToast({
         title: '加载相册失败',
         icon: 'error',
@@ -76,19 +85,19 @@ Page({
       wx.chooseMedia({
         count: 1,
         mediaType: ['image'],
-        sizeType: ['original'],
+        sizeType: ['original', 'compressed'],
         success: ({ tempFiles }) => {
           wx.reportEvent('bg_custom')
-          this.cropImage(tempFiles[0].tempFilePath)
+          this.cropAuditImage(tempFiles[0].tempFilePath)
         }
       })
     } else {
       wx.chooseImage({
         count: 1,
-        sizeType: ['original'],
+        sizeType: ['original', 'compressed'],
         success: ({ tempFilePaths }) => {
           wx.reportEvent('bg_custom')
-          this.cropImage(tempFilePaths[0])
+          this.cropAuditImage(tempFilePaths[0])
         }
       })
     }
@@ -100,7 +109,7 @@ Page({
       type: 'image',
       success: ({ tempFiles }) => {
         wx.reportEvent('bg_custom')
-        this.cropImage(tempFiles[0].path)
+        this.cropAuditImage(tempFiles[0].path)
       }
     })
   },
@@ -123,11 +132,52 @@ Page({
           const url = urlParts.join('/')
 
           wx.reportEvent('bg_avatar')
-          this.cropImage(url)
+          this.cropAuditImage(url)
         },
         fail: log.error
       })
     }
+  },
+
+  handleSelectOpenDataAvatar(e: ChooseAvatarEvent) {
+    wx.getImageInfo({
+      src: e.detail.avatarUrl,
+      success: ({ path, width, height }) => {
+        wx.reportEvent('bg_avatar')
+
+        if (width === height) {
+          wx.setStorage({
+            key: keyBackground,
+            data: path,
+            success: () => {
+              wx.navigateTo({
+                url: '/pages/export/export'
+              })
+            },
+            fail: () => {
+              wx.navigateTo({
+                url: `/pages/cropper/cropper?src=${encodeURIComponent(path)}`
+              })
+            }
+          })
+        } else {
+          wx.navigateTo({
+            url: `/pages/cropper/cropper?src=${encodeURIComponent(path)}`
+          })
+        }
+      },
+      fail: (e) => {
+        log.error(e)
+        this.setData({
+          canUseOpenData: false
+        })
+        wx.showModal({
+          title: '注意',
+          content: '获取当前头像失败，请选择其它方法上传图片',
+          showCancel: false
+        })
+      }
+    })
   },
 
   handleSkip() {
@@ -136,17 +186,30 @@ Page({
     })
   },
 
-  handleOpenAlbum(e: WechatMiniprogram.TouchEvent) {
-    const presetName = e.currentTarget.dataset.preset
-    wx.navigateTo({
-      url: `/pages/select_image/album?name=${encodeURIComponent(presetName)}`
+  cropAuditImage(src: string) {
+    wx.showLoading({
+      title: '加载中',
+      mask: true
+    })
+    auditImage(src).then(() => {
+      wx.hideLoading()
+      wx.navigateTo({
+        url: `/pages/cropper/cropper?src=${encodeURIComponent(src)}`
+      })
+    }).catch((e) => {
+      wx.hideLoading()
+      wx.showModal({
+        title: '注意',
+        content: e,
+        showCancel: false
+      })
     })
   },
 
-  cropImage(src: string) {
-    log.log(`selected image src: ${src}`)
+  handleOpenAlbum(e: WechatMiniprogram.TouchEvent) {
+    const albumName = e.currentTarget.dataset.album
     wx.navigateTo({
-      url: `/pages/cropper/cropper?src=${encodeURIComponent(src)}`
+      url: `/pages/select_image/album?name=${encodeURIComponent(albumName)}`
     })
   },
 

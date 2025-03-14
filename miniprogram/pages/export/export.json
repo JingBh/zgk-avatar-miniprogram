@@ -1,8 +1,6 @@
 {
   "usingComponents": {
-    "van-button": "@vant/weapp/button/index",
-    "van-cell-group": "@vant/weapp/cell-group/index",
-    "van-slider": "@vant/weapp/slider/index"
+    "navbar": "../../components/navbar/navbar"
   },
-  "navigationBarTitleText": "导出图片"
+  "navigationBarTitleText": "生成头像"
 }

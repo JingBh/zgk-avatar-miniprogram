@@ -31,7 +31,7 @@
     align-items: stretch;
     border-radius: variables.$round-radius-medium;
     background-color: white;
-    box-shadow: 0 2rpx 8rpx 0 variables.$color-shadow;
+    // box-shadow: 0 2rpx 8rpx 0 variables.$color-shadow;
 
     @media (prefers-color-scheme: dark) {
       background-color: black;

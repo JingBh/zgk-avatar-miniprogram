@@ -3,7 +3,6 @@
   "license": "GPL-3.0-or-later",
   "private": true,
   "dependencies": {
-    "@vant/weapp": "^1.11.7",
     "md5": "^2.3.0"
   },
   "devDependencies": {
