@@ -6,3 +6,4 @@ export const keyBackground = `${background}_${verifyVersion}`
 export const keyForeground = `${foreground}_${verifyVersion}`
 
 export const keyToken = 'token'
+export const keyAlbumSaveImageConsent = 'albumSaveImageConsent'

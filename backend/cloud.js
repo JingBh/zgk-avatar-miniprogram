@@ -8,16 +8,10 @@ const {
   ScanTextRequestLabels,
   ScanTextRequestTasks
 } = require('@alicloud/imageaudit20191230')
-const {
-  default: Sls20201230,
-  LogContent,
-  LogGroup,
-  LogItem,
-  PutLogsRequest
-} = require('@alicloud/sls20201230')
 const { Config } = require('@alicloud/openapi-client')
 const { RuntimeOptions } = require('@alicloud/tea-util')
 const OSS = require('ali-oss')
+const { SLS } = require('aliyun-sdk')
 
 /**
  * Alibaba Cloud OSS Client
@@ -34,36 +28,46 @@ const oss = new OSS({
  */
 class LogService {
   constructor() {
-    const config = new Config({
+    let endpoint = process.env.ALIYUN_SLS_ENDPOINT
+    if (!endpoint.startsWith('http')) {
+      endpoint = 'https://' + endpoint
+    }
+
+    this.client = new SLS({
       accessKeyId: process.env.ALIYUN_ACCESS_KEY_ID,
-      accessKeySecret: process.env.ALIYUN_ACCESS_KEY_SECRET,
-      endpoint: process.env.ALIYUN_SLS_ENDPOINT,
+      secretAccessKey: process.env.ALIYUN_ACCESS_KEY_SECRET,
+      endpoint,
+      apiVersion: '2015-06-01'
     })
-    this.client = new Sls20201230(config)
     this.project = process.env.ALIYUN_SLS_PROJECT
     this.logStore = process.env.ALIYUN_SLS_LOGSTORE
   }
 
-  async writeLog(entries, topic) {
+  writeLog(entries, topic) {
     entries = Array.isArray(entries) ? entries : Object.entries(entries)
-    try {
-      await this.client.putLogs(this.project, this.logStore, new PutLogsRequest({
-        body: new LogGroup({
+    return new Promise((resolve) => {
+      this.client.putLogs({
+        projectName: this.project,
+        logStoreName: this.logStore,
+        logGroup: {
           topic: topic,
-          logItems: [
-            new LogItem({
+          logs: [
+            {
               time: Math.floor(Date.now() / 1000),
-              contents: entries.map(([key, value]) => new LogContent({
+              contents: entries.map(([key, value]) => ({
                 key,
                 value: value.toString()
               }))
-            })
+            }
           ]
-        })
-      }))
-    } catch (error) {
-      console.error(error)
-    }
+        }
+      }, (error, data) => {
+        if (error) {
+          console.error(error)
+        }
+        resolve(data)
+      })
+    })
   }
 }
 

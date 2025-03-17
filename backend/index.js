@@ -1,5 +1,6 @@
 const { handleAuditImage } = require('./audit.js')
 const { errorToResponse } = require('./errors.js')
+const { getFont } = require('./font.js')
 const { handleGenerate } = require('./generate.js')
 const { verifyToken, handleToken } = require('./token.js')
 
@@ -11,6 +12,10 @@ const handleHello = async () => ({
   body: 'OK',
   isBase64Encoded: false
 })
+
+const initializer = async () => {
+  await getFont()
+}
 
 const handler = async (event, ctx) => {
   try {
@@ -73,5 +78,6 @@ const handler = async (event, ctx) => {
 }
 
 module.exports = {
-  handler
+  handler,
+  initializer
 }

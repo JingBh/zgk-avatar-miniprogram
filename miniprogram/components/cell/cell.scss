@@ -18,7 +18,7 @@ $gap-y: 8rpx;
   padding-bottom: $padding-vertical;
   padding-left: $padding-horizontal;
   padding-right: $padding-horizontal;
-  border: none;
+  border: none !important;
   background-color: transparent;
   background-image: none;
   border-radius: 0;
@@ -93,13 +93,13 @@ $gap-y: 8rpx;
   }
 
   &.has-divider, &:not(:last-child) {
-    border-bottom: 1rpx solid;
+    border-bottom: 1rpx solid !important;
   }
 }
 
 @mixin theme-light {
   color: variables.$text-color-body;
-  border-color: variables.$divider-color;
+  border-color: variables.$divider-color !important;
 
   &.cell-hover {
     background-color: variables.$cell-hover-color;
@@ -116,7 +116,7 @@ $gap-y: 8rpx;
 
 @mixin theme-dark {
   color: variables.$text-color-body-white;
-  border-color: variables.$divider-color-white;
+  border-color: variables.$divider-color-white !important;
 
   &.cell-hover {
     background-color: variables.$cell-hover-color-white;

@@ -1,5 +1,7 @@
 // app.scss
 
+@use "sass:color";
+
 @use "./styles/bootstrap-icons" with (
   $bootstrap-icons-font-dir: "https://f.zka.cslab.top/assets/bootstrap-icons/fonts"
 );
@@ -9,7 +11,7 @@
 @use "./styles/utilities";
 @use "./styles/variables";
 
-page, view, scroll-view, text, rich-text, span, image, button, canvas, open-container, grid-view {
+page, view, scroll-view, text, rich-text, span, image, input, button, switch, slider, canvas, open-container, grid-view {
   position: relative;
   box-sizing: border-box;
   background-origin: border-box;
@@ -56,4 +58,64 @@ scroll-view {
   flex: 1;
   height: 100%;
   overflow: auto;
+  overflow-scrolling: touch;
+}
+
+switch {
+  .wx-switch-input {
+    border-color: variables.$text-color-decoration !important;
+
+    &::before {
+      background-color: variables.$text-color-decoration !important;
+    }
+  }
+
+  .wx-switch-input-checked {
+    background-color: variables.$color-brand !important;
+    border-color: variables.$color-brand !important;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .wx-switch-input {
+      border-color: variables.$text-color-decoration-white !important;
+
+      &::before {
+        background-color: variables.$text-color-decoration-white !important;
+      }
+    }
+
+    .wx-switch-input-checked {
+      background-color: variables.$color-shade-1 !important;
+      border-color: variables.$color-shade-1 !important;
+    }
+  }
+}
+
+slider {
+  .wx-slider-handle-wrapper {
+    height: 8rpx !important;
+    background-color: variables.$text-color-decoration !important;
+  }
+
+  .wx-slider-track {
+    background-color: color.adjust(variables.$color-brand, $alpha: -0.5) !important;
+  }
+
+  .wx-slider-thumb {
+    background-color: variables.$color-brand !important;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .wx-slider-handle-wrapper {
+      background-color: variables.$text-color-decoration-white !important;
+    }
+
+    .wx-slider-track {
+      background-color: color.adjust(variables.$color-shade-1, $alpha: -0.5) !important;
+    }
+
+    .wx-slider-thumb {
+      background-color: variables.$color-shade-1 !important;
+    }
+  }
 }

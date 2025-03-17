@@ -2,6 +2,7 @@
   wx:if="{{ isAction }}"
   class="cell-container {{ isLarge ? 'cell-large' : '' }} {{ hasDivider ? 'has-divider' : '' }} {{ customClass }} theme-{{ theme }}"
   hover-class="cell-hover"
+  plain
   open-type="{{ openType }}"
   bind:chooseavatar="handleChooseAvatar"
 >

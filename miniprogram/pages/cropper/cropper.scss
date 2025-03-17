@@ -23,12 +23,15 @@ canvas {
   border-top: 1rpx solid variables.$divider-color-white;
 
   .button {
-    margin: 0;
-    background-color: variables.$color-brand;
+    margin: 0 0 0 24rpx;
+  }
+
+  .button-primary {
+    background-color: variables.$color-shade-1;
     color: white;
 
     &.button-hover {
-      background-color: color.adjust(variables.$color-brand, $lightness: 5%);
+      background-color: color.adjust(variables.$color-shade-1, $lightness: 5%);
     }
   }
 }

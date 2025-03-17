@@ -2,16 +2,16 @@
 
 <navbar title="选择图片" />
 
-<view class="page bg pb-inset">
+<view class="page bg">
   <scroll-view
     type="list"
-    class="cards p-page"
+    class="cards"
     scroll-y
     enable-passive
   >
     <view
       wx:if="{{ lastImage }}"
-      class="card-with-title"
+      class="card-with-title px-page pt-page"
     >
       <text class="card-title">上次使用</text>
       <view class="card">
@@ -33,7 +33,7 @@
       </view>
     </view>
 
-    <view class="card-with-title">
+    <view class="card-with-title px-page pt-page">
       <text class="card-title">自定义图片</text>
       <view class="card">
         <cell
@@ -69,7 +69,7 @@
 
     <view
       wx:if="{{ albums.length }}"
-      class="card-with-title"
+      class="card-with-title px-page pt-page pb-inset"
     >
       <text class="card-title">附中相册</text>
       <view class="gallery-container">

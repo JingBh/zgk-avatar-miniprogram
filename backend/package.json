@@ -2,7 +2,6 @@
   "private": true,
   "dependencies": {
     "@alicloud/imageaudit20191230": "^2.0.5",
-    "@alicloud/sls20201230": "^5.6.0",
     "@napi-rs/canvas": "^0.1.68",
     "jsonwebtoken": "^9.0.2",
     "opentype.js": "^1.3.4"

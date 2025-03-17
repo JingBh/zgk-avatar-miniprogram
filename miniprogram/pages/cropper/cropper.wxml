@@ -13,7 +13,7 @@
 <view class="bottom">
   <button
     size="mini"
-    class="button"
+    class="button button-primary"
     hover-class="button-hover"
     bind:tap="handleFinish"
   >

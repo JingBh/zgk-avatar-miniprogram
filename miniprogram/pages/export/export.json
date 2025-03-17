@@ -2,5 +2,6 @@
   "usingComponents": {
     "navbar": "../../components/navbar/navbar"
   },
-  "navigationBarTitleText": "生成头像"
+  "navigationBarTitleText": "生成头像",
+  "renderer": "webview"
 }

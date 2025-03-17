@@ -1,12 +1,18 @@
 import compareVersion from '../../utils/compare-version'
 import { getBackgroundAlbum, type IImageAlbumBackground } from '../../utils/images'
+import { keyAlbumSaveImageConsent } from '../../utils/local-storage'
 import log from '../../utils/log'
+import { applySaveImage } from '../../utils/settings'
 import { shareMsg, shareTimeline } from '../../utils/share'
 
 Page({
   data: {
     album: null as IImageAlbumBackground | null,
     nativeMasonry: true
+  },
+
+  userData: {
+    saveImageConsent: false
   },
 
   onLoad(query) {
@@ -35,6 +41,13 @@ Page({
         })
         wx.navigateBack()
       })
+
+    wx.getStorage({
+      key: keyAlbumSaveImageConsent,
+      success: () => {
+        this.userData.saveImageConsent = true
+      }
+    })
   },
 
   onReady() {
@@ -82,6 +95,91 @@ Page({
         })
       },
     })
+  },
+
+  handleSaveImage(e: WechatMiniprogram.TouchEvent) {
+    if (!e.currentTarget.dataset.originalUrl) {
+      return
+    }
+
+    if (!this.userData.saveImageConsent) {
+      return wx.showModal({
+        title: '恭喜你发现了隐藏功能！',
+        content: '谁不喜欢附中的美景呢？长按图片即可将原图保存到相册！你要保存这张照片吗？',
+        confirmText: '好的',
+        cancelText: '不要',
+        showCancel: true,
+        success: ({ confirm }) => {
+          if (confirm) {
+            this.userData.saveImageConsent = true
+            wx.setStorage({
+              key: keyAlbumSaveImageConsent,
+              data: true
+            })
+            this.handleSaveImage(e)
+          }
+        }
+      })
+    }
+
+    applySaveImage(() => {
+      const url = e.currentTarget.dataset.originalUrl
+      wx.showLoading({
+        title: '下载照片中',
+        mask: true
+      })
+      wx.getImageInfo({
+        src: url,
+        success: ({ path }) => {
+          wx.saveImageToPhotosAlbum({
+            filePath: path,
+            success: () => {
+              wx.showToast({
+                title: '保存成功',
+                icon: 'success',
+                duration: 2000
+              })
+            },
+            fail: (e) => {
+              log.error(e)
+              wx.showToast({
+                title: '保存失败',
+                icon: 'error',
+                duration: 2000
+              })
+            }
+          })
+        },
+        fail: (e) => {
+          log.error(e)
+          wx.showToast({
+            title: '下载失败',
+            icon: 'error',
+            duration: 2000
+          })
+        }
+      })
+    })
+  },
+
+  handleShowPreview(e: WechatMiniprogram.TouchEvent) {
+    const urls = this.data.album?.images.map((image) => {
+      return image.path
+    }) ?? []
+    if (urls.length) {
+      const current = urls.findIndex((url) => {
+        return url === e.currentTarget.dataset.originalUrl
+      })
+      wx.previewMedia({
+        sources: urls.map((url) => ({
+          type: 'image',
+          url
+        })),
+        current: current >= 0 ? current : 0,
+        showmenu: true,
+        referrerPolicy: 'origin'
+      })
+    }
   },
 
   onShareAppMessage: () => shareMsg(),

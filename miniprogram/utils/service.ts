@@ -36,9 +36,9 @@ const buildUrl = (url: string): string => {
 
 const getToken = (): Promise<string | null> => {
   return new Promise((resolve) => {
-    wx.getStorage({
+    wx.getStorage<string>({
       key: keyToken,
-      success: ({ data }) => resolve(data as string || null),
+      success: ({ data }) => resolve(data || null),
       fail: () => resolve(null)
     })
   })

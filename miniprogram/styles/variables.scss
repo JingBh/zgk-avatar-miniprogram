@@ -2,10 +2,18 @@
 
 $color-brand: #660874;
 $color-gradient-1: #3d47a9;
+$color-gradient-2: #0070ca;
 $color-shade-1: #8f389b;
 $color-shade-2: #b960c5;
 $color-shade-3: #e488f0;
 $color-shade-4: #ffb2ff;
+
+$color-red-200: #ffc9c9;
+$color-red-500: #fb2c36;
+$color-red-800: #9f0712;
+$color-green-200: #b9f8cf;
+$color-green-500: #00c951;
+$color-green-800: #016630;
 
 $color-background: #eff2f5;
 $color-background-combined: color.mix($color-brand, $color-background, 10%);

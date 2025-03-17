@@ -1,26 +1,28 @@
 @use "./variables";
 
-.text-brand {
-  color: variables.$color-brand !important;
-
-  @media (prefers-color-scheme: dark) {
-    color: variables.$color-shade-3 !important;
-  }
+.flex-auto {
+  flex: auto !important;
 }
 
-@each $name, $weight in  (
-  'normal': 400,
-  'medium': 500,
-  'semibold': 600,
-  'bold': 700,
-) {
-  .font-#{$name} {
-    font-weight: $weight !important;
-  }
+.mx-page {
+  margin-left: variables.$padding-page;
+  margin-right: variables.$padding-page;
+}
+
+.mt-page {
+  margin-top: variables.$padding-page;
+}
+
+.mt-inset {
+  margin-top: env(safe-area-inset-top);
 }
 
 .mb-page {
   margin-bottom: variables.$padding-page;
+}
+
+.mb-inset {
+  margin-bottom: env(safe-area-inset-bottom);
 }
 
 .p-page {
@@ -41,12 +43,39 @@
   padding-top: 0 !important;
 }
 
+.pt-page {
+  padding-top: variables.$padding-page;
+}
+
 .pt-inset {
   padding-top: env(safe-area-inset-top);
 }
 
+.pb-page {
+  padding-bottom: variables.$padding-page;
+}
+
 .pb-inset {
   padding-bottom: env(safe-area-inset-bottom);
+}
+
+.text-brand {
+  color: variables.$color-brand !important;
+
+  @media (prefers-color-scheme: dark) {
+    color: variables.$color-shade-3 !important;
+  }
+}
+
+@each $name, $weight in  (
+  'normal': 400,
+  'medium': 500,
+  'semibold': 600,
+  'bold': 700,
+) {
+  .font-#{$name} {
+    font-weight: $weight !important;
+  }
 }
 
 .select-text {

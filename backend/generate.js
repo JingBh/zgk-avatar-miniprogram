@@ -2,7 +2,7 @@ const { createHash } = require('crypto')
 const { existsSync } = require('fs')
 const { readFile, writeFile } = require('fs/promises')
 
-const { createCanvas, Image } = require('@napi-rs/canvas')
+const { createCanvas, loadImage } = require('@napi-rs/canvas')
 
 const { errorToResponse } = require('./errors.js')
 const { getFont } = require('./font.js')
@@ -33,14 +33,11 @@ class Canvas {
    * @param {string?} filter
    */
   async prepare(filter) {
-    const mojiFile = await readFile('./assets/moji.png')
-
-    const imageEle = new Image()
-    imageEle.src = mojiFile
+    const mojiImg = await loadImage('./assets/moji.png')
 
     this.ctx.globalCompositeOperation = 'source-over'
     this.ctx.filter = filter || 'none'
-    this.ctx.drawImage(imageEle, 0, 0, this.size, this.size)
+    this.ctx.drawImage(mojiImg, 0, 0, this.size, this.size)
   }
 
   drawGlyph(glyph, start, baseline, size) {
@@ -138,12 +135,20 @@ const handleGenerate = async (openid, body) => {
   const outerText = '清华附中' // does not allow changing for now
   const innerText = body.innerText.trim()
 
-  let data
+  let data = {
+    outerText,
+    innerText,
+    shadow: null,
+    noShadow: null
+  }
+
   const cacheKey = `${outerText}-${innerText}`
   const cachePath = `/tmp/${createHash('md5').update(cacheKey).digest('hex')}.json`
 
   if (existsSync(cachePath)) {
-    data = await readFile(cachePath)
+    data = JSON.parse(await readFile(cachePath, {
+      encoding: 'utf-8'
+    }))
   } else {
     await log.writeLog({
       openid,
@@ -163,13 +168,6 @@ const handleGenerate = async (openid, body) => {
       throw e
     }
 
-    const res = {
-      outerText,
-      innerText,
-      shadow: null,
-      noShadow: null
-    }
-
     const canvas = new Canvas()
     for (const useShadow of [false, true]) {
       canvas.clearContent()
@@ -178,11 +176,12 @@ const handleGenerate = async (openid, body) => {
       await canvas.drawTextOuter(outerText)
       await canvas.drawTextInner(innerText)
 
-      res[useShadow ? 'shadow' : 'noShadow'] = await canvas.encode()
+      data[useShadow ? 'shadow' : 'noShadow'] = await canvas.encode()
     }
 
-    data = JSON.stringify(res)
-    await writeFile(cachePath, data)
+    await writeFile(cachePath, JSON.stringify(data), {
+      encoding: 'utf-8'
+    })
   }
 
   return {

@@ -90,7 +90,7 @@ Component({
       wx.navigateBack()
     },
     handleHome() {
-      wx.reLaunch({
+      wx.redirectTo({
         url: '/pages/index/index'
       })
     }

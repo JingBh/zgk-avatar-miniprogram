@@ -23,4 +23,9 @@
     font-size: variables.$font-size-title;
     font-weight: variables.$font-weight-title;
   }
+
+  @media (prefers-color-scheme: dark) {
+    background-color: black;
+    color: variables.$text-color-body-white;
+  }
 }

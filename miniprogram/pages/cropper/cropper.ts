@@ -334,6 +334,7 @@ Page({
       }
 
       const image = this.userData.canvas.createImage()
+      image.referrerPolicy = 'origin'
       image.onload = () => {
         log.debug('image original size: ', image.width, image.height)
         this.userData.imageResolved = image

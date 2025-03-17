@@ -58,8 +58,8 @@ export function getManifest(): Promise<IImageManifest> {
             })
 
             data.foreground.images.forEach((image) => {
-              image.shadowPath = buildUrl('images', data.background.pathPrefix || 'fg', image.shadowPath)
-              image.noShadowPath = buildUrl('images', data.background.pathPrefix || 'fg', image.noShadowPath)
+              image.shadowPath = buildUrl('images', data.foreground.pathPrefix || 'fg', image.shadowPath)
+              image.noShadowPath = buildUrl('images', data.foreground.pathPrefix || 'fg', image.noShadowPath)
             })
 
             manifestCache = data

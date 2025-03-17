@@ -2,6 +2,32 @@
 
 @use "../../styles/variables";
 
+.hint {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 24rpx variables.$padding-page;
+  background-color: color.adjust(variables.$color-green-200, $alpha: -0.75);
+  font-size: variables.$font-size-description;
+  border-radius: variables.$round-radius-medium;
+  color: variables.$color-green-800;
+
+  .icon {
+    flex: none;
+    margin-right: 24rpx;
+    font-size: 48rpx;
+  }
+
+  .content {
+    flex: auto;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    background-color: color.adjust(variables.$color-green-800, $alpha: -0.75);
+    color: variables.$color-green-200;
+  }
+}
+
 .grid {
   .grid-item {
     flex: none;

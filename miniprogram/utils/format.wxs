@@ -1,0 +1,7 @@
+function percentage(num, decimal) {
+  return (num * 100).toFixed(decimal) + '%';
+}
+
+module.exports = {
+  percentage: percentage
+};

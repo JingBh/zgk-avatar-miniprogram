@@ -3,6 +3,10 @@
 <navbar title="{{ (album && album.title) ? album.title : '选择图片' }}" />
 
 <view class="page bg pb-inset">
+  <view class="hint mx-page mt-page">
+    <text class="icon bi bi-images" />
+    <text class="content">点击喜欢的照片继续制作头像，或长按照片查看大图，观赏附中的美景！</text>
+  </view>
   <scroll-view
     wx:if="{{ album }}"
     type="{{ nativeMasonry ? 'custom' : 'list' }}"
@@ -56,7 +60,9 @@
     class="grid-item"
     list-item
     bind:tap="handleSelectImage"
+    bind:longpress="handleShowPreview"
     data-url="{{ processUrl(item.path, 'zoom') }}"
+    data-original-url="{{ item.path }}"
   >
     <image
       class="grid-image"

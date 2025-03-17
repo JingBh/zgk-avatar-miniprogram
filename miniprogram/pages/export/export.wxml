@@ -1,12 +1,225 @@
 <!--pages/export/export.wxml-->
-<navbar title="生成头像" />
+<wxs src="../../utils/format.wxs" module="format" />
+<wxs src="../../utils/processUrl.wxs" module="processUrl" />
 
-<view class="page bg pb-inset">
+<navbar title="{{ step === 2 ? '导出头像' : '选择文字' }}" />
+
+<view class="page bg">
   <scroll-view
     type="list"
-    class="cards p-page"
+    class="cards"
     scroll-y
     enable-passive
+    bounces="{{ false }}"
   >
+    <view
+      wx:if="{{ step }}"
+      class="canvas-container px-page pt-page"
+    >
+      <view class="canvas-area">
+        <image
+          class="background"
+          src="{{ bgSrc }}"
+          mode="aspectFit"
+          bind:error="handleBackgroundFail"
+        />
+        <image
+          wx:if="{{ fgImage }}"
+          class="foreground"
+          src="{{ fgShadow ? fgImage.shadowPath : fgImage.noShadowPath }}"
+          mode="aspectFit"
+          style="width: {{ fgScale * 100 }}%; height: {{ fgScale * 100 }}%"
+          bind:error="handleForegroundFail"
+        />
+      </view>
+    </view>
+
+    <!-- TODO: this don't work in skyline -->
+    <scroll-view
+      wx:if="{{ step === 1 }}"
+      class="images px-page pt-page"
+      scroll-x
+      enable-passive
+      bounces="{{ true }}"
+    >
+      <view
+        wx:for="{{ fgPreset }}"
+        wx:key="innerText"
+        class="image-item {{ fgImage && fgImage.outerText === item.outerText && fgImage.innerText === item.innerText ? 'active' : '' }}"
+        data-image="{{ item }}"
+        bind:tap="handleChooseForeground"
+      >
+        <image
+          class="image"
+          src="{{ processUrl(item.noShadowPath, 'filename') }}"
+          mode="aspectFit"
+        />
+        <text class="title">{{ item.innerText }}</text>
+      </view>
+      <view
+        wx:for="{{ fgCustom }}"
+        wx:key="innerText"
+        class="image-item {{ fgImage && fgImage.outerText === item.outerText && fgImage.innerText === item.innerText ? 'active' : '' }}"
+        data-image="{{ item }}"
+        bind:tap="handleChooseForeground"
+      >
+        <image
+          class="image"
+          src="{{ item.noShadowPath }}"
+          mode="aspectFit"
+        />
+        <text class="title">{{ item.innerText }}</text>
+      </view>
+      <view
+        class="image-item placeholder"
+        bind:tap="handleShowPopup"
+      >
+        <view class="image">
+          <text class="bi bi-plus-lg" />
+        </view>
+        <text class="title">自定义</text>
+      </view>
+      <view
+        wx:if="{{ fgCustom.length }}"
+        class="image-item placeholder danger"
+        bind:tap="handleCustomClear"
+      >
+        <view class="image">
+          <text class="bi bi-trash3" />
+        </view>
+        <text class="title">清除自定义记录</text>
+      </view>
+    </scroll-view>
+
+    <view
+      wx:if="{{ step === 2 }}"
+      class="control-item px-page pt-page"
+    >
+      <text class="label">
+        描边效果
+      </text>
+      <switch
+        checked="{{ fgShadow }}"
+        type="switch"
+        color="#660874"
+        bind:change="handleChangeShadow"
+      />
+    </view>
+
+    <view
+      wx:if="{{ step === 2 }}"
+      class="control-item px-page pt-page"
+    >
+      <text class="label">
+        文字大小
+      </text>
+      <slider
+        value="{{ fgScale }}"
+        min="0.5"
+        max="0.9"
+        step="0.001"
+        class="flex-auto"
+        block-color="#660874"
+        active-color="#660874"
+        bind:changing="handleChangeScale"
+        bind:change="handleChangeScale"
+      />
+    </view>
+
+    <view class="buttons px-page pt-page pb-inset">
+      <button
+        wx:if="{{ step === 1 && fgImage }}"
+        class="button button-secondary"
+        hover-class="button-hover"
+        plain
+        bind:tap="handleChooseFg"
+      >
+        下一步
+      </button>
+      <button
+        wx:if="{{ step === 2 }}"
+        class="button button-secondary"
+        hover-class="button-hover"
+        plain
+        bind:tap="handleReChooseFg"
+      >
+        上一步
+      </button>
+      <button
+        wx:if="{{ step === 2 }}"
+        class="button button-primary"
+        hover-class="button-hover"
+        plain
+        bind:tap="handleExport"
+      >
+        保存到相册
+      </button>
+    </view>
   </scroll-view>
 </view>
+
+<page-container
+  show="{{ customPopupShow }}"
+  bind:afterleave="handleHidePopup"
+  custom-style="background: none">
+  <view class="frame pb-inset">
+    <view class="frame-title">
+      <text>自定义文字</text>
+    </view>
+    <view class="control-item px-page">
+      <text class="label">
+        外圈文字
+      </text>
+      <view class="input-wrapper">
+        <!-- 暂不允许修改 -->
+        <input
+          type="text"
+          disabled
+          placeholder="请输入文本"
+          value="{{ customOuterText }}"
+          confirm-type="next"
+          bind:input="handleOuterChange"
+          bind:blur="handleOuterChange"
+        />
+        <text
+          wx:if="{{ customOuterError }}"
+          class="input-error"
+        >
+          {{ customOuterError }}
+        </text>
+      </view>
+    </view>
+    <view class="control-item px-page pt-page">
+      <text class="label">
+        中心文字
+      </text>
+      <view class="input-wrapper">
+        <input
+          type="text"
+          class="flex-auto"
+          placeholder="请输入文本"
+          value="{{ customInnerText }}"
+          confirm-type="done"
+          bind:input="handleInnerChange"
+          bind:blur="handleInnerChange"
+        />
+        <text
+          wx:if="{{ customInnerError }}"
+          class="input-error"
+        >
+          {{ customInnerError }}
+        </text>
+      </view>
+    </view>
+    <view class="buttons px-page pt-page pb-page">
+      <button
+        class="button button-primary"
+        hover-class="button-hover"
+        plain
+        bind:tap="handleCustomGenerate"
+      >
+        生成
+      </button>
+    </view>
+  </view>
+</page-container>
