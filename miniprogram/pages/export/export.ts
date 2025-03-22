@@ -191,6 +191,11 @@ Page({
         }
       }
 
+      wx.reportEvent('fg_custom', {
+        outerText: this.data.customOuterText,
+        innerText: this.data.customInnerText
+      })
+
       wx.showLoading({
         title: '生成中',
         mask: true
@@ -316,6 +321,13 @@ Page({
       })
       return this.loadImages()
     }
+
+    wx.reportEvent('export', {
+      outerText: this.data.fgImage.outerText,
+      innerText: this.data.fgImage.innerText,
+      shadow: this.data.fgShadow,
+      scale: this.data.fgScale
+    })
 
     applySaveImage(() => {
       wx.showLoading({
