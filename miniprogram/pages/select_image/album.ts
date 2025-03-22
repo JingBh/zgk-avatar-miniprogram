@@ -166,18 +166,23 @@ Page({
     const urls = this.data.album?.images.map((image) => {
       return image.path
     }) ?? []
+    const current = urls.findIndex((url) => {
+      return url === e.currentTarget.dataset.originalUrl
+    })
+
+    const start = Math.min(Math.max(0, current - 25), Math.max(0, urls.length - 50))
+    const end = Math.min(urls.length, start + 50)
+
     if (urls.length) {
-      const current = urls.findIndex((url) => {
-        return url === e.currentTarget.dataset.originalUrl
-      })
       wx.previewMedia({
-        sources: urls.map((url) => ({
+        sources: urls.slice(start, end).map((url) => ({
           type: 'image',
           url
         })),
-        current: current >= 0 ? current : 0,
+        current: current >= 0 ? current - start : 0,
         showmenu: true,
-        referrerPolicy: 'origin'
+        referrerPolicy: 'origin',
+        fail: console.error
       })
     }
   },
