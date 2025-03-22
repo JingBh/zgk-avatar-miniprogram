@@ -7,7 +7,7 @@ interface IAnnouncement {
     label?: string
     value?: string
   }
-  content: AnnouncementContent
+  content?: AnnouncementContent
 }
 
 export type AnnouncementContent =

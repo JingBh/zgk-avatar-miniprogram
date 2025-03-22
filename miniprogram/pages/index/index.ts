@@ -98,11 +98,15 @@ Page({
   },
 
   handleClickAnnouncement(e: WechatMiniprogram.BaseEvent) {
+    const content = this.data.announcements[e.target.id].content
+    if (!content) {
+      return
+    }
+
     wx.reportEvent('view_announcement', {
       'announcement_id': e.target.id
     })
 
-    const content = this.data.announcements[e.target.id].content
     switch (content.type) {
       case 'navigatePage':
         wx.navigateTo({
