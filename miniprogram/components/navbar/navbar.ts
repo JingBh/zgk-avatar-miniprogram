@@ -10,20 +10,25 @@ Component({
     styleIsolation: 'apply-shared',
     virtualHost: true
   },
+
   properties: {
     title: {
       type: String,
       value: ''
     }
   },
+
   data: {
+    isSupported: true,
     hasPrevious: false,
     isHome: false,
     height: 44,
     paddingTop: 6
   },
+
   lifetimes: {
     attached() {
+      this.detectSupport()
       this.readRouting()
       this.calculateDimensions()
     },
@@ -34,12 +39,36 @@ Component({
       }
     }
   },
+
   pageLifetimes: {
     resize() {
       this.calculateDimensions()
     }
   },
+
   methods: {
+    detectSupport() {
+      try {
+        let platform = ''
+        if (wx.canIUse('getDeviceInfo')) {
+          platform = wx.getDeviceInfo().platform
+        } else {
+          platform = wx.getSystemInfoSync().platform
+        }
+
+        if (platform === 'windows' || platform === 'mac') {
+          if (compareVersion('3.6.1') === -1) {
+            log.info('disabling custom navbar for not supported')
+            this.setData({
+              isSupported: false
+            })
+          }
+        }
+      } catch (error) {
+        log.error(error)
+      }
+    },
+
     readRouting() {
       const pages = getCurrentPages()
       if (pages?.length) {
@@ -49,6 +78,7 @@ Component({
         })
       }
     },
+
     calculateDimensions() {
       if (recalculateTimeout) {
         clearTimeout(recalculateTimeout)
@@ -59,10 +89,10 @@ Component({
         let menuMargin = 8
 
         try {
-          if (compareVersion('2.20.1') < 0) {
-            status = wx.getSystemInfoSync().statusBarHeight
-          } else {
+          if (wx.canIUse('getWindowInfo')) {
             status = wx.getWindowInfo().statusBarHeight
+          } else {
+            status = wx.getSystemInfoSync().statusBarHeight
           }
           log.debug('status bar height: ', status)
         } catch (error) {
@@ -86,9 +116,11 @@ Component({
         recalculateTimeout = null
       }, 100)
     },
+
     handleBack() {
       wx.navigateBack()
     },
+
     handleHome() {
       wx.redirectTo({
         url: '/pages/index/index'

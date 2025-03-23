@@ -1,6 +1,5 @@
 // app.ts
 
-import compareVersion from './utils/compare-version'
 import log from './utils/log'
 import { login } from './utils/service'
 
@@ -31,7 +30,7 @@ App({
         break
     }
 
-    if (compareVersion('2.26.2') === 1) {
+    if (wx.canIUse('getSkylineInfo')) {
       wx.getSkylineInfo({
         success: ({ reason }) => {
           if (reason) {

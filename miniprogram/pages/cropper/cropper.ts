@@ -1,4 +1,4 @@
-import compareVersion from '../../utils/compare-version'
+import { canvasToTempFilePath } from '../../utils/canvas'
 import { keyBackground } from '../../utils/local-storage'
 import log from '../../utils/log'
 import { shareMsg, shareTimeline } from '../../utils/share'
@@ -60,7 +60,7 @@ Page({
   },
 
   onReady() {
-    if (compareVersion('2.20.1') === 1) {
+    if (wx.canIUse('getWindowInfo')) {
       this.userData.pixelRatio = wx.getWindowInfo().pixelRatio
     } else {
       this.userData.pixelRatio = wx.getSystemInfoSync().pixelRatio
@@ -573,74 +573,82 @@ Page({
     const height = this.userData.canvasCropAreaSize / this.userData.imageScale
     log.debug('cropped image: ', x, y, width, height)
 
+    const size = 1024
     const offscreenCanvas = wx.createOffscreenCanvas({
       type: '2d',
-      width: 1024,
-      height: 1024
+      width: size,
+      height: size
     })
     const ctx = offscreenCanvas.getContext('2d') as WechatMiniprogram.CanvasRenderingContext.CanvasRenderingContext2D
-    ctx.clearRect(0, 0, 1024, 1024)
+    ctx.clearRect(0, 0, size, size)
     ctx.drawImage(
       this.userData.imageResolved,
       x, y, width, height,
-      0, 0, 1024, 1024)
-    wx.canvasToTempFilePath({
-      canvas: offscreenCanvas,
-      success: ({ tempFilePath }) => {
-        // delete old image
-        wx.getStorage({
-          key: keyBackground,
-          success: ({ data }) => {
-            if (data.startsWith('fs:')) {
-              unlink({
-                filePath: `${wx.env.USER_DATA_PATH}/${data.substring(3)}`
+      0, 0, size, size)
+
+    canvasToTempFilePath(offscreenCanvas, {
+      x: 0,
+      y: 0,
+      width: size,
+      height: size,
+      destWidth: size,
+      destHeight: size
+    }).then((path) => {
+      // delete old image
+      wx.getStorage({
+        key: keyBackground,
+        success: ({ data }) => {
+          if (data.startsWith('fs:')) {
+            unlink({
+              filePath: `${wx.env.USER_DATA_PATH}/${data.substring(3)}`
+            })
+          }
+        }
+      })
+
+      // save new image
+      const filename = `background${Date.now()}.png`
+      saveFile({
+        tempFilePath: path,
+        filePath: `${wx.env.USER_DATA_PATH}/${filename}`,
+        success: () => {
+          wx.setStorage({
+            key: keyBackground,
+            data: `fs:${filename}`,
+            success: () => {
+              wx.hideLoading()
+              wx.redirectTo({
+                url: '/pages/export/export'
+              })
+            },
+            fail: (e) => {
+              log.error(e)
+              wx.hideLoading()
+              wx.showToast({
+                title: '保存图片失败',
+                icon: 'error',
+                duration: 2000
               })
             }
-          }
-        })
-
-        // save new image
-        const filename = `background${Date.now()}.png`
-        saveFile({
-          tempFilePath,
-          filePath: `${wx.env.USER_DATA_PATH}/${filename}`,
-          success: () => {
-            wx.setStorage({
-              key: keyBackground,
-              data: `fs:${filename}`,
-              success: () => {
-                wx.hideLoading()
-                wx.redirectTo({
-                  url: '/pages/export/export'
-                })
-              },
-              fail: () => {
-                wx.hideLoading()
-                wx.showToast({
-                  title: '保存图片失败',
-                  icon: 'error',
-                  duration: 2000
-                })
-              }
-            })
-          },
-          fail: () => {
-            wx.hideLoading()
-            wx.showToast({
-              title: '保存图片失败',
-              icon: 'error',
-              duration: 2000
-            })
-          }
-        })
-      },
-      fail: () => {
-        wx.hideLoading()
-        wx.showToast({
-          title: '导出图片失败',
-          icon: 'error'
-        })
-      }
+          })
+        },
+        fail: (e) => {
+          log.error(e)
+          wx.hideLoading()
+          wx.showToast({
+            title: '保存图片失败',
+            icon: 'error',
+            duration: 2000
+          })
+        }
+      })
+    }).catch((e) => {
+      log.error(e)
+      wx.hideLoading()
+      wx.showToast({
+        title: '导出图片失败',
+        icon: 'error'
+      })
     })
   },
 

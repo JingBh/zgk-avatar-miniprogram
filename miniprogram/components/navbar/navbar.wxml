@@ -1,4 +1,5 @@
 <view
+  wx:if="{{ isSupported }}"
   class="navbar"
   style="height: {{ height }}px; padding-top: {{ paddingTop }}px"
 >

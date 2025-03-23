@@ -1,4 +1,5 @@
 // pages/export/export.ts
+import { canvasToTempFilePath } from '../../utils/canvas'
 import { checkCustomSupported } from '../../utils/custom-supported'
 import { getManifest, type IImageForeground } from '../../utils/images'
 import { keyBackground } from '../../utils/local-storage'
@@ -384,34 +385,37 @@ Page({
             size * this.data.fgScale,
             size * this.data.fgScale)
 
-          wx.canvasToTempFilePath({
-            canvas: offscreenCanvas,
-            success: ({ tempFilePath }) => {
-              wx.saveImageToPhotosAlbum({
-                filePath: tempFilePath,
-                success: () => {
-                  wx.hideLoading()
-                  wx.showToast({
-                    title: '保存成功',
-                    icon: 'success',
-                    duration: 2000
-                  })
-                },
-                fail: (e) => {
-                  log.error(e)
-                  wx.hideLoading()
-                }
-              })
-            },
-            fail: (e) => {
-              log.error(e)
-              wx.hideLoading()
-              wx.showToast({
-                title: '导出图片失败',
-                icon: 'error',
-                duration: 2000
-              })
-            }
+          canvasToTempFilePath(offscreenCanvas, {
+            x: 0,
+            y: 0,
+            width: size,
+            height: size,
+            destWidth: size,
+            destHeight: size
+          }).then((path) => {
+            wx.saveImageToPhotosAlbum({
+              filePath: path,
+              success: () => {
+                wx.hideLoading()
+                wx.showToast({
+                  title: '保存成功',
+                  icon: 'success',
+                  duration: 2000
+                })
+              },
+              fail: (e) => {
+                log.error(e)
+                wx.hideLoading()
+              }
+            })
+          }).catch((e) => {
+            log.error(e)
+            wx.hideLoading()
+            wx.showToast({
+              title: '导出图片失败',
+              icon: 'error',
+              duration: 2000
+            })
           })
         }).catch((e) => {
           log.error(e || 'failed to load foreground image')
