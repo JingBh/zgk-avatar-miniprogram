@@ -182,7 +182,7 @@ Page({
         current: current >= 0 ? current - start : 0,
         showmenu: true,
         referrerPolicy: 'origin',
-        fail: console.error
+        fail: log.error
       })
     }
   },
