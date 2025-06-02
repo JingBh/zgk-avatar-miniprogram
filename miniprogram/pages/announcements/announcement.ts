@@ -34,6 +34,7 @@ Page({
                 log.error(`status code ${statusCode}`)
                 this.onLoadFail()
               } else {
+                this.setLoading(false)
                 this.setData({
                   htmlSnip: data as string
                 })
@@ -42,26 +43,33 @@ Page({
             fail: (error) => {
               log.error(error)
               this.onLoadFail()
-            },
-            complete: () => {
-              this.setLoading(false)
             }
           })
+          return
         } else if (data.type === 'webview' && data.url) {
           this.setData({
             url: data.url
           })
+          return
         }
       }
-
     } catch (e) {
       log.error(e)
-      return this.onLoadFail()
     }
+
+    this.onLoadFail()
   },
 
   onReady() {
     this.setNavigationBarState()
+  },
+
+  onLoadFail() {
+    console.log('announcement load fail')
+    this.setLoading(false)
+    wx.redirectTo({
+      url: '/pages/index/index'
+    })
   },
 
   setLoading(isLoading: boolean) {
